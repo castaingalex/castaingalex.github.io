@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alexandre CASTAING</title>
+  <meta name="description" content="Spécialiste data territorial. 20 ans à transformer les données publiques en aide à la décision."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F7F6F1;
+      --ink:     #0C0C0A;
+      --ink2:    #6E6E66;
+      --ink3:    #B2B1A9;
+      --accent:  #0E5A73;
+      --line:    #E3E2DB;
+      --hover:   #F0EFEA;
+      --f:       'Bricolage Grotesque', sans-serif;
+      --m:       'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      opacity: 0;
+      animation: appear .4s ease forwards .1s;
+    }
+    @keyframes appear { to { opacity: 1; } }
+
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--ink); color: var(--bg); }
+
+    /* ── Layout ── */
+    .page { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .h-name {
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+    }
+    .h-links {
+      display: flex;
+      gap: 1.75rem;
+    }
+    .h-links a {
+      font-family: var(--m);
+      font-size: .72rem;
+      font-weight: 300;
+      color: var(--ink3);
+      transition: color .15s;
+    }
+    .h-links a:hover { color: var(--ink); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 72px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-name {
+      font-size: clamp(4rem, 12vw, 9.5rem);
+      font-weight: 800;
+      line-height: .9;
+      letter-spacing: -.04em;
+      margin-bottom: 2.5rem;
+      font-optical-sizing: auto;
+    }
+    .hero-name .last {
+      color: var(--ink3);
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .hero-role {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.65;
+      max-width: 420px;
+    }
+    .hero-role b { color: var(--ink); font-weight: 500; }
+    .hero-stats {
+      display: flex;
+      gap: 2.25rem;
+      flex-shrink: 0;
+    }
+    .stat {
+      text-align: right;
+    }
+    .stat-n {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -.03em;
+      margin-bottom: .2rem;
+    }
+    .stat-l {
+      font-family: var(--m);
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .04em;
+    }
+
+    /* ── Section header ── */
+    .s-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5rem 0 0;
+      margin-bottom: 0;
+    }
+    .s-label {
+      font-family: var(--m);
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .s-count {
+      font-family: var(--m);
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--ink3);
+    }
+
+    /* ── Work list ── */
+    .work-list {
+      list-style: none;
+      margin-top: 0;
+    }
+    .work-item {
+      border-bottom: 1px solid var(--line);
+    }
+    .work-row {
+      display: grid;
+      grid-template-columns: 2rem 1fr auto 3.5rem;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      transition: background .15s;
+      margin: 0 -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-radius: 6px;
+      user-select: none;
+    }
+    .work-row:hover { background: var(--hover); }
+    .work-num {
+      font-family: var(--m);
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .04em;
+    }
+    .work-main {}
+    .work-title {
+      font-size: .975rem;
+      font-weight: 500;
+      margin-bottom: .2rem;
+      letter-spacing: -.01em;
+    }
+    .work-tags {
+      font-family: var(--m);
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .03em;
+    }
+    .work-year {
+      font-family: var(--m);
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--ink3);
+      text-align: right;
+      white-space: nowrap;
+    }
+    .work-arrow {
+      font-size: .85rem;
+      color: var(--ink3);
+      transition: transform .2s, color .15s;
+      text-align: right;
+    }
+    .work-row:hover .work-arrow { color: var(--ink); transform: translateX(3px); }
+    .work-row[aria-expanded="true"] .work-arrow {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+
+    /* Expand panel */
+    .work-detail {
+      display: none;
+      padding: 0 0 1.5rem 3.25rem;
+    }
+    .work-detail.open { display: block; }
+    .work-detail-inner {
+      border-left: 2px solid var(--line);
+      padding-left: 1.25rem;
+    }
+    .work-desc {
+      font-size: .9rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.75;
+      max-width: 540px;
+      margin-bottom: 1rem;
+    }
+    .work-metrics {
+      display: flex;
+      gap: 2rem;
+    }
+    .wm-n {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-bottom: .15rem;
+      color: var(--accent);
+    }
+    .wm-l {
+      font-family: var(--m);
+      font-size: .62rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .04em;
+    }
+    .work-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      margin-top: 1.1rem;
+      font-family: var(--m);
+      font-size: .72rem;
+      font-weight: 400;
+      color: var(--accent);
+      transition: gap .15s;
+    }
+    .work-link:hover { gap: .55rem; }
+
+    /* ── About ── */
+    .about { padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
+    .about-text {
+      font-size: .975rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.8;
+      max-width: 620px;
+    }
+    .about-text + .about-text { margin-top: 1rem; }
+    .about-text b { color: var(--ink); font-weight: 500; }
+
+    /* Parcours inline */
+    .xp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    .xp-table tr {
+      border-top: 1px solid var(--line);
+    }
+    .xp-table tr:last-child { border-bottom: 1px solid var(--line); }
+    .xp-table td {
+      padding: .85rem 0;
+      vertical-align: top;
+    }
+    .xp-table td:first-child {
+      font-family: var(--m);
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .03em;
+      padding-right: 2rem;
+      white-space: nowrap;
+      width: 90px;
+    }
+    .xp-role {
+      font-size: .9rem;
+      font-weight: 500;
+      margin-bottom: .15rem;
+    }
+    .xp-org {
+      font-family: var(--m);
+      font-size: .67rem;
+      font-weight: 300;
+      color: var(--ink3);
+    }
+
+    /* ── Contact ── */
+    .contact {
+      padding: 2.5rem 0 3.5rem;
+    }
+    .contact-line {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .contact-email {
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      transition: color .15s;
+      border-bottom: 1.5px solid var(--ink);
+      padding-bottom: 1px;
+    }
+    .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+    .contact-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .contact-links a {
+      font-family: var(--m);
+      font-size: .72rem;
+      font-weight: 300;
+      color: var(--ink3);
+      transition: color .15s;
+    }
+    .contact-links a:hover { color: var(--ink); }
+    .contact-status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--m);
+      font-size: .68rem;
+      font-weight: 300;
+      color: var(--ink3);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22C47A;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer span {
+      font-family: var(--m);
+      font-size: .65rem;
+      font-weight: 300;
+      color: var(--ink3);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .hero-meta { flex-direction: column; align-items: flex-start; }
+      .hero-stats { flex-direction: row; gap: 1.75rem; }
+      .stat { text-align: left; }
+      .work-row { grid-template-columns: 2rem 1fr 2.5rem; }
+      .work-year { display: none; }
+      .contact-line { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .contact-status { margin-left: 0; }
+    }
+    @media (max-width: 480px) {
+      .h-links a:not(:last-child) { display: none; }
+      .hero-name { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <span class="h-name">Alexandre CASTAING</span>
+    <nav class="h-links">
+      <a href="#work">Travaux</a>
+      <a href="#about">Parcours</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-name">
+      Alexandre<br/>
+      <span class="last">CASTAING</span>
+    </h1>
+    <div class="hero-meta">
+      <p class="hero-role">
+        <b>Spécialiste data et SIG territorial.</b><br/>
+        20 ans à transformer les données publiques<br/>
+        en aide à la décision pour élus et services.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-n">20</div>
+          <div class="stat-l">ans d'expérience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">300+</div>
+          <div class="stat-l">agents formés</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">18</div>
+          <div class="stat-l">apps livrées</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work">
+    <div class="s-head">
+      <span class="s-label">Travaux sélectionnés</span>
+      <span class="s-count">05</span>
+    </div>
+    <ul class="work-list">
+
+      <li class="work-item">
+        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+          <span class="work-num">01</span>
+          <div class="work-main">
+            <div class="work-title">Monitoring collecte biodéchets temps réel</div>
+            <div class="work-tags">API · Power BI · PostGIS · FME</div>
+          </div>
+          <span class="work-year">2024</span>
+          <span class="work-arrow">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Suivi opérationnel en temps réel de la collecte des biodéchets sur l'intercommunalité. Pipeline API → PostGIS → Power BI livré à la direction et aux élus pour le pilotage de la politique déchets.</p>
+            <div class="work-metrics">
+              <div><div class="wm-n">141</div><div class="wm-l">conteneurs suivis</div></div>
+              <div><div class="wm-n">live</div><div class="wm-l">mise à jour</div></div>
+            </div>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+          <span class="work-num">02</span>
+          <div class="work-main">
+            <div class="work-title">Infrastructure data COBAN</div>
+            <div class="work-tags">FME · Python · PostGIS · SQL · API · Open Data</div>
+          </div>
+          <span class="work-year">2024</span>
+          <span class="work-arrow">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Mise en place de l'écosystème data de l'intercommunalité : structuration, automatisation des flux de collecte, documentation collaborative sur GitHub, conformité RGPD. Base consommée par l'ensemble des services métiers.</p>
+            <div class="work-metrics">
+              <div><div class="wm-n">35</div><div class="wm-l">jeux de données</div></div>
+              <div><div class="wm-n">20+</div><div class="wm-l">flux automatisés</div></div>
+            </div>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+          <span class="work-num">03</span>
+          <div class="work-main">
+            <div class="work-title">Modélisation scénarios tarifaires eau potable</div>
+            <div class="work-tags">Python · PostGIS · Power BI · Simulation budgétaire</div>
+          </div>
+          <span class="work-year">2024</span>
+          <span class="work-arrow">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Outil de simulation d'impact budgétaire pour la politique tarifaire de l'eau potable. Modélisation de scénarios avec restitution directe aux élus et à la direction générale pour l'aide à la décision.</p>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+          <span class="work-num">04</span>
+          <div class="work-main">
+            <div class="work-title">Suivi flux déchets dangereux — Sankey</div>
+            <div class="work-tags">API Trackdéchets · JavaScript · D3 · Dataviz</div>
+          </div>
+          <span class="work-year">2024</span>
+          <span class="work-arrow">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Visualisation Sankey des flux de déchets dangereux connectée à l'API Trackdéchets. Outil de pilotage réglementaire et de communication pour la collectivité.</p>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item">
+        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+          <span class="work-num">05</span>
+          <div class="work-main">
+            <div class="work-title">Observatoires habitat & développement économique</div>
+            <div class="work-tags">PostGIS · FME · Power BI · DVF · Fichiers fonciers</div>
+          </div>
+          <span class="work-year">2006–2022</span>
+          <span class="work-arrow">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Conception et déploiement d'observatoires décisionnels pour le pilotage des politiques publiques d'habitat et de développement économique à l'Agglo du Beauvaisis. Modélisation des données, dataviz, restitution aux élus sur 16 ans.</p>
+            <div class="work-metrics">
+              <div><div class="wm-n">16</div><div class="wm-l">ans en production</div></div>
+              <div><div class="wm-n">53</div><div class="wm-l">communes couvertes</div></div>
+            </div>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- About + Parcours -->
+  <section class="about" id="about">
+    <div class="s-head" style="margin-bottom:1.75rem">
+      <span class="s-label">Parcours</span>
+    </div>
+    <p class="about-text">
+      <b>Ingénieur territorial Cat. A</b>, spécialiste de la donnée géographique et décisionnelle dans les collectivités.
+      J'ai commencé comme technicien SIG en 2002 au Beauvaisis, où j'ai progressivement construit
+      une expertise complète — de l'infrastructure PostgreSQL/PostGIS aux observatoires de pilotage des politiques publiques,
+      en passant par la formation de plus de 300 agents à la culture data.
+    </p>
+    <p class="about-text" style="margin-top:1rem">
+      Ce qui m'anime : <b>réduire la distance entre la complexité des données et la clarté de la décision.</b>
+      Que ce soit pour un directeur général, un élu ou un agent de terrain.
+    </p>
+
+    <table class="xp-table">
+      <tr>
+        <td>2024 →</td>
+        <td>
+          <div class="xp-role">Responsable valorisation des données et SIG</div>
+          <div class="xp-org">COBAN — Bassin d'Arcachon Nord · 8 communes / 74 500 hab.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>2023–2024</td>
+        <td>
+          <div class="xp-role">Chef du service cartographie-topographie</div>
+          <div class="xp-org">Bourges Plus Agglomération · 17 communes / 103 300 hab.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>2006–2022</td>
+        <td>
+          <div class="xp-role">Responsable SIG — 3 agents</div>
+          <div class="xp-org">Agglo du Beauvaisis · 53 communes / 103 900 hab.</div>
+        </td>
+      </tr>
+      <tr>
+        <td>2002–2006</td>
+        <td>
+          <div class="xp-role">Technicien SIG</div>
+          <div class="xp-org">CC du Beauvaisis · 17 communes / 66 000 hab.</div>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="contact-line">
+      <a href="mailto:castaing.alex@gmail.com" class="contact-email">castaing.alex@gmail.com</a>
+      <div class="contact-links">
+        <a href="https://linkedin.com/in/alexandre-castaing" target="_blank">LinkedIn ↗</a>
+        <a href="https://github.com/alexandre-castaing" target="_blank">GitHub ↗</a>
+        <a href="tel:+33651149078">06 51 14 90 78</a>
+      </div>
+      <div class="contact-status">
+        <span class="status-dot"></span>
+        Disponible · Centre-Val de Loire
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>Alexandre CASTAING · Ingénieur territorial Cat. A</span>
+    <span>© 2025</span>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(row) {
+    const detail = row.nextElementSibling;
+    const isOpen = row.getAttribute('aria-expanded') === 'true';
+
+    // close all
+    document.querySelectorAll('.work-row').forEach(r => {
+      r.setAttribute('aria-expanded', 'false');
+      r.nextElementSibling.classList.remove('open');
+    });
+
+    // open this one if it was closed
+    if (!isOpen) {
+      row.setAttribute('aria-expanded', 'true');
+      detail.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
