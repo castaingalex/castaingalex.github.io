@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xml:lang="fr">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alexandre CASTAING</title>
-  <meta name="description" content="Spécialiste data territorial. 20 ans à transformer les données publiques en aide à la décision."/>
+  <title>Alexandre CASTAING — Spécialiste Data & SIG territorial</title>
+  <meta name="description" content="Ingénieur territorial Cat. A. 23 ans à structurer la gouvernance data des collectivités et outiller le pilotage des politiques publiques."/>
+  <meta property="og:title" content="Alexandre CASTAING — Stratège data territorial"/>
+  <meta property="og:description" content="Ingénieur territorial Cat. A. 23 ans à structurer la gouvernance data des collectivités et outiller le pilotage des politiques publiques."/>
+  <meta property="og:type" content="website"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
@@ -32,10 +35,7 @@
       font-size: 16px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      opacity: 0;
-      animation: appear .4s ease forwards .1s;
     }
-    @keyframes appear { to { opacity: 1; } }
 
     a { color: inherit; text-decoration: none; }
     ::selection { background: var(--ink); color: var(--bg); }
@@ -43,13 +43,33 @@
     /* ── Layout ── */
     .page { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
 
-    /* ── Header ── */
-    header {
+    /* ── Fade-in ── */
+    .fi {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fi.on { opacity: 1; transform: none; }
+
+    /* ── Header / Nav ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: background .25s ease, border-color .25s ease;
+    }
+    .site-header.scrolled {
+      background: rgba(247, 246, 241, .9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: var(--line);
+    }
+    .h-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 2rem 0;
-      border-bottom: 1px solid var(--line);
+      padding: 1.75rem 0;
     }
     .h-name {
       font-size: .85rem;
@@ -75,15 +95,19 @@
       border-bottom: 1px solid var(--line);
     }
     .hero-name {
-      font-size: clamp(4rem, 12vw, 9.5rem);
+      font-size: clamp(1.75rem, 3.5vw, 3rem);
       font-weight: 800;
-      line-height: .9;
+      line-height: .92;
       letter-spacing: -.04em;
-      margin-bottom: 2.5rem;
+      margin-bottom: .75rem;
       font-optical-sizing: auto;
     }
-    .hero-name .last {
-      color: var(--ink3);
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--ink2);
+      letter-spacing: -.01em;
+      margin-bottom: 2.5rem;
     }
     .hero-meta {
       display: flex;
@@ -97,22 +121,22 @@
       color: var(--ink2);
       line-height: 1.65;
       max-width: 420px;
+      text-align: justify;
+      hyphens: auto;
     }
-    .hero-role b { color: var(--ink); font-weight: 500; }
     .hero-stats {
       display: flex;
       gap: 2.25rem;
       flex-shrink: 0;
     }
-    .stat {
-      text-align: right;
-    }
+    .stat { text-align: right; }
     .stat-n {
       font-size: 1.75rem;
       font-weight: 700;
       line-height: 1;
       letter-spacing: -.03em;
       margin-bottom: .2rem;
+      color: var(--accent);
     }
     .stat-l {
       font-family: var(--m);
@@ -128,7 +152,6 @@
       align-items: center;
       justify-content: space-between;
       padding: 2.5rem 0 0;
-      margin-bottom: 0;
     }
     .s-label {
       font-family: var(--m);
@@ -146,25 +169,18 @@
     }
 
     /* ── Work list ── */
-    .work-list {
-      list-style: none;
-      margin-top: 0;
-    }
-    .work-item {
-      border-bottom: 1px solid var(--line);
-    }
+    .work-list { list-style: none; }
+    .work-item { border-bottom: 1px solid var(--line); }
     .work-row {
       display: grid;
       grid-template-columns: 2rem 1fr auto 3.5rem;
       align-items: center;
       gap: 1.25rem;
-      padding: 1.1rem 0;
-      cursor: pointer;
-      transition: background .15s;
+      padding: 1.1rem 1rem;
       margin: 0 -1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      cursor: pointer;
       border-radius: 6px;
+      transition: background .15s;
       user-select: none;
     }
     .work-row:hover { background: var(--hover); }
@@ -175,16 +191,23 @@
       color: var(--ink3);
       letter-spacing: .04em;
     }
-    .work-main {}
     .work-title {
       font-size: .975rem;
       font-weight: 500;
-      margin-bottom: .2rem;
+      margin-bottom: .15rem;
       letter-spacing: -.01em;
+    }
+    .work-ctx {
+      font-family: var(--m);
+      font-size: .63rem;
+      font-weight: 300;
+      color: var(--ink3);
+      letter-spacing: .03em;
+      margin-bottom: .1rem;
     }
     .work-tags {
       font-family: var(--m);
-      font-size: .65rem;
+      font-size: .63rem;
       font-weight: 300;
       color: var(--ink3);
       letter-spacing: .03em;
@@ -210,10 +233,7 @@
     }
 
     /* Expand panel */
-    .work-detail {
-      display: none;
-      padding: 0 0 1.5rem 3.25rem;
-    }
+    .work-detail { display: none; padding: 0 0 1.5rem 3.25rem; }
     .work-detail.open { display: block; }
     .work-detail-inner {
       border-left: 2px solid var(--line);
@@ -226,31 +246,13 @@
       line-height: 1.75;
       max-width: 540px;
       margin-bottom: 1rem;
-    }
-    .work-metrics {
-      display: flex;
-      gap: 2rem;
-    }
-    .wm-n {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -.03em;
-      line-height: 1;
-      margin-bottom: .15rem;
-      color: var(--accent);
-    }
-    .wm-l {
-      font-family: var(--m);
-      font-size: .62rem;
-      font-weight: 300;
-      color: var(--ink3);
-      letter-spacing: .04em;
+      text-align: justify;
+      hyphens: auto;
     }
     .work-link {
       display: inline-flex;
       align-items: center;
       gap: .35rem;
-      margin-top: 1.1rem;
       font-family: var(--m);
       font-size: .72rem;
       font-weight: 400;
@@ -259,32 +261,16 @@
     }
     .work-link:hover { gap: .55rem; }
 
-    /* ── About ── */
-    .about { padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
-    .about-text {
-      font-size: .975rem;
-      font-weight: 300;
-      color: var(--ink2);
-      line-height: 1.8;
-      max-width: 620px;
-    }
-    .about-text + .about-text { margin-top: 1rem; }
-    .about-text b { color: var(--ink); font-weight: 500; }
-
-    /* Parcours inline */
+    /* ── Parcours ── */
+    .parcours { padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
     .xp-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 2rem;
     }
-    .xp-table tr {
-      border-top: 1px solid var(--line);
-    }
+    .xp-table tr { border-top: 1px solid var(--line); }
     .xp-table tr:last-child { border-bottom: 1px solid var(--line); }
-    .xp-table td {
-      padding: .85rem 0;
-      vertical-align: top;
-    }
+    .xp-table td { padding: 1.1rem 0; vertical-align: top; }
     .xp-table td:first-child {
       font-family: var(--m);
       font-size: .65rem;
@@ -293,40 +279,106 @@
       letter-spacing: .03em;
       padding-right: 2rem;
       white-space: nowrap;
-      width: 90px;
+      width: 96px;
+      padding-top: 1.2rem;
     }
     .xp-role {
       font-size: .9rem;
       font-weight: 500;
-      margin-bottom: .15rem;
+      margin-bottom: .2rem;
     }
     .xp-org {
       font-family: var(--m);
-      font-size: .67rem;
+      font-size: .63rem;
       font-weight: 300;
       color: var(--ink3);
+      margin-bottom: .55rem;
+    }
+    .xp-desc {
+      font-size: .875rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.7;
+      font-style: italic;
+      max-width: 500px;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    /* ── Ce que j'apporte ── */
+    .apport { padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
+    .apport-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 2rem;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    .apport-bloc {
+      padding: 1.75rem 1.5rem 1.75rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .apport-kw {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      color: var(--accent);
+      margin-bottom: .65rem;
+      font-optical-sizing: auto;
+    }
+    .apport-sub {
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--ink3);
+      letter-spacing: .03em;
+      margin-bottom: .5rem;
+    }
+    .apport-text {
+      font-size: .875rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.75;
+      text-align: justify;
+      hyphens: auto;
     }
 
     /* ── Contact ── */
-    .contact {
-      padding: 2.5rem 0 3.5rem;
+    .contact { padding: 2.5rem 0 3.5rem; }
+    .contact-q {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 1.5rem;
     }
-    .contact-line {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .contact-email {
-      font-size: 1.1rem;
+    .cta-btn {
+      display: inline-block;
+      padding: .7rem 1.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--f);
+      font-size: .9rem;
       font-weight: 500;
       letter-spacing: -.01em;
-      color: var(--ink);
-      transition: color .15s;
-      border-bottom: 1.5px solid var(--ink);
-      padding-bottom: 1px;
+      border: 1.5px solid var(--accent);
+      border-radius: 4px;
+      transition: background .2s, color .2s;
+      margin-bottom: 2rem;
     }
-    .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+    .cta-btn:hover { background: transparent; color: var(--accent); }
+    .cta-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .contact-info {
+      font-size: .9rem;
+      font-weight: 300;
+      color: var(--ink2);
+      line-height: 2;
+      margin-bottom: 1.25rem;
+    }
+    .contact-info strong { color: var(--ink); font-weight: 500; }
     .contact-links {
       display: flex;
       gap: 1.5rem;
@@ -339,23 +391,6 @@
       transition: color .15s;
     }
     .contact-links a:hover { color: var(--ink); }
-    .contact-status {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      font-family: var(--m);
-      font-size: .68rem;
-      font-weight: 300;
-      color: var(--ink3);
-    }
-    .status-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #22C47A;
-      animation: pulse 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
 
     /* ── Footer ── */
     footer {
@@ -374,142 +409,225 @@
 
     /* ── Responsive ── */
     @media (max-width: 680px) {
+      .hero { padding: 56px 0 48px; }
       .hero-meta { flex-direction: column; align-items: flex-start; }
       .hero-stats { flex-direction: row; gap: 1.75rem; }
       .stat { text-align: left; }
       .work-row { grid-template-columns: 2rem 1fr 2.5rem; }
       .work-year { display: none; }
-      .contact-line { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      .contact-status { margin-left: 0; }
+      .apport-grid { grid-template-columns: 1fr; border-left: none; }
+      .apport-bloc { border-left: 1px solid var(--line); border-right: none; }
     }
     @media (max-width: 480px) {
       .h-links a:not(:last-child) { display: none; }
-      .hero-name { font-size: 3.5rem; }
+      .hero-name { font-size: 1.9rem; }
     }
+
+    /* ── Password overlay ── */
+    #pw-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .4s ease;
+    }
+    #pw-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #pw-form {
+      display: flex;
+      gap: .6rem;
+    }
+    #pw-input {
+      font-family: var(--m);
+      font-size: .85rem;
+      font-weight: 300;
+      letter-spacing: .08em;
+      color: var(--ink);
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid var(--line);
+      padding: .5rem .25rem;
+      width: 200px;
+      outline: none;
+      transition: border-color .15s;
+      caret-color: var(--accent);
+    }
+    #pw-input:focus { border-color: var(--ink3); }
+    #pw-input::placeholder { color: var(--ink3); }
+    #pw-btn {
+      font-family: var(--f);
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: .5rem 1.1rem;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: opacity .15s;
+    }
+    #pw-btn:hover { opacity: .85; }
+    @keyframes pw-shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-7px); }
+      40%      { transform: translateX(7px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+    #pw-form.shake { animation: pw-shake .35s ease; }
   </style>
 </head>
 <body>
 
+<!-- Password overlay -->
+<div id="pw-overlay" role="dialog" aria-modal="true" aria-label="Accès protégé">
+  <form id="pw-form" onsubmit="checkPw(event)">
+    <input id="pw-input" type="password" placeholder="••••••••" autocomplete="current-password" autofocus/>
+    <button id="pw-btn" type="submit">→</button>
+  </form>
+</div>
+
+<!-- Header / Nav -->
+<header class="site-header" role="banner">
+  <div class="page">
+    <div class="h-inner">
+      <span class="h-name">Alexandre CASTAING</span>
+      <nav class="h-links" aria-label="Navigation principale">
+        <a href="#travaux">Travaux</a>
+        <a href="#parcours">Parcours</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
 <div class="page">
 
-  <!-- Header -->
-  <header>
-    <span class="h-name">Alexandre CASTAING</span>
-    <nav class="h-links">
-      <a href="#work">Travaux</a>
-      <a href="#about">Parcours</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
   <!-- Hero -->
-  <section class="hero">
-    <h1 class="hero-name">
-      Alexandre<br/>
-      <span class="last">CASTAING</span>
-    </h1>
-    <div class="hero-meta">
+  <section class="hero" aria-label="Introduction">
+    <h1 class="hero-name fi">Spécialiste Data &amp; SIG territorial</h1>
+    <p class="hero-sub fi">Gouvernance des données · Aide à la décision · Évaluation des politiques publiques</p>
+    <div class="hero-meta fi">
       <p class="hero-role">
-        <b>Spécialiste data et SIG territorial.</b><br/>
-        20 ans à transformer les données publiques<br/>
-        en aide à la décision pour élus et services.
+        J'aide les collectivités à structurer leurs données, évaluer leurs politiques publiques
+        et outiller la décision — de la direction générale à l'agent de terrain.
       </p>
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-n">20</div>
-          <div class="stat-l">ans d'expérience</div>
+          <div class="stat-n">23</div>
+          <div class="stat-l">ans dans les<br/>collectivités</div>
         </div>
         <div class="stat">
           <div class="stat-n">300+</div>
-          <div class="stat-l">agents formés</div>
+          <div class="stat-l">agents formés<br/>à la data</div>
         </div>
         <div class="stat">
-          <div class="stat-n">18</div>
-          <div class="stat-l">apps livrées</div>
+          <div class="stat-n">5</div>
+          <div class="stat-l">observatoires<br/>décisionnels</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Work -->
-  <section id="work">
-    <div class="s-head">
+  <!-- Travaux -->
+  <section id="travaux" aria-label="Travaux sélectionnés">
+    <div class="s-head fi">
       <span class="s-label">Travaux sélectionnés</span>
       <span class="s-count">05</span>
     </div>
     <ul class="work-list">
 
-      <li class="work-item">
-        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">01</span>
-          <div class="work-main">
-            <div class="work-title">Monitoring collecte biodéchets temps réel</div>
-            <div class="work-tags">API · Power BI · PostGIS · FME</div>
+          <div>
+            <div class="work-title">Pilotage temps réel de la collecte biodéchets</div>
+            <div class="work-ctx">COBAN · 8 communes · 141 conteneurs connectés</div>
+            <div class="work-tags">Power BI · PostGIS · API</div>
           </div>
           <span class="work-year">2024</span>
-          <span class="work-arrow">→</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
             <p class="work-desc">Suivi opérationnel en temps réel de la collecte des biodéchets sur l'intercommunalité. Pipeline API → PostGIS → Power BI livré à la direction et aux élus pour le pilotage de la politique déchets.</p>
-            <div class="work-metrics">
-              <div><div class="wm-n">141</div><div class="wm-l">conteneurs suivis</div></div>
-              <div><div class="wm-n">live</div><div class="wm-l">mise à jour</div></div>
-            </div>
             <a href="#" class="work-link">Voir le projet →</a>
           </div>
         </div>
       </li>
 
-      <li class="work-item">
-        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">02</span>
-          <div class="work-main">
-            <div class="work-title">Infrastructure data COBAN</div>
-            <div class="work-tags">FME · Python · PostGIS · SQL · API · Open Data</div>
+          <div>
+            <div class="work-title">Scénarios tarifaires eau potable : simulation d'impact budgétaire</div>
+            <div class="work-ctx">COBAN · Aide à la délibération</div>
+            <div class="work-tags">Python · PostGIS · Power BI</div>
           </div>
           <span class="work-year">2024</span>
-          <span class="work-arrow">→</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
-            <p class="work-desc">Mise en place de l'écosystème data de l'intercommunalité : structuration, automatisation des flux de collecte, documentation collaborative sur GitHub, conformité RGPD. Base consommée par l'ensemble des services métiers.</p>
-            <div class="work-metrics">
-              <div><div class="wm-n">35</div><div class="wm-l">jeux de données</div></div>
-              <div><div class="wm-n">20+</div><div class="wm-l">flux automatisés</div></div>
-            </div>
+            <p class="work-desc">Outil de simulation d'impact budgétaire pour la politique tarifaire de l'eau potable. Modélisation de scénarios avec restitution directe aux élus et à la direction générale pour l'aide à la délibération.</p>
             <a href="#" class="work-link">Voir le projet →</a>
           </div>
         </div>
       </li>
 
-      <li class="work-item">
-        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">03</span>
-          <div class="work-main">
-            <div class="work-title">Modélisation scénarios tarifaires eau potable</div>
-            <div class="work-tags">Python · PostGIS · Power BI · Simulation budgétaire</div>
+          <div>
+            <div class="work-title">Gouvernance data intercommunale : de 0 à 35 jeux structurés</div>
+            <div class="work-ctx">COBAN · 8 communes · Open Data &amp; RGPD</div>
+            <div class="work-tags">FME · PostGIS · Python</div>
           </div>
           <span class="work-year">2024</span>
-          <span class="work-arrow">→</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
-            <p class="work-desc">Outil de simulation d'impact budgétaire pour la politique tarifaire de l'eau potable. Modélisation de scénarios avec restitution directe aux élus et à la direction générale pour l'aide à la décision.</p>
+            <p class="work-desc">Mise en place de l'écosystème data de l'intercommunalité : structuration, automatisation des flux de collecte, documentation collaborative, Open Data et conformité RGPD. Base consommée par l'ensemble des services métiers.</p>
             <a href="#" class="work-link">Voir le projet →</a>
           </div>
         </div>
       </li>
 
-      <li class="work-item">
-        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">04</span>
-          <div class="work-main">
-            <div class="work-title">Suivi flux déchets dangereux — Sankey</div>
-            <div class="work-tags">API Trackdéchets · JavaScript · D3 · Dataviz</div>
+          <div>
+            <div class="work-title">Observatoires habitat &amp; développement économique</div>
+            <div class="work-ctx">Agglo du Beauvaisis · 53 communes</div>
+            <div class="work-tags">PostGIS · Power BI · FME</div>
+          </div>
+          <span class="work-year">2006–2022</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc">Conception et déploiement d'observatoires décisionnels pour le pilotage des politiques publiques d'habitat et de développement économique. Modélisation des données, dataviz, restitution aux élus sur 16 ans.</p>
+            <a href="#" class="work-link">Voir le projet →</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
+          <span class="work-num">05</span>
+          <div>
+            <div class="work-title">Traçabilité des flux de déchets dangereux</div>
+            <div class="work-ctx">COBAN · Dataviz Sankey interactive</div>
+            <div class="work-tags">JavaScript/D3 · API Trackdéchets · Dataviz</div>
           </div>
           <span class="work-year">2024</span>
-          <span class="work-arrow">→</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
@@ -519,92 +637,89 @@
         </div>
       </li>
 
-      <li class="work-item">
-        <div class="work-row" role="button" aria-expanded="false" onclick="toggle(this)">
-          <span class="work-num">05</span>
-          <div class="work-main">
-            <div class="work-title">Observatoires habitat & développement économique</div>
-            <div class="work-tags">PostGIS · FME · Power BI · DVF · Fichiers fonciers</div>
-          </div>
-          <span class="work-year">2006–2022</span>
-          <span class="work-arrow">→</span>
-        </div>
-        <div class="work-detail">
-          <div class="work-detail-inner">
-            <p class="work-desc">Conception et déploiement d'observatoires décisionnels pour le pilotage des politiques publiques d'habitat et de développement économique à l'Agglo du Beauvaisis. Modélisation des données, dataviz, restitution aux élus sur 16 ans.</p>
-            <div class="work-metrics">
-              <div><div class="wm-n">16</div><div class="wm-l">ans en production</div></div>
-              <div><div class="wm-n">53</div><div class="wm-l">communes couvertes</div></div>
-            </div>
-            <a href="#" class="work-link">Voir le projet →</a>
-          </div>
-        </div>
-      </li>
-
     </ul>
   </section>
 
-  <!-- About + Parcours -->
-  <section class="about" id="about">
-    <div class="s-head" style="margin-bottom:1.75rem">
+  <!-- Parcours -->
+  <section class="parcours" id="parcours" aria-label="Parcours professionnel">
+    <div class="s-head fi">
       <span class="s-label">Parcours</span>
     </div>
-    <p class="about-text">
-      <b>Ingénieur territorial Cat. A</b>, spécialiste de la donnée géographique et décisionnelle dans les collectivités.
-      J'ai commencé comme technicien SIG en 2002 au Beauvaisis, où j'ai progressivement construit
-      une expertise complète — de l'infrastructure PostgreSQL/PostGIS aux observatoires de pilotage des politiques publiques,
-      en passant par la formation de plus de 300 agents à la culture data.
-    </p>
-    <p class="about-text" style="margin-top:1rem">
-      Ce qui m'anime : <b>réduire la distance entre la complexité des données et la clarté de la décision.</b>
-      Que ce soit pour un directeur général, un élu ou un agent de terrain.
-    </p>
-
-    <table class="xp-table">
-      <tr>
-        <td>2024 →</td>
+    <table class="xp-table" aria-label="Expériences professionnelles">
+      <tr class="fi">
+        <td>Depuis<br/>juin 2024</td>
         <td>
           <div class="xp-role">Responsable valorisation des données et SIG</div>
           <div class="xp-org">COBAN — Bassin d'Arcachon Nord · 8 communes / 74 500 hab.</div>
+          <p class="xp-desc">Création ex nihilo de l'écosystème data de l'intercommunalité : gouvernance, flux automatisés, tableaux de bord décisionnels, Open Data.</p>
         </td>
       </tr>
-      <tr>
+      <tr class="fi">
         <td>2023–2024</td>
         <td>
           <div class="xp-role">Chef du service cartographie-topographie</div>
-          <div class="xp-org">Bourges Plus Agglomération · 17 communes / 103 300 hab.</div>
+          <div class="xp-org">Bourges Plus Agglomération (Cher) · 17 communes / 103 300 hab. · 6 agents</div>
+          <p class="xp-desc">Structuration et standardisation des données géoréférencées, refonte du marché de prestations topographiques, transition RTGE/PCRS.</p>
         </td>
       </tr>
-      <tr>
+      <tr class="fi">
         <td>2006–2022</td>
         <td>
-          <div class="xp-role">Responsable SIG — 3 agents</div>
-          <div class="xp-org">Agglo du Beauvaisis · 53 communes / 103 900 hab.</div>
+          <div class="xp-role">Responsable SIG</div>
+          <div class="xp-org">Agglo du Beauvaisis (Oise) · 53 communes / 103 900 hab. · 3 agents</div>
+          <p class="xp-desc">Pilotage stratégique du SIG intercommunal : observatoires décisionnels, 18 applications métier, formation de 300 agents, budget d'investissement de 300 000 €.</p>
         </td>
       </tr>
-      <tr>
+      <tr class="fi">
         <td>2002–2006</td>
         <td>
           <div class="xp-role">Technicien SIG</div>
-          <div class="xp-org">CC du Beauvaisis · 17 communes / 66 000 hab.</div>
+          <div class="xp-org">CC du Beauvaisis (Oise) · 17 communes / 66 000 hab.</div>
+          <p class="xp-desc">Constitution du socle de données géographiques de la collectivité.</p>
         </td>
       </tr>
     </table>
   </section>
 
+  <!-- Ce que j'apporte -->
+  <section class="apport" id="apport" aria-label="Ce que j'apporte">
+    <div class="s-head fi">
+      <span class="s-label">Ce que j'apporte</span>
+    </div>
+    <div class="apport-grid">
+      <div class="apport-bloc fi">
+        <div class="apport-kw">Structurer</div>
+        <div class="apport-sub">Gouvernance, référentiels, qualité.</div>
+        <p class="apport-text">Faire en sorte que chaque service travaille sur des données fiables, à jour, et partagées — et que la collectivité réponde à ses obligations Open Data et RGPD sans dépendre d'une seule personne.</p>
+      </div>
+      <div class="apport-bloc fi">
+        <div class="apport-kw">Éclairer</div>
+        <div class="apport-sub">Observatoires, indicateurs, dataviz.</div>
+        <p class="apport-text">Donner à la direction et aux élus les outils pour répondre à une question simple : est-ce que nos politiques publiques produisent les effets attendus&nbsp;?</p>
+      </div>
+      <div class="apport-bloc fi">
+        <div class="apport-kw">Embarquer</div>
+        <div class="apport-sub">Formation, acculturation, vulgarisation.</div>
+        <p class="apport-text">Rendre 300 agents autonomes sur la donnée, c'est ce que j'ai fait au Beauvaisis. La technologie ne sert à rien si personne ne se l'approprie.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
-  <section class="contact" id="contact">
-    <div class="contact-line">
-      <a href="mailto:castaing.alex@gmail.com" class="contact-email">castaing.alex@gmail.com</a>
-      <div class="contact-links">
-        <a href="https://linkedin.com/in/alexandre-castaing" target="_blank">LinkedIn ↗</a>
-        <a href="https://github.com/alexandre-castaing" target="_blank">GitHub ↗</a>
-        <a href="tel:+"></a>
-      </div>
-      <div class="contact-status">
-        <span class="status-dot"></span>
-        Disponible · Centre-Val de Loire
-      </div>
+  <section class="contact" id="contact" aria-label="Contact">
+    <p class="contact-q fi">
+      Vous cherchez à structurer votre gouvernance data<br/>
+      et outiller le pilotage de vos politiques publiques&nbsp;?
+    </p>
+    <a href="mailto:castaing.alex@gmail.com" class="cta-btn fi" aria-label="Envoyer un email à Alexandre CASTAING">Échangeons</a>
+    <div class="contact-info fi">
+      <strong>Alexandre CASTAING</strong>
+      castaing.alex@gmail.com · 06 51 14 90 78<br/>
+      Disponible · Centre-Val de Loire · Ingénieur territorial Cat. A
+    </div>
+    <div class="contact-links fi">
+      <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="#" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </section>
 
@@ -617,22 +732,68 @@
 </div>
 
 <script>
-  function toggle(row) {
-    const detail = row.nextElementSibling;
-    const isOpen = row.getAttribute('aria-expanded') === 'true';
+  // Password protection
+  (function() {
+    var overlay = document.getElementById('pw-overlay');
+    if (sessionStorage.getItem('auth') === '1') {
+      overlay.style.display = 'none';
+      return;
+    }
+    document.getElementById('pw-input').focus();
+  })();
 
-    // close all
-    document.querySelectorAll('.work-row').forEach(r => {
+  function checkPw(e) {
+    e.preventDefault();
+    var val = document.getElementById('pw-input').value;
+    if (val === 'territoire') {
+      sessionStorage.setItem('auth', '1');
+      var overlay = document.getElementById('pw-overlay');
+      overlay.classList.add('fade-out');
+      overlay.addEventListener('transitionend', function() {
+        overlay.style.display = 'none';
+      }, { once: true });
+    } else {
+      var form = document.getElementById('pw-form');
+      form.classList.remove('shake');
+      void form.offsetWidth; // reflow to restart animation
+      form.classList.add('shake');
+      document.getElementById('pw-input').value = '';
+    }
+  }
+
+  // Nav: opacify on scroll
+  var hdr = document.querySelector('.site-header');
+  window.addEventListener('scroll', function() {
+    hdr.classList.toggle('scrolled', window.scrollY > 48);
+  }, { passive: true });
+
+  // Accordion toggle
+  function toggle(row) {
+    var detail = row.nextElementSibling;
+    var isOpen = row.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.work-row').forEach(function(r) {
       r.setAttribute('aria-expanded', 'false');
       r.nextElementSibling.classList.remove('open');
     });
-
-    // open this one if it was closed
     if (!isOpen) {
       row.setAttribute('aria-expanded', 'true');
       detail.classList.add('open');
     }
   }
+
+  // Fade-in with IntersectionObserver
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+  document.querySelectorAll('.fi').forEach(function(el) {
+    observer.observe(el);
+  });
 </script>
 
 </body>
