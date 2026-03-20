@@ -570,40 +570,39 @@
     }
 
     /* ── Contact ── */
-    .contact { padding: 2.5rem 0 3.5rem; }
-    .contact-q {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--ink2);
-      line-height: 1.7;
-      max-width: 480px;
-      margin-bottom: 1.5rem;
+    .contact {
+      padding: 2.5rem 0 3rem;
+      border-top: 1px solid var(--line);
     }
-    .cta-btn {
-      display: inline-block;
-      padding: .7rem 1.75rem;
-      background: var(--accent);
-      color: var(--bg);
-      font-family: var(--f);
-      font-size: .9rem;
-      font-weight: 500;
+    .contact-headline {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: .75rem;
       letter-spacing: -.01em;
-      border: 1.5px solid var(--accent);
-      border-radius: 4px;
-      transition: background .2s, color .2s;
-      margin-bottom: 2rem;
     }
-    .cta-btn:hover { background: transparent; color: var(--accent); }
-    .cta-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-    .contact-info {
-      font-size: .9rem;
+    .contact-line {
+      font-size: .95rem;
       font-weight: 300;
       color: var(--ink2);
-      line-height: 2;
-      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
     }
-    .contact-info strong { color: var(--ink); font-weight: 500; }
+    .contact-email {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--line);
+      transition: text-decoration-color .15s, color .15s;
+    }
+    .contact-email:hover {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+    .contact-sep { color: var(--ink3); }
     .contact-links {
       display: flex;
       gap: 1.5rem;
@@ -613,14 +612,20 @@
       font-size: .72rem;
       font-weight: 300;
       color: var(--ink3);
-      transition: color .15s;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: transparent;
+      transition: color .15s, text-decoration-color .15s;
     }
-    .contact-links a:hover { color: var(--ink); }
+    .contact-links a:hover {
+      color: var(--ink);
+      text-decoration-color: var(--ink3);
+    }
 
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--line);
-      padding: 1.5rem 0;
+      padding: 1.25rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -642,6 +647,8 @@
       .work-year { display: none; }
       .apport-grid { grid-template-columns: 1fr; border-left: none; }
       .apport-bloc { border-left: 1px solid var(--line); border-right: none; }
+      .contact-line { flex-direction: column; align-items: flex-start; gap: .3rem; }
+      .contact-sep { display: none; }
     }
     @media (max-width: 480px) {
       .h-links a:not(:last-child) { display: none; }
@@ -920,7 +927,7 @@
         <td>
           <div class="xp-role">Responsable valorisation des données et SIG</div>
           <div class="xp-org">COBAN — Bassin d'Arcachon Nord · 8 communes / 74 500 hab.</div>
-          <p class="xp-desc">Créer l'écosystème data d'une collectivité en partant de zéro : gouvernance, collecte, flux, automatisation, tableaux de bord.</p>
+          <p class="xp-desc">Créer l'écosystème data d'une collectivité en partant de zéro : gouvernance, collecte, flux, automatisation, tableaux de bord, appropriation par les métiers, aide à la décision direction et élus.</p>
         </td>
       </tr>
       <tr class="fi">
@@ -928,7 +935,7 @@
         <td>
           <div class="xp-role">Chef du service cartographie-topographie</div>
           <div class="xp-org">Bourges Plus Agglomération (Cher) · 17 communes / 103 300 hab. · 6 agents</div>
-          <p class="xp-desc">Structuration et standardisation des données géoréférencées, refonte du marché de prestations topographiques, transition RTGE/PCRS.</p>
+          <p class="xp-desc">Structurer et standardiser des données géoréférencées, refondre le marché de prestations topographiques, préparer l'arrivée du PCRS.</p>
         </td>
       </tr>
       <tr class="fi">
@@ -936,7 +943,7 @@
         <td>
           <div class="xp-role">Responsable SIG</div>
           <div class="xp-org">Agglo du Beauvaisis (Oise) · 53 communes / 103 900 hab. · 3 agents</div>
-          <p class="xp-desc">Pilotage stratégique du SIG intercommunal : observatoires décisionnels, 18 applications métier, accompagnement de 300 agents.</p>
+          <p class="xp-desc">Construire et piloter le SIG pour en faire un outil d'aide à la décision à l'échelle de 53 communes. Applications métier, observatoires décisionnels, acculturation des services.</p>
         </td>
       </tr>
       <tr class="fi">
@@ -944,7 +951,7 @@
         <td>
           <div class="xp-role">Technicien SIG</div>
           <div class="xp-org">CC du Beauvaisis (Oise) · 17 communes / 66 000 hab.</div>
-          <p class="xp-desc">Constitution du socle de données géographiques de la collectivité.</p>
+          <p class="xp-desc">Construire le socle de données géographiques de la collectivité.</p>
         </td>
       </tr>
     </table>
@@ -976,25 +983,20 @@
 
   <!-- Contact -->
   <section class="contact" id="contact" aria-label="Contact">
-    <p class="contact-q fi">
-      Vous cherchez à structurer votre gouvernance data<br/>
-      et outiller le pilotage de vos politiques publiques&nbsp;?
+    <p class="contact-headline fi">Parlons de vos projets.</p>
+    <p class="contact-line fi">
+      <a href="mailto:castaing.alex@gmail.com" class="contact-email">castaing.alex@gmail.com</a>
+      <span class="contact-sep">·</span>
+      <span>06 51 14 90 78</span>
     </p>
-    <a href="/cdn-cgi/l/email-protection#1a797b696e7b73747d347b767f625a7d777b737634797577" class="cta-btn fi" aria-label="Envoyer un email à Alexandre CASTAING">Échangeons</a>
-    <div class="contact-info fi">
-      <strong>Alexandre CASTAING</strong>
-      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e281839196838b8c85cc838e879aa2858f838b8ecc818d8f">[email&#160;protected]</a> · 06 51 14 90 78<br/>
-      Disponible · Centre-Val de Loire · Ingénieur territorial Cat. A
-    </div>
     <div class="contact-links fi">
-      <a href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
-      <a href="#" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/alxcst" target="_blank" rel="noopener">LinkedIn ↗</a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <span>Alexandre CASTAING · Ingénieur territorial Cat. A</span>
+    <span>Disponible · Centre-Val de Loire</span>
     <span>© 2026</span>
   </footer>
 
