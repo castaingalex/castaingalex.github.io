@@ -867,9 +867,45 @@
 
       <li class="work-item fi">
         <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
+          <span class="work-num">03</span>
+          <div>
+            <div class="work-title">Visualisation des flux budgétaires — BP 2026</div>
+            <div class="work-ctx">COBAN · 6 budgets consolidés</div>
+            <div class="work-tags">Python · Plotly · Sankey</div>
+          </div>
+          <span class="work-year">2026</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc-lead">Budget primitif 2026 : six budgets distincts, des dizaines de lignes, un document que peu d'élus lisent jusqu'au bout. L'enjeu d'une nouvelle mandature, c'est aussi de donner aux élus les moyens de comprendre les équilibres financiers de leur collectivité — sans être comptable.</p>
+            <p class="work-desc">En collaboration avec la DGA Ressources, j'ai construit un diagramme de Sankey qui rend lisibles les flux budgétaires de la COBAN dans leur globalité : d'où vient l'argent, vers quels budgets il transite, comment il se distribue entre les dépenses. Un seul visuel remplace la lecture linéaire de six documents séparés. Conçu pour la prise de poste des élus de la mandature 2026, il pose aussi les premières bases d'une culture de l'évaluation au sein de la collectivité.</p>
+
+            <div class="work-metrics">
+              <div class="wm">
+                <span class="wm-n">6</span>
+                <span class="wm-l">budgets consolidés<br/>en un seul visuel</span>
+              </div>
+              <div class="wm">
+                <span class="wm-n">0€</span>
+                <span class="wm-l">logiciel libre<br/>aucun outil propriétaire</span>
+              </div>
+            </div>
+
+            <ul class="work-highlights">
+              <li>Recettes, affectations et dépenses lisibles d'un seul regard sur six budgets distincts, sans expertise comptable préalable</li>
+              <li>Construit avec la DGA Ressources pour cadrer la présentation du BP 2026 aux élus de la nouvelle mandature</li>
+              <li>Première brique d'une démarche d'évaluation des politiques publiques à l'échelle de la collectivité</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">05</span>
           <div>
-            <div class="work-title">Observatoires du commerce, de l'habitat et du développement économique</div>
+            <div class="work-title">Observatoire du commerce et stratégie de revitalisation</div>
             <div class="work-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</div>
             <div class="work-tags">Oracle · FME · ArcGIS Entreprise</div>
           </div>
@@ -878,10 +914,18 @@
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
-            <p class="work-desc-lead">Un observatoire n'est pas un tableau de bord. C'est un dispositif qui installe une mesure dans la durée, structure un langage commun entre élus, services et partenaires, et rend visible ce qui sinon reste une intuition.</p>
-            <p class="work-desc">L'observatoire du commerce de centre-ville illustre la démarche. Chaque cellule commerciale inventoriée : activité, superficie, vacance, loyer. La donnée ne reste pas dans un rapport annuel : elle circule, elle servt, elle décide. Même logique appliquée à l'habitat : parc, vacance, prix au m², construction neuve, au service des négociations avec l'État et les bailleurs ou au développement économique ; offre foncière et dynamiques d'implantation, support direct de la promotion territoriale.</p>
+            <p class="work-desc-lead">Un observatoire n'est pas un tableau de bord. C'est un dispositif qui installe une mesure dans la durée, structure un langage commun entre élus, services et partenaires, et rend visible ce qui sinon reste une intuition. C'est particulièrement vrai face à la désertification commerciale. Les élus la voient, les habitants la ressentent, mais sans mesure précise, impossible de prioriser une rue, de cibler une action, de convaincre un investisseur.</p>
+            <p class="work-desc">Chaque cellule commerciale du centre-ville de Beauvais inventoriée : activité, superficie, statut d'occupation, loyer. La donnée ne reste pas dans un rapport annuel : elle circule entre le manager de commerce, les porteurs de projets et les élus, elle sert à négocier, à décider, à attirer. Récompensé aux Défis Urbains 2019, le dispositif est devenu la colonne vertébrale de la stratégie de revitalisation. Cette maîtrise s'est exercée sur d'autres champs : habitat, développement économique, chacun traité avec ses propres enjeux et interlocuteurs.</p>
 
             <div class="work-metrics">
+              <div class="wm">
+                <span class="wm-n">−3 pts</span>
+                <span class="wm-l">de vacance commerciale<br/>en 3 ans (12% → &lt;9%)</span>
+              </div>
+              <div class="wm">
+                <span class="wm-n">★ 2019</span>
+                <span class="wm-l">Lauréat Défis Urbains<br/>catégorie Stratégie commerciale</span>
+              </div>
               <div class="wm">
                 <span class="wm-n">400</span>
                 <span class="wm-l">cellules commerciales<br/>du centre-ville inventoriées</span>
@@ -889,9 +933,9 @@
             </div>
 
             <ul class="work-highlights">
-              <li>Observatoire du commerce devenu référence du manager commerce et des porteurs de projets pour la stratégie de revitalisation du centre-ville</li>
-              <li>Observatoire habitat exploité comme base de négociation avec l'État et les bailleurs dans le cadre des politiques intercommunales (PLH, ANAH, conventions bailleurs)</li>
-              <li>Observatoire économique mobilisé pour la commercialisation des ZAE et la promotion du territoire comme au Salon de l'investissement Immobilier (SIMI)</li>
+              <li>Taux de vacance commerciale mesuré en continu, par rue et par type d'activité, le manager de commerce et les porteurs de projets disposent enfin d'un outil de pilotage plutôt que d'une impression</li>
+              <li>Observatoire de l'habitat mobilisé comme base de négociation avec l'État et les bailleurs (PLH, ANAH, conventions), la donnée remplace le ressenti dans les arbitrages</li>
+              <li>Observatoire économique intégré à la stratégie de promotion du territoire, comme au Salon de l'investissement Immobilier (SIMI), pour commercialiser les ZAE avec des arguments chiffrés</li>
             </ul>
 
             <button class="work-tech-toggle" onclick="toggleTech(this)" aria-expanded="false">
@@ -900,6 +944,14 @@
             <div class="work-tech-detail">
               <div class="tech-stack-label">Pipeline</div>
               <p>Collecte multi-sources (fichiers fonciers, RPLS, données CCI, enquêtes terrain, données ZAE) → FME (normalisation, géocodage, enrichissement, croisements) → Oracle (stockage, requêtes spatiales, vues métier) → ArcGIS Entreprise (publication carto en ligne, tableaux de bord, restitution élus et commissions). Infrastructure mutualisée Ville/Agglo.</p>
+            </div>
+
+            <div class="work-video-section">
+              <div class="video-intro">Lauréat des Défis Urbains 2019 (Innovapresse) · catégorie Stratégie commerciale — remise du prix le 24 juin 2019</div>
+              <a href="https://www.youtube.com/watch?v=_VXge_3WwfA" target="_blank" rel="noopener" class="video-card" aria-label="Voir la remise du prix sur YouTube">
+                <svg class="play-btn" viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#FF0000"/><path d="M45 24L27 14v20" fill="#fff"/></svg>
+                <span class="video-label">Cérémonie de remise des prix, Défis Urbains 2019</span>
+              </a>
             </div>
 
             <div class="work-press">
