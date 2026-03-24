@@ -18,8 +18,8 @@
     :root {
       --bg:      #F7F6F1;
       --ink:     #0C0C0A;
-      --ink2:    #6E6E66;
-      --ink3:    #B2B1A9;
+      --ink2:    #5C5C55;
+      --ink3:    #8A8A82;
       --accent:  #0E5A73;
       --line:    #E3E2DB;
       --hover:   #F0EFEA;
@@ -86,7 +86,7 @@
       font-family: var(--m);
       font-size: .75rem;
       font-weight: 300;
-      color: var(--ink3);
+      color: var(--ink2);
       letter-spacing: .02em;
     }
     .h-links {
@@ -97,7 +97,7 @@
       font-family: var(--m);
       font-size: .72rem;
       font-weight: 300;
-      color: var(--ink3);
+      color: var(--ink2);
       transition: color .15s;
     }
     .h-links a:hover { color: var(--ink); }
@@ -122,15 +122,18 @@
       letter-spacing: -.01em;
       margin-bottom: 2.5rem;
     }
+    .hero-lead {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+    }
     .hero-body {
       font-size: 1rem;
       color: var(--ink2);
       line-height: 1.65;
       text-align: justify;
-    }
-    .hero-body strong {
-      font-weight: 600;
-      color: var(--ink);
     }
     .hero-stats {
       display: flex;
@@ -165,7 +168,7 @@
       font-family: var(--m);
       font-size: .68rem;
       font-weight: 300;
-      color: var(--ink3);
+      color: var(--ink2);
       letter-spacing: .12em;
       text-transform: uppercase;
     }
@@ -173,7 +176,7 @@
       font-family: var(--m);
       font-size: .68rem;
       font-weight: 300;
-      color: var(--ink3);
+      color: var(--ink2);
     }
 
     /* ── Work list ── */
@@ -762,7 +765,8 @@
   <section class="hero" aria-label="Introduction">
     <h1 class="hero-name fi">Spécialiste de la donnée territoriale</h1>
     <p class="hero-sub fi">Gouvernance des données · Aide à la décision · Évaluation des politiques publiques</p>
-    <p class="hero-body fi"><strong>La maîtrise des politiques publiques est de moins en moins dissociable de la maîtrise de leurs données.</strong> Structurer cette donnée, la fiabiliser, en faire un levier de pilotage ; non pas tout mettre en données, mais cibler les politiques que cette orchestration peut bonifier.</p>
+    <p class="hero-lead">La maîtrise des politiques publiques est de moins en moins dissociable de la maîtrise de leurs données.</p>
+    <p class="hero-body fi">Structurer cette donnée, la fiabiliser, en faire un levier de pilotage ; non pas tout mettre en données, mais cibler les politiques que cette orchestration peut bonifier.</p>
   </section>
 
   <!-- Travaux -->
