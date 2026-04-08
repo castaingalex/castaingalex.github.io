@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(agent-browser install:*)",
+      "Bash(agent-browser open:*)",
+      "Bash(agent-browser wait:*)",
+      "Bash(agent-browser set:*)",
+      "Bash(agent-browser screenshot:*)",
+      "Bash(python3:*)",
+      "Bash(rm /Users/alexandrecastaing/git/castaingalex.github.io/carty-screenshot.png)",
+      "Bash(agent-browser close:*)"
+    ]
+  }
+}
