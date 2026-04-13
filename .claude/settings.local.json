@@ -9,7 +9,16 @@
       "Bash(agent-browser screenshot:*)",
       "Bash(python3:*)",
       "Bash(rm /Users/alexandrecastaing/git/castaingalex.github.io/carty-screenshot.png)",
-      "Bash(agent-browser close:*)"
+      "Bash(agent-browser close:*)",
+      "Bash(/c/Users/acastaing/AppData/Local/Programs/Python/Python311/python:*)",
+      "WebFetch(domain:coban-atlantique.fr)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(awk NR==868{print length\\($0\\)}:*)",
+      "Bash(py --version)",
+      "Bash(where python:*)",
+      "Bash(py:*)"
     ]
   }
 }
