@@ -18,7 +18,8 @@
       "Bash(awk NR==868{print length\\($0\\)}:*)",
       "Bash(py --version)",
       "Bash(where python:*)",
-      "Bash(py:*)"
+      "Bash(py:*)",
+      "Bash(xargs -0 base64)"
     ]
   }
 }
