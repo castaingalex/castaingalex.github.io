@@ -2,6 +2,8 @@
 <html lang="fr" xml:lang="fr">
 <head>
   <meta charset="UTF-8"/>
+  <meta name="robots" content="noindex, nofollow"/>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alexandre CASTAING — Spécialiste de la donnée territoriale</title>
   <meta name="description" content="Portfolio numérique - Alexandre CASTAING — Spécialiste de la donnée territoriale"/>
@@ -739,7 +741,10 @@
   </form>
 </div>
 
-<!-- Header / Nav -->
+<div id="app"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  var _C = `<!-- Header / Nav -->
 <header class="site-header" role="banner">
   <div class="page">
     <div class="h-inner">
@@ -1145,14 +1150,35 @@
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <img id="lightbox-img" src="" alt="Vue agrandie"/>
   </div>
-</div>
+</div>`;
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function _show() {
+    document.getElementById('app').innerHTML = _C;
+    // Nav scroll
+    var hdr = document.querySelector('.site-header');
+    if (hdr) {
+      window.addEventListener('scroll', function() {
+        hdr.classList.toggle('scrolled', window.scrollY > 48);
+      }, { passive: true });
+    }
+    // Fade-in
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('on');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
+  }
+
   // Password protection
   (function() {
     var overlay = document.getElementById('pw-overlay');
     if (sessionStorage.getItem('auth') === '1') {
       overlay.style.display = 'none';
+      _show();
       return;
     }
     document.getElementById('pw-input').focus();
@@ -1168,22 +1194,16 @@
       overlay.addEventListener('transitionend', function() {
         overlay.style.display = 'none';
       }, { once: true });
+      _show();
     } else {
       var form = document.getElementById('pw-form');
       form.classList.remove('shake');
-      void form.offsetWidth; // reflow to restart animation
+      void form.offsetWidth;
       form.classList.add('shake');
       document.getElementById('pw-input').value = '';
     }
   }
 
-  // Nav: opacify on scroll
-  var hdr = document.querySelector('.site-header');
-  window.addEventListener('scroll', function() {
-    hdr.classList.toggle('scrolled', window.scrollY > 48);
-  }, { passive: true });
-
-  // Accordion toggle
   function toggle(row) {
     var detail = row.nextElementSibling;
     var isOpen = row.getAttribute('aria-expanded') === 'true';
@@ -1197,7 +1217,6 @@
     }
   }
 
-  // Tech detail toggle
   function toggleTech(btn) {
     var detail = btn.nextElementSibling;
     var isOpen = btn.classList.contains('open');
@@ -1206,20 +1225,6 @@
     detail.classList.toggle('open', !isOpen);
   }
 
-  // Fade-in with IntersectionObserver
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('on');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: .12 });
-  document.querySelectorAll('.fi').forEach(function(el) {
-    observer.observe(el);
-  });
-
-  // Lightbox
   function openLightbox(src) {
     var lb = document.getElementById('lightbox');
     document.getElementById('lightbox-img').src = src;
