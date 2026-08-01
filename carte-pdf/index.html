@@ -982,7 +982,11 @@ body.panneau-replie .panneau__pied { display: none; }
    toujours la même, seule la taille change, et un pictogramme ne peut pas la dire honnêtement (à
    l'échelle réelle, A4 ferait 7 px pour 20 px à A0). Les millimètres, eux, se lisent. Pour le sens,
    la vignette est parlante : c'est une forme, pas une taille. */
-.segments { display: flex; gap: 4px; }
+/* Le groupe Portrait/Paysage ne porte que deux boutons : aligné à gauche, il laissait
+   un vide à droite qui déséquilibrait le volet. Les formats, eux, sont une grille pleine
+   largeur et n'ont rien à centrer. */
+.segments { display: flex; gap: 4px; justify-content: center; }
+.segments--formats { justify-content: stretch; }
 .segments--formats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
 .segment {
   font: inherit; font-size: var(--t-petit); font-weight: 650; color: var(--texte-doux);
@@ -1195,7 +1199,7 @@ body.depot-actif #carte::after {
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
       <div class="identite">
         <h1>Générateur de cartes PDF</h1>
-        <p class="version">Version <span id="version">592cf10 · 31/07/2026 08:55</span></p>
+        <p class="version">Version <span id="version">6bf21c9 · 01/08/2026 08:45</span></p>
       </div>
       <button class="icone-bouton" id="replier" type="button" title="Réduire le panneau" aria-label="Réduire le panneau">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
@@ -1255,12 +1259,12 @@ body.depot-actif #carte::after {
             <select id="papier" hidden><option selected>A4</option><option>A3</option><option>A2</option><option>A1</option><option>A0</option></select>
           </div>
           <div class="champ">
-            <span class="etiquette">Sens</span>
+            <span class="etiquette">Orientation</span>
             <select id="orientation" hidden><option value="portrait">Portrait</option><option value="paysage" selected>Paysage</option></select>
           </div>
           <div class="champ">
             <label for="echelle">Échelle</label>
-            <input id="echelle" type="number" min="1" step="100" value="2000">
+            <input id="echelle" type="number" min="1" step="100" value="2500">
             <button class="lien-action" id="caler" type="button" disabled
                     title="Choisir la plus grande échelle normalisée qui fait tenir les couches">
               Caler sur les couches
@@ -1297,21 +1301,18 @@ body.depot-actif #carte::after {
             <select id="modele"></select>
           </div>
           <div class="champ">
-            <label for="carroyage">Coordonnées Lambert 93</label>
-            <select id="carroyage">
-              <option value="amorces" selected>Amorces sur les bords</option>
-              <option value="grille">Quadrillage complet</option>
-              <option value="aucun">Aucune</option>
-            </select>
-          </div>
-          <div class="champ">
-            <label for="secteurs">Secteurs (« le feu est en C4 »)</label>
+            <label for="secteurs">Quadrillage de repérage</label>
             <select id="secteurs">
               <option value="aucun" selected>Aucun</option>
-              <option value="lettres">Lettres et chiffres (A1, B2…)</option>
+              <option value="lettres">Cases A1, A2, A3…</option>
             </select>
-            <span class="aide aide--serree">Quadrillage de repérage à la voix, pour une
-              intervention. Indépendant des coordonnées.</span>
+            <span class="aide aide--serree">Découpe la carte en cases nommées, pour se repérer à la
+              voix : « c'est en A3 ».</span>
+          </div>
+          <div class="champ">
+            <label class="toggle"><input type="checkbox" id="voies"> Noms de voies sur le fond</label>
+            <span class="aide aide--serree">Utile sur la photo aérienne, qui ne dit rien d'elle-même.
+              Les noms viennent de la BD TOPO de l'IGN.</span>
           </div>
           <div class="champ">
             <label for="sources">Sources des données</label>
@@ -1804,15 +1805,29 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   const SECTEUR_CIBLE_MM = 42.0;
   const SECTEURS = ["aucun", "lettres"];
 
-  const OPACITE_ENCART = 0.88;
-  const OPACITE_CADRE = 0.96;   // le cadre de carroyage porte des chiffres : presque opaque
+  // L'habillage se pose à même la carte : plus d'encart blanc, plus de bandes de carroyage. Les
+  // textes sont blancs et cernés de sombre — voir habillage.py, qui explique pourquoi l'inverse
+  // (noir cerné de blanc) ne tient pas sur une ortho d'eau profonde.
+  // Le cerne se calcule sur la taille du texte (voir habillage.py) : fixe, il noie un libellé de
+  // 6 pt tout en restant juste sur un titre.
+  const HALO_RATIO = 0.16;
+  const HALO_MINI = 0.25;
+  const HALO_MAXI = 0.70;
+  const HALO_FORME = 0.9;    // mm — cerne d'un trait ou d'une forme
 
   // Séparations de secteurs, en mm — voir habillage.py, mêmes valeurs.
   const TRAIT_SECTEUR_BLANC = 0.5;
   const TRAIT_SECTEUR_NOIR = 0.22;
   const TIRET_SECTEUR = [1.8, 1.1];
-  const FILET_ENCART = 0.4;   // mm — voir habillage.py : sans filet, un encart se perd sur l'ortho
   const N_SEGMENTS_BARRE = 4;
+  const FILET_BANDEAU = 0.6;   // mm — la lisière entre le bandeau et la carte
+
+  // Ombre de pied : un dégradé sombre du bord bas vers le haut, sous les mentions. Voir
+  // habillage.py — un texte cerné ne tient pas sur du sable en plein soleil, et un cartouche mange
+  // la carte. jsPDF n'a pas de dégradé : on empile des bandes.
+  const OMBRE_PIED_H = 26.0;
+  const OMBRE_PIED_ALPHA = 0.58;
+  const N_BANDES_OMBRE = 24;
 
   // Désencombrement des étiquettes : on garde la première, on écarte celles qui chevauchent une
   // étiquette déjà posée. Aucun déplacement automatique — il éloignerait l'étiquette de son objet.
@@ -1830,8 +1845,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     osm: "Fond : © les contributeurs OpenStreetMap (ODbL)",
   };
 
-  const GRIS_TEXTE = [107, 114, 128];  // theme.GRIS_TEXTE #6b7280
   const NOIR = [0, 0, 0];
+  const ENCRE_HABILLAGE = [255, 255, 255];   // theme.BLANC — l'encre de l'habillage
+  const CERNE_HABILLAGE = [17, 21, 26];      // #11151A — son cerne
   const BLANC = [255, 255, 255];
 
   function dimsPapier(papier, orientation) {
@@ -1844,8 +1860,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
    * Fond perdu : la carte va d'un bord à l'autre et le reste se pose dessus. Voir geometrie.py.
    */
   function cadreCarte(papier, orientation, gabarit) {
+    // La feuille moins la bande du bandeau : il est opaque, il ne doit pas manger la carte. En
+    // jsPDF y descend, donc le cadre commence **sous** le bandeau. Jumeau de geometrie.cadre_carte.
     const [pw, ph] = dimsPapier(papier, orientation);
-    return { x0: 0, y0: 0, largeur: pw, hauteur: ph };
+    return { x0: 0, y0: gabarit.bandeau_h, largeur: pw, hauteur: ph - gabarit.bandeau_h };
   }
 
   /** Zone sûre : ce que l'imprimante ne rognera pas. Le texte n'en sort pas. */
@@ -1860,10 +1878,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   /** Zone des encarts : zone sûre moins les bandes du bandeau (haut) et du pied (bas). */
   function zoneHabillage(papier, orientation, gabarit) {
     const s = zoneSure(papier, orientation, gabarit);
-    return {
-      x0: s.x0, y0: s.y0 + gabarit.bandeau_h,          // y descend : le bandeau est en haut
-      largeur: s.largeur, hauteur: s.hauteur - gabarit.bandeau_h - gabarit.pied_h,
-    };
+    // Le bandeau n'est plus retranché : la carte s'arrête déjà sous lui. Seul le pied l'est, qui
+    // se pose bien sur la carte. `y0` descend jusqu'au bas du bandeau si la marge est plus courte.
+    const y0 = Math.max(s.y0, gabarit.bandeau_h);
+    return { x0: s.x0, y0, largeur: s.largeur, hauteur: s.y0 + s.hauteur - gabarit.pied_h - y0 };
   }
 
   /** Épaisseur du cadre de carroyage (mm) : lane des coordonnées + lane des secteurs. */
@@ -2005,46 +2023,95 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   function opacite(doc, a, fn) {
     doc.saveGraphicsState();
-    doc.setGState(new doc.GState({ opacity: a }));
-    fn();
-    doc.restoreGraphicsState();
+    try {
+      doc.setGState(new doc.GState({ opacity: a }));
+      fn();
+    } finally {
+      // `finally` : l'état doit être relâché même si le dessin lève. Sans lui, un `q` reste ouvert
+      // et **tout ce qui suit hérite de l'opacité** — un habillage à 2 % est invisible, et rien ne
+      // le signale.
+      doc.restoreGraphicsState();
+    }
   }
 
-  /** Fond blanc translucide + filet d'un encart posé sur la carte (équivalent de habillage._encart). */
-  function encart(doc, x, y, largeur, hauteur) {
-    opacite(doc, OPACITE_ENCART, () => {
-      doc.setFillColor(...BLANC);
-      doc.rect(x, y, largeur, hauteur, "F");
-    });
-    doc.setDrawColor(...GRIS_TEXTE);
-    doc.setLineWidth(FILET_ENCART / 2);   // jsPDF trace centré sur le tracé : demi-épaisseur
-    doc.rect(x, y, largeur, hauteur, "S");
+  /** Remet le contexte graphique à neuf : opacité pleine, trait plein, pas de tireté.
+   *
+   * Posé avant chaque élément d'habillage. Le PDF est une machine à états : il a suffi d'un `q`
+   * sans `Q` quelque part en amont (mesuré le 01/08/2026 : 30 contre 29) pour que la barre
+   * d'échelle, la flèche nord et les sources sortent à l'opacité d'une bande de dégradé — dessinées,
+   * comptées dans le fichier, et invisibles. Plutôt que de traquer l'état fautif, on rend chaque
+   * élément indifférent à ce qui précède.
+   */
+  function etatNeuf(doc) {
+    doc.setGState(new doc.GState({ opacity: 1 }));
+    doc.setLineDashPattern([], 0);
+  }
+
+  /** Texte blanc cerné de sombre — le jumeau de habillage.halo_texte().
+   *
+   * Deux passes, et l'ordre compte : le cerne d'abord, le blanc par-dessus. jsPDF sait tracer et
+   * remplir en une fois (`fillThenStroke`), mais le trait passerait alors **au-dessus** du
+   * remplissage et rongerait l'intérieur des glyphes — à 0,55 mm sur du 7 pt, il n'en resterait
+   * rien. matplotlib empile dans l'autre sens, d'où ces deux appels.
+   */
+  function epaisseurHalo(taillePt) {
+    return Math.min(Math.max(HALO_RATIO * taillePt * MM_PAR_POINT, HALO_MINI), HALO_MAXI);
+  }
+
+  function texteCerne(doc, texte, x, y, options) {
+    const opts = options || {};
+    doc.setDrawColor(...CERNE_HABILLAGE);
+    // La taille courante du document : inutile de la passer partout, jsPDF la connaît déjà.
+    doc.setLineWidth(epaisseurHalo(doc.getFontSize()));
+    doc.text(texte, x, y, Object.assign({}, opts, { renderingMode: "stroke" }));
+    doc.setTextColor(...ENCRE_HABILLAGE);
+    doc.text(texte, x, y, Object.assign({}, opts, { renderingMode: "fill" }));
+  }
+
+  /** Trait blanc cerné de sombre : même principe, pour une amorce ou un segment de mire. */
+  function traitCerne(doc, x1, y1, x2, y2) {
+    doc.setLineDashPattern([], 0);
+    doc.setDrawColor(...CERNE_HABILLAGE); doc.setLineWidth(HALO_FORME);
+    doc.line(x1, y1, x2, y2);
+    doc.setDrawColor(...ENCRE_HABILLAGE); doc.setLineWidth(HALO_FORME / 3);
+    doc.line(x1, y1, x2, y2);
   }
 
   // ============ Éléments d'habillage ============
 
   /** Bandeau haut : aplat du modèle, logo à gauche (image déjà chargée), titre + sous-titre. */
   function bandeau(doc, m, papier, orientation, titre, sousTitre, police, logoImg) {
+    // Pleine largeur et collé au bord haut : voir habillage.py. Un bandeau à `marge` du bord
+    // laissait courir un liseré de photo au-dessus et sur ses côtés — un rectangle posé sur une
+    // image. Seul son texte respecte la zone sûre, parce que c'est lui qu'une imprimante rogne.
     const [pw] = dimsPapier(papier, orientation);
-    const largeur = pw - 2 * m.marge;
     doc.setFillColor(...hexRGB(m.bandeau));
-    doc.rect(m.marge, m.marge, largeur, m.bandeau_h, "F");
+    doc.rect(0, 0, pw, m.bandeau_h, "F");
 
-    const retrait = 3.0;
-    let xTexte = m.marge + retrait;
+    const retrait = Math.max(m.marge, 4.0);
+    let xTexte = retrait;
     if (logoImg) {
       const hLogo = m.bandeau_h * 0.70;
       const wLogo = hLogo * (logoImg.width / logoImg.height);
-      doc.addImage(logoImg, "PNG", m.marge + retrait, m.marge + m.bandeau_h * 0.15, wLogo, hLogo);
-      xTexte = m.marge + retrait + wLogo + 4.0;
+      doc.addImage(logoImg, "PNG", retrait, m.bandeau_h * 0.15, wLogo, hLogo);
+      xTexte = retrait + wLogo + 4.0;
     }
-    const tailleTitre = m.bandeau_h / 22.0 * 17.0;
+    // Filet clair au pied du bandeau : y descend en jsPDF, il se pose donc à `bandeau_h` moins son
+    // épaisseur. Même mesure qu'en Python (FILET_BANDEAU).
+    const [rt, vt, bt] = hexRGB(m.texte);
+    opacite(doc, 0.30, () => {
+      doc.setFillColor(rt, vt, bt);
+      doc.rect(0, m.bandeau_h - FILET_BANDEAU, pw, FILET_BANDEAU, "F");
+    });
+    const tailleTitre = m.bandeau_h / 22.0 * 21.0;
     doc.setTextColor(...hexRGB(m.texte));
     doc.setFont(police, "bold"); doc.setFontSize(tailleTitre);
-    doc.text(titre || "", xTexte, m.marge + m.bandeau_h * 0.38, { baseline: "middle" });
+    // Sans sous-titre, le titre se centre sur la hauteur du bandeau au lieu de flotter au-dessus
+    // d'un vide (y descend en jsPDF, d'où 0,40 là où matplotlib écrit 0,60).
+    doc.text(titre || "", xTexte, m.bandeau_h * (sousTitre ? 0.38 : 0.5), { baseline: "middle" });
     if (sousTitre) {
-      doc.setFont(police, "normal"); doc.setFontSize(tailleTitre * 0.65);
-      doc.text(sousTitre, xTexte, m.marge + m.bandeau_h * 0.72, { baseline: "middle" });
+      doc.setFont(police, "normal"); doc.setFontSize(tailleTitre * 0.52);
+      opacite(doc, 0.70, () => doc.text(sousTitre, xTexte, m.bandeau_h * 0.74, { baseline: "middle" }));
     }
   }
 
@@ -2082,9 +2149,13 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     const intervalle = coordActif ? intervalleCarroyage(echelle) : 0;
     const [xs, ys] = coordActif ? lignesCarroyage(bbox, intervalle) : [[], []];
     if (mode === "grille") {
-      doc.setDrawColor(...GRIS_TEXTE); doc.setLineWidth(0.15);
-      xs.forEach((x) => { const mx = versX(x); if (mx >= gauche && mx <= droite) doc.line(mx, haut, mx, bas); });
-      ys.forEach((y) => { const my = versY(y); if (my >= haut && my <= bas) doc.line(gauche, my, droite, my); });
+      // Blanc translucide, comme l'encre de l'habillage : un quadrillage gris se perdait sur une
+      // ortho sombre et salissait un plan clair.
+      doc.setDrawColor(...ENCRE_HABILLAGE); doc.setLineWidth(0.15);
+      opacite(doc, 0.65, () => {
+        xs.forEach((x) => { const mx = versX(x); if (mx >= gauche && mx <= droite) doc.line(mx, haut, mx, bas); });
+        ys.forEach((y) => { const my = versY(y); if (my >= haut && my <= bas) doc.line(gauche, my, droite, my); });
+      });
     }
 
     // 2. Séparations de secteurs : trait blanc épais, tireté noir dessus. Un tireté seul se perd
@@ -2105,21 +2176,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       for (let j = 1; j < lignes; j++) trait(gauche, haut + j * pasY, droite, haut + j * pasY);
     }
 
-    // 3. Le cadre : quatre bandes entre la zone et la fenêtre, deux filets.
-    const bandes = [
-      [z.x0, z.y0, z.largeur, bande],                       // haut
-      [z.x0, bas, z.largeur, bande],                        // bas
-      [z.x0, haut, bande, fen.hauteur],                     // gauche
-      [droite, haut, bande, fen.hauteur],                   // droite
-    ];
-    doc.saveGraphicsState();
-    doc.setGState(new doc.GState({ opacity: OPACITE_CADRE }));
-    doc.setFillColor(...BLANC);
-    bandes.forEach(([x, y, l, h]) => doc.rect(x, y, l, h, "F"));
-    doc.restoreGraphicsState();
-    doc.setDrawColor(...GRIS_TEXTE); doc.setLineWidth(FILET_ENCART / 2);
-    doc.rect(fen.x0, fen.y0, fen.largeur, fen.hauteur, "S");
-    doc.rect(z.x0, z.y0, z.largeur, z.hauteur, "S");
+    // 3. Plus de cadre de bordure : les quatre bandes blanches et leurs filets ont été retirés le
+    // 2026-07-31 (voir habillage.py). Les libellés reviennent à même la carte, cernés. La réserve
+    // de place, elle, demeure — sans quoi la légende se poserait sur les coordonnées.
 
     // 4. Libellés de coordonnées, dans la lane extérieure. Un libellé qui ne tiendrait pas entier
     // est écarté plutôt que rogné : « 364 200 » coupé en « 4 200 » se lit comme une autre valeur.
@@ -2131,28 +2190,26 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       const cyBas = z.y0 + z.hauteur - mes.bande_coord / 2;
       const cxGauche = z.x0 + mes.bande_coord / 2;
       const cxDroite = z.x0 + z.largeur - mes.bande_coord / 2;
-      doc.setTextColor(...NOIR); doc.setFont(police, "normal"); doc.setFontSize(taille);
+      doc.setFont(police, "normal"); doc.setFontSize(taille);
       xs.forEach((x) => {
         const mx = versX(x), libelle = formatCoordonnee(x, intervalle);
         if (!tientDans(mx, libelle, taille, gauche, droite)) return;
-        doc.setDrawColor(...NOIR); doc.setLineWidth(0.3);
-        doc.line(mx, haut, mx, haut + amorce);
-        doc.line(mx, bas - amorce, mx, bas);
+        traitCerne(doc, mx, haut, mx, haut + amorce);
+        traitCerne(doc, mx, bas - amorce, mx, bas);
         [cyHaut, cyBas].forEach((cy) =>
-          doc.text(libelle, mx, cy + glyphe / 2, { align: "center" }));
+          texteCerne(doc, libelle, mx, cy + glyphe / 2, { align: "center" }));
       });
       ys.forEach((y) => {
         const my = versY(y), libelle = formatCoordonnee(y, intervalle);
         if (!tientDans(my, libelle, taille, haut, bas)) return;
-        doc.setDrawColor(...NOIR); doc.setLineWidth(0.3);
-        doc.line(gauche, my, gauche + amorce, my);
-        doc.line(droite - amorce, my, droite, my);
+        traitCerne(doc, gauche, my, gauche + amorce, my);
+        traitCerne(doc, droite - amorce, my, droite, my);
         // Texte tourné : jsPDF ancre en bas à droite du bloc et le fait courir vers le HAUT. On
         // ramène l'ancre d'une demi-largeur vers le bas pour le centrer sur sa ligne, et d'une
         // demi-hauteur de glyphe pour le centrer dans la lane.
         const demi = doc.getTextWidth(libelle) / 2;
         [cxGauche, cxDroite].forEach((cx) =>
-          doc.text(libelle, cx + glyphe / 2, my + demi, { angle: 90 }));
+          texteCerne(doc, libelle, cx + glyphe / 2, my + demi, { angle: 90 }));
       });
     }
 
@@ -2166,11 +2223,11 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       const cyBas = z.y0 + z.hauteur - dec - mes.bande_secteur / 2;
       const cxGauche = z.x0 + dec + mes.bande_secteur / 2;
       const cxDroite = z.x0 + z.largeur - dec - mes.bande_secteur / 2;
-      doc.setTextColor(...NOIR); doc.setFont(police, "bold"); doc.setFontSize(taille);
+      doc.setFont(police, "bold"); doc.setFontSize(taille);
       for (let i = 0; i < colonnes; i++) {
         const cx = gauche + (i + 0.5) * fen.largeur / colonnes;
         [cyHaut, cyBas].forEach((cy) =>
-          doc.text(libelleColonne(i), cx, cy + glyphe / 2, { align: "center" }));
+          texteCerne(doc, libelleColonne(i), cx, cy + glyphe / 2, { align: "center" }));
       }
       for (let j = 0; j < lignes; j++) {
         // Numérotation depuis le haut : en jsPDF, le haut est justement le petit y.
@@ -2178,7 +2235,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         const texte = String(j + 1);
         const demi = doc.getTextWidth(texte) / 2;
         [cxGauche, cxDroite].forEach((cx) =>
-          doc.text(texte, cx, cy + demi, { angle: 0, align: "center", baseline: "middle" }));
+          texteCerne(doc, texte, cx, cy + demi, { angle: 0, align: "center", baseline: "middle" }));
       }
       doc.setFont(police, "normal");
     }
@@ -2209,19 +2266,23 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     const bx = cadre.x0 + mes.retrait;
     const by = cadre.y0 + cadre.hauteur - mes.retrait - boiteH;   // y descend en jsPDF
 
-    encart(doc, bx, by, boiteL, boiteH);
+    // Le cerne porte la barre entière plutôt que chaque segment : posé segment par segment, il se
+    // serait glissé entre eux et aurait dilué l'alternance, qui fait toute la lisibilité.
+    doc.setDrawColor(...CERNE_HABILLAGE); doc.setLineWidth(HALO_FORME);
+    doc.rect(bx + margeLibelle, by + boiteH - 1.1 * f - mes.barre_hauteur, barreMM,
+      mes.barre_hauteur, "S");
     const xa = bx + margeLibelle;
     const yBarre = by + boiteH - 1.1 * f - mes.barre_hauteur;
     for (let i = 0; i < N_SEGMENTS_BARRE; i++) {
-      doc.setFillColor(...(i % 2 === 0 ? NOIR : BLANC));
-      doc.setDrawColor(...NOIR); doc.setLineWidth(0.2);
+      doc.setFillColor(...(i % 2 === 0 ? CERNE_HABILLAGE : ENCRE_HABILLAGE));
+      doc.setDrawColor(...CERNE_HABILLAGE); doc.setLineWidth(0.2);
       doc.rect(xa + i * barreMM / N_SEGMENTS_BARRE, yBarre, barreMM / N_SEGMENTS_BARRE,
         mes.barre_hauteur, "FD");
     }
-    doc.setTextColor(...NOIR); doc.setFont(police, "normal"); doc.setFontSize(mes.police_petite);
+    doc.setFont(police, "normal"); doc.setFontSize(mes.police_petite);
     const yTexte = yBarre - 0.6 * f;
-    doc.text("0", xa, yTexte, { align: "center" });
-    doc.text(formatDistance(longueurM), xa + barreMM, yTexte, { align: "center" });
+    texteCerne(doc, "0", xa, yTexte, { align: "center" });
+    texteCerne(doc, formatDistance(longueurM), xa + barreMM, yTexte, { align: "center" });
     return longueurM;
   }
 
@@ -2236,19 +2297,22 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     const bx = cadre.x0 + cadre.largeur - mes.retrait - boiteL;
     const by = cadre.y0 + mes.retrait;
 
-    encart(doc, bx, by, boiteL, boiteH);
     const cx = bx + boiteL / 2;
     const yBas = by + boiteH - hGrille - 1.4 * f;   // base de la flèche (au-dessus de « grille »)
     const yHaut = yBas - 2 * rayon;                 // pointe
-    doc.setFillColor(...NOIR);
+    // Flèche blanche cernée de sombre, comme les textes : « FD » remplit et trace en une passe,
+    // le trait débordant de moitié — sur une forme pleine, contrairement à un glyphe, il n'y a
+    // rien d'intérieur à ronger.
+    doc.setFillColor(...ENCRE_HABILLAGE);
+    doc.setDrawColor(...CERNE_HABILLAGE); doc.setLineWidth(HALO_FORME / 2);
     doc.lines([[-0.45 * rayon, 2 * rayon], [0.45 * rayon, -0.45 * rayon],
-               [0.45 * rayon, 0.45 * rayon]], cx, yHaut, [1, 1], "F", true);
-    doc.setTextColor(...NOIR); doc.setFont(police, "bold"); doc.setFontSize(mes.police_normale);
-    doc.text("N", cx, yHaut - 0.4 * f, { align: "center" });
-    doc.setTextColor(...GRIS_TEXTE); doc.setFont(police, "normal"); doc.setFontSize(tailleGrille);
+               [0.45 * rayon, 0.45 * rayon]], cx, yHaut, [1, 1], "FD", true);
+    doc.setFont(police, "bold"); doc.setFontSize(mes.police_normale);
+    texteCerne(doc, "N", cx, yHaut - 0.4 * f, { align: "center" });
+    doc.setFont(police, "normal"); doc.setFontSize(tailleGrille);
     // `baseline: "bottom"` et non la ligne de base par défaut : sinon la jambe du « g » descend
     // sous le bord de l'encart et le mot sort rogné. Équivaut au va="bottom" de matplotlib.
-    doc.text("grille", cx, by + boiteH, { align: "center", baseline: "bottom" });
+    texteCerne(doc, "grille", cx, by + boiteH, { align: "center", baseline: "bottom" });
   }
 
   /** Mire de contrôle de l'impression, en bas à droite. Retourne sa longueur nominale en mm. */
@@ -2260,14 +2324,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     const bx = cadre.x0 + cadre.largeur - mes.retrait - boiteL;
     const by = cadre.y0 + cadre.hauteur - mes.retrait - boiteH;
 
-    encart(doc, bx, by, boiteL, boiteH);
     const xa = bx + 3.0 * f, xb = xa + longueur, y = by + boiteH - 1.4 * f;
-    doc.setDrawColor(...NOIR); doc.setLineWidth(0.3);
-    doc.line(xa, y, xb, y);
-    for (const x of [xa, xb]) doc.line(x, y - 0.9 * f, x, y + 0.9 * f);
-    doc.setTextColor(...NOIR); doc.setFont(police, "normal"); doc.setFontSize(mes.police_petite);
+    traitCerne(doc, xa, y, xb, y);
+    for (const x of [xa, xb]) traitCerne(doc, x, y - 0.9 * f, x, y + 0.9 * f);
+    doc.setFont(police, "normal"); doc.setFontSize(mes.police_petite);
     // Libellé court : il doit tenir dans la boîte. La consigne complète est au pied de carte.
-    doc.text(longueur + " mm sur le papier", bx + boiteL / 2, y - 1.1 * f, { align: "center" });
+    texteCerne(doc, longueur + " mm sur le papier", bx + boiteL / 2, y - 1.1 * f, { align: "center" });
     return longueur;
   }
 
@@ -2279,14 +2341,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     const boiteL = 46 * f, boiteH = entrees.length * ligne + 2.4 * f;
     const bx = cadre.x0 + mes.retrait, by = cadre.y0 + mes.retrait;
 
-    encart(doc, bx, by, boiteL, boiteH);
     doc.setFont(police, "normal"); doc.setFontSize(mes.police_normale);
     entrees.forEach((e, i) => {
       const y = by + 1.2 * f + (i + 0.5) * ligne;
+      // La pastille est cernée elle aussi : sans cartouche, une couleur claire sur du sable ne se
+      // verrait plus.
       doc.setFillColor(...hexRGB(e.couleur));
-      doc.circle(bx + 3.0 * f, y, 1.3 * f, "F");
-      doc.setTextColor(30, 30, 30);
-      doc.text(String(e.nom), bx + 6.0 * f, y, { baseline: "middle" });
+      doc.setDrawColor(...CERNE_HABILLAGE); doc.setLineWidth(HALO_FORME / 3);
+      doc.circle(bx + 3.0 * f, y, 1.3 * f, "FD");
+      texteCerne(doc, String(e.nom), bx + 6.0 * f, y, { baseline: "middle" });
     });
   }
 
@@ -2299,25 +2362,38 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
                 version) {
     const [pw, ph] = dimsPapier(papier, orientation);
     const fy = ph - m.marge - m.pied_h;
-    encart(doc, m.marge, fy, pw - 2 * m.marge, m.pied_h);
-    doc.setTextColor(...GRIS_TEXTE); doc.setFont(police, "normal"); doc.setFontSize(7.5);
+    // L'ombre part du bord physique de la feuille : bornée à la zone sûre, on verrait sa limite
+    // basse et elle se trahirait comme un rectangle.
+    const [ro, vo, bo] = CERNE_HABILLAGE;
+    for (let i = 0; i < N_BANDES_OMBRE; i++) {
+      const h = OMBRE_PIED_H / N_BANDES_OMBRE;
+      const alpha = OMBRE_PIED_ALPHA * (1 - i / N_BANDES_OMBRE);
+      opacite(doc, alpha, () => {
+        doc.setFillColor(ro, vo, bo);
+        doc.rect(0, ph - (i + 1) * h, pw, h + 0.05, "F");   // y descend : on remonte depuis le bas
+      });
+    }
+    doc.setFont(police, "normal"); doc.setFontSize(7.2);
     const ech = "1:" + grouperMilliers(echelle);   // jamais toLocaleString : voir grouperMilliers
-    doc.text(mentionSources(fond, sourcesSaisies) +
+    texteCerne(doc, mentionSources(fond, sourcesSaisies) +
       "\nProjection : Lambert 93 (RGF93 / EPSG:2154) · Échelle " + ech + " · " + MENTION_IMPRESSION,
-      m.marge + 2, fy + 4.5);
+      m.marge, fy + 4.5);
     // La version de l'outil, discrète mais présente : un PDF doit dire lui-même quel build l'a
     // produit, sans qu'on ait à demander à celui qui l'a fait.
     const droite = (auteur || "") + "\n" + date + (version ? "   ·   v" + version : "");
-    doc.text(droite, pw - m.marge - 2, fy + 4.5, { align: "right" });
+    texteCerne(doc, droite, pw - m.marge, fy + 4.5, { align: "right" });
   }
 
   global.Habillage = {
     FORMATS_DIN, MESURES_BASE, CADRE_REFERENCE, FACTEUR_MIN, FACTEUR_MAX, MM_PAR_POINT,
-    OPACITE_ENCART, FILET_ENCART, N_SEGMENTS_BARRE, MENTION_IMPRESSION,
+    HALO_RATIO, HALO_MINI, HALO_MAXI, HALO_FORME, ENCRE_HABILLAGE, CERNE_HABILLAGE,
+    epaisseurHalo, etatNeuf,
+    N_SEGMENTS_BARRE, FILET_BANDEAU, OMBRE_PIED_H, OMBRE_PIED_ALPHA, N_BANDES_OMBRE,
+    MENTION_IMPRESSION,
     ATTRIBUTIONS,
     LARGEUR_CARACTERE, MARGE_ETIQUETTE,
     ECHELLES_NORMALISEES, MARGE_CALAGE, CARROYAGE_CIBLE_MM, CARROYAGES,
-    SECTEUR_CIBLE_MM, SECTEURS, OPACITE_CADRE,
+    SECTEUR_CIBLE_MM, SECTEURS,
     TRAIT_SECTEUR_BLANC, TRAIT_SECTEUR_NOIR, TIRET_SECTEUR,
     epaisseurBande, retrecir, grilleSecteurs, libelleColonne, tientDans,
     dimsPapier, cadreCarte, zoneSure, zoneHabillage, facteurHabillage, longueurMire,
@@ -2325,7 +2401,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     distanceRonde, formatDistance, hexRGB, mentionSources, grouperMilliers,
     echellePourEmprise, intervalleCarroyage, lignesCarroyage, formatCoordonnee,
     boiteEtiquette, desencombrer,
-    encart, bandeau, carroyage, barreEchelle, flecheNord, mireImpression, legende, pied,
+    texteCerne, traitCerne, bandeau, carroyage, barreEchelle, flecheNord, mireImpression, legende, pied,
   };
 })(typeof globalThis !== "undefined" ? globalThis : this);
 </script>
@@ -2779,6 +2855,120 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   };
 })(typeof globalThis !== "undefined" ? globalThis : this);
 </script>
+  <script>/* Noms de voies posés sur le fond — le jumeau de src/voies.py.
+ *
+ * Une ortho est muette : on y reconnaît des toitures, pas la rue où envoyer une équipe. L'IGN ne
+ * sert aucune couche raster d'étiquettes seules (le Plan IGN est opaque, `TRANSPORTNETWORKS.ROADS`
+ * rend une image vide à grande échelle, mesuré le 31/07/2026). On interroge donc le **WFS BD TOPO**
+ * et on dessine les noms en vecteur — ce qui vaut mieux : le texte reste net à tout format et suit
+ * sa voie.
+ *
+ * Ce module compose l'URL et interprète la réponse. Aucun DOM, aucun réseau, aucune dépendance :
+ * testable sous Node, comme habillage.js et recherche.js. Le `fetch` vit dans picker.js.
+ */
+
+(function (global) {
+  "use strict";
+
+  const WFS = "https://data.geopf.fr/wfs/ows";
+  const COUCHE = "BDTOPO_V3:troncon_de_route";
+
+  // Le nom de la BAN d'abord — « Avenue du Général de Gaulle » — puis le nom collaboratif, qui est
+  // abrégé (« AV DU GENERAL DE GAULLE »). Sur une carte lue dans l'urgence, l'abréviation coûte une
+  // hésitation ; mieux vaut l'abrégé que rien.
+  const CHAMPS_NOM = ["nom_voie_ban_gauche", "nom_voie_ban_droite",
+                      "nom_collaboratif_gauche", "nom_collaboratif_droite"];
+
+  const MAX_TRONCONS = 800;
+  const LONGUEUR_MINI_MM = 18.0;   // sous cette longueur de papier, le nom déborde de sa voie
+
+  function urlVoies(bbox, limite) {
+    const [xmin, ymin, xmax, ymax] = bbox;
+    const p = new URLSearchParams({
+      SERVICE: "WFS", VERSION: "2.0.0", REQUEST: "GetFeature",
+      TYPENAMES: COUCHE, SRSNAME: "EPSG:2154",
+      BBOX: `${xmin.toFixed(1)},${ymin.toFixed(1)},${xmax.toFixed(1)},${ymax.toFixed(1)},EPSG:2154`,
+      COUNT: String(limite || MAX_TRONCONS), OUTPUTFORMAT: "application/json",
+    });
+    return WFS + "?" + p.toString();
+  }
+
+  function nomDe(proprietes) {
+    const p = proprietes || {};
+    for (const champ of CHAMPS_NOM) {
+      const v = p[champ];
+      if (v && String(v).trim()) return String(v).trim();
+    }
+    return "";
+  }
+
+  function lignesDe(geometrie) {
+    const g = geometrie || {};
+    const co = g.coordinates || [];
+    if (g.type === "LineString") return [co.map((c) => [Number(c[0]), Number(c[1])])];
+    if (g.type === "MultiLineString") return co.map((l) => l.map((c) => [Number(c[0]), Number(c[1])]));
+    return [];
+  }
+
+  function longueur(points) {
+    let total = 0;
+    for (let i = 0; i < points.length - 1; i++) {
+      total += Math.hypot(points[i + 1][0] - points[i][0], points[i + 1][1] - points[i][1]);
+    }
+    return total;
+  }
+
+  /** (x, y, angle°) au milieu de la voie. L'angle est ramené dans [-90, 90] : un nom de rue se lit
+   *  de gauche à droite, quel que soit le sens de numérisation du tronçon. */
+  function ancrage(points) {
+    const cible = longueur(points) / 2;
+    let parcouru = 0;
+    for (let i = 0; i < points.length - 1; i++) {
+      const [x1, y1] = points[i], [x2, y2] = points[i + 1];
+      const segment = Math.hypot(x2 - x1, y2 - y1);
+      if (parcouru + segment >= cible && segment > 0) {
+        const t = (cible - parcouru) / segment;
+        let angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        if (angle > 90) angle -= 180;
+        else if (angle < -90) angle += 180;
+        return [x1 + t * (x2 - x1), y1 + t * (y2 - y1), angle];
+      }
+      parcouru += segment;
+    }
+    return [points[0][0], points[0][1], 0];
+  }
+
+  /** GeoJSON du WFS → voies nommées, **une par nom**, la plus longue l'emportant.
+   *
+   * La BD TOPO découpe une avenue en tronçons de quelques dizaines de mètres : les étiqueter toutes
+   * écrirait « Boulevard de la Plage » huit fois sur trois centimètres de papier.
+   */
+  function interpreter(reponse, echelle) {
+    const parNom = new Map();
+    const objets = (reponse && reponse.features) || [];
+    objets.forEach((objet) => {
+      const nom = nomDe(objet && objet.properties);
+      if (!nom) return;
+      lignesDe(objet && objet.geometry).forEach((points) => {
+        if (points.length < 2) return;
+        const connue = parNom.get(nom);
+        if (!connue || longueur(points) > longueur(connue.points)) parNom.set(nom, { nom, points });
+      });
+    });
+    const miniM = LONGUEUR_MINI_MM / 1000 * echelle;
+    return [...parNom.values()]
+      .filter((v) => longueur(v.points) >= miniM)
+      // Les plus longues d'abord : c'est l'ordre de priorité du désencombrement, et une avenue
+      // mérite son nom plus qu'une impasse.
+      .sort((a, b) => longueur(b.points) - longueur(a.points));
+  }
+
+  global.Voies = {
+    WFS, COUCHE, CHAMPS_NOM, MAX_TRONCONS, LONGUEUR_MINI_MM,
+    urlVoies, nomDe, lignesDe, longueur, ancrage, interpreter,
+  };
+})(typeof globalThis !== "undefined" ? globalThis : this);
+</script>
   <script>/* Générateur de cartes PDF — pilotage de l'interface. La charte vit dans les modèles, l'habillage
  * dans `habillage.js`.
  *
@@ -2794,9 +2984,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 (function () {
   "use strict";
 
-  const TEMPLATES = [{"id": "generique", "nom": "Générique (sans marque)", "bandeau": "#334155", "texte": "#ffffff", "logo": "", "marge": 6, "bandeau_h": 20, "pied_h": 14, "sources": "", "auteur": "", "palette": ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9", "#F0E442", "#000000", "#0072B2", "#E69F00"]}];
+  const TEMPLATES = [{"id": "generique", "nom": "Générique (sans marque)", "bandeau": "#171B21", "texte": "#ffffff", "logo": "", "marge": 6, "bandeau_h": 15, "pied_h": 10, "sources": "", "auteur": "", "palette": ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9", "#F0E442", "#000000", "#0072B2", "#E69F00"]}];
   const MODELE_DEFAUT = "generique";
-  const VERSION = "592cf10";
+  const VERSION = "6bf21c9";
   const H = window.Habillage;
 
   // Trace d'ouverture : si un moteur manque à l'appel, on le voit dans la console avant même
@@ -2811,6 +3001,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     "+ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
   const el = (id) => document.getElementById(id);
+
+  // Les coordonnées Lambert 93 ne sont plus proposées : sur une carte de terrain, une grille de
+  // chiffres à six positions parle à un géomaticien et à personne d'autre. Le moteur sait toujours
+  // les dessiner — le rendu Python garde l'option — mais l'outil ne les propose plus, et c'est le
+  // quadrillage de repérage (cases A1, A2…) qui tient ce rôle.
+  const CARROYAGE = "aucun";
   function modele() { return TEMPLATES.find((t) => t.id === el("modele").value) || TEMPLATES[0]; }
   function cadre() { return H.cadreCarte(el("papier").value, el("orientation").value, modele()); }
   function echelleCourante() { return Math.max(1, parseFloat(el("echelle").value) || 1000); }
@@ -2906,13 +3102,20 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   const WMTS = "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0" +
     "&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&LAYER=";
   const IGN = "© IGN — Géoplateforme";
+  // `maxNativeZoom` = dernier niveau que le service sert réellement ; `maxZoom` = jusqu'où la carte
+  // se laisse zoomer. Les distinguer est ce qui évite l'écran vide : au-delà du niveau natif,
+  // Leaflet ré-échantillonne la dernière dalle disponible — l'image devient floue, mais elle reste.
+  // Sans cette distinction, l'ortho était annoncée jusqu'à 21 alors qu'elle s'arrête à 19 (mesuré
+  // sur les capabilities du service, 31/07/2026) : deux crans de zoom rendaient une page blanche.
+  // Le Plan, lui, était bridé à 19 alors qu'il monte à 20 — un cran de détail perdu pour rien.
+  const ZOOM_MAX = 21;
   const fonds = {
     ortho: L.tileLayer(WMTS + "ORTHOIMAGERY.ORTHOPHOTOS&FORMAT=image/jpeg",
-      { maxZoom: 21, attribution: IGN }),
+      { maxZoom: ZOOM_MAX, maxNativeZoom: 19, attribution: IGN }),
     plan: L.tileLayer(WMTS + "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&FORMAT=image/png",
-      { maxZoom: 19, attribution: IGN }),
+      { maxZoom: ZOOM_MAX, maxNativeZoom: 20, attribution: IGN }),
     osm: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-      { maxZoom: 19, attribution: "© les contributeurs OpenStreetMap" }),
+      { maxZoom: ZOOM_MAX, maxNativeZoom: 19, attribution: "© les contributeurs OpenStreetMap" }),
   };
   const NOMS_FONDS = {
     "Photo aérienne": fonds.ortho,
@@ -3220,7 +3423,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   el("modele").addEventListener("change", prefixerDepuisModele);
   prefixerDepuisModele();
 
-  ["papier", "orientation", "echelle", "modele", "carroyage", "secteurs"].forEach(
+  ["papier", "orientation", "echelle", "modele", "secteurs"].forEach(
     (id) => el(id).addEventListener("input", rafraichir));
   map.on("move", rafraichir);
 
@@ -3630,6 +3833,51 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     }
   }
 
+  /** Noms de voies (WFS BD TOPO), posés le long de leur voie et désencombrés.
+   *
+   * **Noir cerné de blanc**, à la différence de l'habillage, qui est blanc cerné de sombre : une
+   * voie passe sur du bâti, du bitume ou du sable, jamais sur l'eau profonde — le seul fond qui
+   * mettait le noir en échec. C'est la convention des cartes de ville, et ça distingue au premier
+   * coup d'œil la donnée de l'habillage.
+   */
+  async function dessinerNomsDeVoies(doc, bbox, rect, mes, echelle) {
+    const reponse = await fetch(window.Voies.urlVoies(bbox));
+    if (!reponse.ok) throw new Error("WFS " + reponse.status);
+    const trouvees = window.Voies.interpreter(await reponse.json(), echelle);
+    const taille = mes.police_petite;
+    const candidats = [];
+    trouvees.forEach((voie) => {
+      const [x, y, angle] = window.Voies.ancrage(voie.points);
+      // Un nom dont l'ancre est trop près du bord sortirait de la feuille : on l'écarte plutôt que
+      // de le laisser rogné, comme les libellés de coordonnées.
+      const demi = voie.nom.length * taille * H.LARGEUR_CARACTERE * H.MM_PAR_POINT / 2;
+      const margeSol = demi / 1000 * echelle;
+      if (x < bbox[0] + margeSol || x > bbox[2] - margeSol) return;
+      const [mx, my] = xyMM(x, y, bbox, rect);
+      candidats.push({ mx, my, nom: voie.nom, angle });
+    });
+    // `desencombrer` attend des objets {x, y, texte} : lui passer des tableaux rendait des
+    // coordonnées `undefined`, donc des boîtes NaN — et 13 étiquettes écartées sur 14.
+    const gardees = H.desencombrer(
+      candidats.map((c) => ({ x: c.mx, y: c.my, texte: c.nom })), taille);
+    doc.setFont(police_voies(doc), "normal");
+    doc.setFontSize(taille);
+    doc.setLineWidth(H.epaisseurHalo(taille));
+    gardees.forEach((rang) => {
+      const c = candidats[rang];
+      // Deux passes, halo blanc puis encre noire : voir Habillage.texteCerne. Un `renderingMode`
+      // inconnu est ignoré sans rien dire, et le nom sort sans halo — invisible sur du bitume.
+      // jsPDF compte les angles dans l'autre sens que le monde réel (y descend) : d'où le signe.
+      const pose = { align: "center", baseline: "middle", angle: -c.angle };
+      doc.setDrawColor(255, 255, 255); doc.setTextColor(255, 255, 255);
+      doc.text(c.nom, c.mx, c.my, Object.assign({}, pose, { renderingMode: "stroke" }));
+      doc.setTextColor(20, 20, 20);
+      doc.text(c.nom, c.mx, c.my, Object.assign({}, pose, { renderingMode: "fill" }));
+    });
+    return { posees: gardees.length, ecartees: candidats.length - gardees.length };
+  }
+  function police_voies(doc) { return doc.getFont().fontName; }
+
   function dessinerCouches(doc, bbox, rect, mes) {
     // Étiquettes collectées d'abord, posées ensuite : le désencombrement a besoin de les voir
     // toutes pour écarter celles qui se chevauchent (même règle que habillage.py).
@@ -3733,12 +3981,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       const mes = H.mesuresHabillage(rect);
       // Le cadre de carroyage occupe le pourtour de la zone : les encarts vivent à l'intérieur,
       // sinon la légende se poserait sur les libellés de coordonnées et les masquerait.
-      const carro = el("carroyage").value, secteurs = el("secteurs").value;
+      const carro = CARROYAGE, secteurs = el("secteurs").value;
       const zoneEncarts = H.retrecir(zone, H.epaisseurBande(mes, carro, secteurs));
       const bbox = dernierBbox;
 
       statut("Téléchargement du fond IGN…", "travail");
-      let ecartees = 0, fondEchoue = "";
+      let ecartees = 0, fondEchoue = "", voiesEchouees = "";
       doc.saveGraphicsState();
       try {
         doc.rect(rect.x0, rect.y0, rect.largeur, rect.hauteur); doc.clip(); doc.discardPath();
@@ -3756,6 +4004,17 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
           console.error("fond de carte indisponible", e);
           doc.setFillColor(236, 236, 232);
           doc.rect(rect.x0, rect.y0, rect.largeur, rect.hauteur, "F");
+        }
+        if (el("voies").checked) {
+          try {
+            statut("Noms de voies…", "travail");
+            const bilan = await dessinerNomsDeVoies(doc, bbox, rect, mes, echelle);
+            console.info("noms de voies", bilan);
+          } catch (e) {
+            // Un service muet ne doit pas emporter la carte : elle sort sans les noms, et le dit.
+            voiesEchouees = e.message || "cause inconnue";
+            console.error("noms de voies indisponibles", e);
+          }
         }
         ecartees = dessinerCouches(doc, bbox, rect, mes);
       } finally {
@@ -3775,7 +4034,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       // sort, incomplet, sans rien dire.
       const rates = [];
       const poser = (nom, fn) => {
-        try { fn(); } catch (e) { rates.push(nom); console.error("habillage — " + nom, e); }
+        try {
+          H.etatNeuf(doc);   // aucun élément n'hérite de l'opacité ou du tireté du précédent
+          fn();
+        } catch (e) { rates.push(nom); console.error("habillage — " + nom, e); }
       };
       poser("repères de position", () =>
         H.carroyage(doc, rect, bbox, echelle, police, mes, carro, zone, secteurs));
@@ -3805,6 +4067,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       doc.save(nom + ".pdf");
       const soucis = [];
       if (fondEchoue) soucis.push("fond de carte indisponible (" + fondEchoue + ")");
+      if (voiesEchouees) soucis.push("noms de voies indisponibles (" + voiesEchouees + ")");
       if (rates.length) soucis.push(rates.join(", ") + " non dessiné(s)");
       if (soucis.length) {
         statut("PDF téléchargé, mais incomplet — " + soucis.join(" ; ") +
@@ -3843,7 +4106,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       `titre: ${q(el("titre").value)}\nsous_titre: ${q(el("sous_titre").value)}\n` +
       `sources: ${q(el("sources").value)}\nauteur: ${q(el("auteur").value)}\n` +
       `fond: ${fondCourant()}\n` +
-      `carroyage: ${el("carroyage").value}\nsecteurs: ${el("secteurs").value}\n`;
+      `carroyage: ${CARROYAGE}\nsecteurs: ${el("secteurs").value}\n` +
+      `voies: ${el("voies").checked}\n`;
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([yaml], { type: "text/yaml" }));
     a.download = "definition.yaml"; a.click(); URL.revokeObjectURL(a.href);
