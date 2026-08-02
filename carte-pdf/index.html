@@ -1215,7 +1215,7 @@ body.depot-actif #carte::after {
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
       <div class="identite">
         <h1>Générateur de cartes PDF</h1>
-        <p class="version">Version <span id="version">a92bd49 · 02/08/2026 13:04</span></p>
+        <p class="version">Version <span id="version">245a985 · 02/08/2026 18:54</span></p>
       </div>
       <button class="icone-bouton" id="replier" type="button" title="Réduire le panneau" aria-label="Réduire le panneau">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
@@ -3820,7 +3820,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   const TEMPLATES = [{"id": "generique", "nom": "Générique (sans marque)", "logo": "", "tuiles": "", "marge": 6, "titre_h": 15, "pied_h": 7, "sources": "", "auteur": "", "palette": ["#0072B2", "#E69F00", "#009E73", "#CC79A7", "#D55E00", "#56B4E9", "#F0E442", "#000000", "#0072B2", "#E69F00"]}];
   const MODELE_DEFAUT = "generique";
-  const VERSION = "a92bd49";
+  const VERSION = "245a985";
   const H = window.Habillage;
 
   // Trace d'ouverture : si un moteur manque à l'appel, on le voit dans la console avant même
@@ -3946,13 +3946,17 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   // Leaflet ré-échantillonne la dernière dalle disponible — l'image devient floue, mais elle reste.
   // Sans cette distinction, l'ortho était annoncée jusqu'à 21 alors qu'elle s'arrête à 19 (mesuré
   // sur les capabilities du service, 31/07/2026) : deux crans de zoom rendaient une page blanche.
-  // Le Plan, lui, était bridé à 19 alors qu'il monte à 20 — un cran de détail perdu pour rien.
+  // **Le Plan s'arrête à 19 lui aussi** — il avait été passé à 20 sur l'idée qu'un cran de détail
+  // s'y perdait pour rien, et c'était faux : mesuré le 02/08/2026, ses capabilities ne déclarent
+  // que les matrices 0 à 19, et une tuile z20 répond « 404 No data found » partout (Arès, Bordeaux,
+  // Paris). Aux deux derniers crans, le Plan sortait donc **blanc** pendant qu'ortho et OSM, eux
+  // correctement plafonnés, se contentaient de ré-échantillonner.
   const ZOOM_MAX = 21;
   const fonds = {
     ortho: L.tileLayer(WMTS + "ORTHOIMAGERY.ORTHOPHOTOS&FORMAT=image/jpeg",
       { maxZoom: ZOOM_MAX, maxNativeZoom: 19, attribution: IGN }),
     plan: L.tileLayer(WMTS + "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&FORMAT=image/png",
-      { maxZoom: ZOOM_MAX, maxNativeZoom: 20, attribution: IGN }),
+      { maxZoom: ZOOM_MAX, maxNativeZoom: 19, attribution: IGN }),
     // **La même source à l'écran qu'à l'impression** : ce qu'on regarde est ce qu'on tire, et les
     // tuiles déjà affichées sont dans le cache du navigateur au moment de l'export. Les serveurs
     // bénévoles d'OpenStreetMap ne sont plus interrogés du tout — voir mercator.js.
