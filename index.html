@@ -776,7 +776,7 @@
   <section id="travaux" aria-label="Travaux sélectionnés">
     <div class="s-head fi">
       <span class="s-label">Travaux sélectionnés</span>
-      <span class="s-count">05</span>
+      <span class="s-count">06</span>
     </div>
     <ul class="work-list">
 
@@ -1008,6 +1008,61 @@
         <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">05</span>
           <div>
+            <div class="work-title">Des cartes pour la gestion de crise, en quelques secondes</div>
+            <div class="work-ctx">COBAN · Incendies de Gironde, juillet 2026 · Outil support</div>
+            <div class="work-tags">Gestion de crise · Autonomie · Diffusion rapide</div>
+          </div>
+          <span class="work-year">2026</span>
+          <span class="work-arrow" aria-hidden="true">→</span>
+        </div>
+        <div class="work-detail">
+          <div class="work-detail-inner">
+            <p class="work-desc-lead">Dans une crise, tout le monde a besoin de cartes en même temps : les secours pour s'organiser, les élus pour informer, les services pour planifier. Chacun doit pouvoir disposer de la carte qu'il lui faut, simplement et rapidement.</p>
+            <p class="work-desc">Plutôt que de produire les cartes à la demande, j'ai fait le choix de distribuer l'outil qui les produit. Conçu en quelques heures et mis à disposition pendant l'épisode des incendies de Gironde de juillet 2026, il tient dans un lien : chaque acteur cadre son secteur, choisit son format et son fond de plan et obtient son plan en quelques secondes. Ni installation, ni compte, ni formation.</p>
+
+            <div class="work-metrics">
+              <div class="wm">
+                <span class="wm-n">0 €</span>
+                <span class="wm-l">licence, serveur<br/>ni abonnement</span>
+              </div>
+              <div class="wm">
+                <span class="wm-n">1 lien</span>
+                <span class="wm-l">partageable<br/>facilement</span>
+              </div>
+              <div class="wm">
+                <span class="wm-n">5 secondes</span>
+                <span class="wm-l">prise en main<br/>immédiate</span>
+              </div>
+            </div>
+
+            <ul class="work-highlights">
+              <li>Disponible pendant la crise, pas après : ni marché, ni prestataire, ni délai d'acquisition</li>
+              <li>Sortie PDF : s'imprime, s'annote, se transmet par mail comme par clé USB</li>
+              <li>Format, échelle et fond de plan choisis par l'utilisateur, la carte s'adapte au besoin</li>
+            </ul>
+
+            <button class="work-tech-toggle" onclick="toggleTech(this)" aria-expanded="false">
+              <span class="chevron">▸</span> Architecture technique
+            </button>
+            <div class="work-tech-detail">
+              <div class="tech-stack-label">Stack</div>
+              <p>Un seul fichier HTML, déposé sur un serveur web ordinaire. Fonds de carte servis par l'IGN, échelle garantie exacte à l'impression. Aucune donnée ne quitte le poste de l'utilisateur.</p>
+            </div>
+
+            <div class="work-video-section">
+              <div class="video-intro">Directement en ligne, sans installation ni compte</div>
+              <a href="https://castaing.dev/carte-pdf/" target="_blank" rel="noopener" class="video-card" aria-label="Tester le générateur de carte">
+                <span class="video-label">Tester le générateur de carte →</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item fi">
+        <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
+          <span class="work-num">06</span>
+          <div>
             <div class="work-title">SIG intercommunal : accompagner chaque commune, construire un référentiel commun</div>
             <div class="work-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</div>
             <div class="work-tags">Proximité · Accompagnement · intercommunalité</div>
@@ -1184,10 +1239,40 @@
     document.getElementById('pw-input').focus();
   })();
 
+  // Le mot de passe n'est plus dans la page — seulement son empreinte, dérivée par PBKDF2-SHA256
+  // avec 250 000 itérations et un sel fixe.
+  //
+  // Ce que ça change : on ne lit plus le mot de passe en clair dans le source, et une empreinte
+  // seule ne se retourne pas. Ce que ça ne change pas : la vérification reste **côté client**, donc
+  // toute la page est téléchargée avant d'être déverrouillée — qui sait lire un fichier peut en
+  // lire le contenu sans jamais taper le mot de passe. Et un mot du dictionnaire reste devinable
+  // en le soumettant à cette même fonction. C'est une porte, pas un coffre.
+  var PW_SEL = 'castaing.dev/portfolio\u00b72026';
+  var PW_ITER = 250000;
+  var PW_EMPREINTE = '6dc7c6b9e3c4154bff8b8b13b25567f14d5d737f75cb4265b780f179f31e3bfa';
+
+  function empreinte(mdp) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey('raw', enc.encode(mdp), 'PBKDF2', false, ['deriveBits'])
+      .then(function (cle) {
+        return crypto.subtle.deriveBits(
+          { name: 'PBKDF2', salt: enc.encode(PW_SEL), iterations: PW_ITER, hash: 'SHA-256' },
+          cle, 256);
+      })
+      .then(function (bits) {
+        return Array.from(new Uint8Array(bits))
+          .map(function (o) { return o.toString(16).padStart(2, '0'); }).join('');
+      });
+  }
+
   function checkPw(e) {
     e.preventDefault();
     var val = document.getElementById('pw-input').value;
-    if (val === 'territoire') {
+    empreinte(val).then(function (obtenue) { verdict(obtenue === PW_EMPREINTE); });
+  }
+
+  function verdict(bon) {
+    if (bon) {
       sessionStorage.setItem('auth', '1');
       var overlay = document.getElementById('pw-overlay');
       overlay.classList.add('fade-out');
