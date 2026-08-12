@@ -8,13 +8,23 @@
       name="description"
       content="Les comptes réalisés d'une collectivité et de ses communes membres, à partir des données publiées par l'Observatoire des finances et de la gestion publique locales."
     />
+    <!--
+      La démo est en accès libre, sans mot de passe, mais hors des moteurs de
+      recherche : on l'atteint par un lien qu'on a reçu, pas par une requête.
+      C'est la convention de castaing.dev, que portent déjà la page d'accueil et
+      la démo carte-pdf. La balise vit ici et non dans le fichier publié, qui est
+      régénéré par `npm run build` à chaque mise à jour et écraserait la
+      correction. Ne pas ajouter de `Disallow` dans un robots.txt : interdire
+      l'exploration empêcherait le robot de lire ce noindex.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/portrait-finances/assets/index-vGaMZy_Z.js"></script>
+    <script type="module" crossorigin src="/portrait-finances/assets/index-CDv9CyVE.js"></script>
     <link rel="stylesheet" crossorigin href="/portrait-finances/assets/index-CZlEvUtV.css">
   </head>
   <body>
