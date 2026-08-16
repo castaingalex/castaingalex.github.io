@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portrait économique du territoire</title>
+    <!--
+      L'outil est interne et affiche des donnees nominatives. La restriction
+      d'acces releve du serveur, pas de la page, mais ce noindex evite qu'un
+      deploiement mal configure se retrouve indexe. Ne pas ajouter de
+      `Disallow` dans un robots.txt : interdire l'exploration empecherait le
+      robot de lire ce noindex.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <!--
+      Montserrat est servie par l'application, depuis src/polices/, et non par
+      une fonderie tierce. Motif dans styles.css : un poste sur un reseau
+      interne coupe de l'exterieur perdait la charte, et l'appel transmettait
+      l'adresse IP de chaque lecteur a un tiers. Ne pas remettre de lien vers
+      un service de polices distant.
+    -->
+    <script type="module" crossorigin src="/portrait-eco/assets/index-EEe3QU_U.js"></script>
+    <link rel="stylesheet" crossorigin href="/portrait-eco/assets/index-BKMAnixU.css">
+  </head>
+  <body>
+    <div id="racine"></div>
+  </body>
+</html>
