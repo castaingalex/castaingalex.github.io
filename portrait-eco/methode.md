@@ -134,7 +134,7 @@ Population légale publiée par l'INSEE et servie par l'API Géo. Au niveau du g
 **Commerces en activité** (constate)  
 Établissements en activité dont l'activité principale relève d'une famille de commerce, au sens de config/familles.yml. Le détail donne ceux qui tiennent une vitrine sur rue, seuls concernés par la lecture de centre-ville. La nomenclature se lit code par code sur l'écran des définitions.
 
-**Solde des mouvements sur douze mois** (constate)  
+**Commerces créés moins commerces fermés, sur douze mois** (constate)  
 Créations moins fermetures de commerces sur les douze mois de la fenêtre, qui recule de deux crans par rapport au millésime du stock : un cran mécanique, un cran de retard de déclaration. Ce sont des inscriptions et des radiations au répertoire, jamais des ouvertures et des fermetures de boutique constatées sur le trottoir.
 
 **Salariés du secteur privé** (constate)  
