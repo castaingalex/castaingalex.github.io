@@ -22,6 +22,7 @@ Document genere par `pipeline/transform.py`. Ne pas modifier a la main.
 | `iris` | Contours... IRIS® | IGN, d'après le zonage de l'INSEE | Licence Ouverte 2.0 | oui |
 | `insee_population_iris` | Population en 2022, base infracommunale à l'IRIS | INSEE, recensement de la population | Licence Ouverte 2.0 | oui |
 | `insee_revenus_iris` | Revenus, pauvreté et niveau de vie en 2021, à l'IRIS | INSEE, dispositif Filosofi | Licence Ouverte 2.0 | oui |
+| `insee_recensement` | Série historique du recensement de la population | INSEE, recensement de la population | Licence Ouverte 2.0 | oui |
 | `openstreetmap` | OpenStreetMap, occupation du sol | Contributeurs OpenStreetMap | ODbL 1.0 | oui |
 | `bdtopo_zones_activite` | BD TOPO®, zones d'activité ou d'intérêt | IGN | Licence Ouverte 2.0 | oui |
 | `bourges_plus_parcs` | Parcs d'activités de l'agglomération de Bourges | CA Bourges Plus | non déclarée | oui |
@@ -260,14 +261,47 @@ reste 447 ventes, et c'est sur elles que porte la
 mediane affichee.
 
 Le fichier ne distingue pas une boutique de centre-ville d'un entrepot de zone
-d'activite : les deux sont un « local industriel, commercial ou assimile ». La
-presence de terrain vendu avec les murs separe assez bien les deux marches, et
-l'ecran affiche les deux medianes qui composent celle d'ensemble plutot que de
-les fondre en silence.
+d'activite : les deux sont un « local industriel, commercial ou assimile ».
+C'est LA TAILLE DU LOCAL qui les separe le mieux, et non la presence de
+terrain vendu avec les murs : mesure du 28/08/2026, un local de moins de
+50 m2 se vend 1 395 euros le metre carre et un local de plus de 1 000 m2 en
+vaut 209, soit un facteur 6,7, quand la decomposition par terrain ne rend que
+961 contre 627. L'ecran publie donc les six tranches de surface, et garde le
+filtre par terrain comme une lecture approximative de plus.
 
 Aucune mediane n'est publiee sous 10 ventes, a aucune
 maille. Une mediane sur trois ventes n'est pas une mediane, c'est la vente du
 milieu, et elle serait citee comme le prix de marche d'une commune.
+
+### Le marche du terrain a batir
+
+Deux colonnes de la meme source, la nature de culture de chaque parcelle
+vendue, ouvrent une lecture que l'outil n'avait pas : ce qui se vend en
+TERRAIN, et a quel rythme. Elles etaient publiees depuis le premier jour et
+n'etaient pas lues ; l'outil ne voyait que le bati commercial, et les
+2208 mutations du territoire qui ne portent aucun local etaient
+invisibles de bout en bout.
+
+La regle est celle du bati, transposee : la mutation ne doit porter QUE du
+terrain a batir, et aucun local. Sur ce territoire,
+627 mutations portent du terrain a batir ;
+70 portent aussi du bati,
+66 melangent une autre nature de culture et
+4 n'ont ni surface ni prix. Il reste
+487 ventes.
+
+La surface est comptee UNE FOIS PAR PARCELLE avant d'etre sommee : elle est
+repetee sur chaque ligne de l'acte qui mentionne la parcelle, et un tiers des
+couples mutation x parcelle du territoire portent plusieurs lignes. Un
+controle bloquant refait cette somme par un autre chemin.
+
+CE MARCHE MELE HABITAT ET ACTIVITE, et la source ne les distingue pas : elle
+ne porte aucun zonage. La surface mediane d'un terrain vendu ici est de
+741 metres carres, ce sont massivement des lots
+pavillonnaires. Le croisement avec le zonage du PLUi a ete mesure le
+28/08/2026 puis ecarte : 26 des 471 ventes situees tombent en zone economique,
+soit cinq par an, sous le seuil de publication a toute maille annuelle, et le
+document d'urbanisme qui les classe est posterieur aux ventes qu'il classerait.
 
 ## Comment se lit la detention des murs
 
@@ -317,6 +351,36 @@ Un taux de survie a n annees n'est publie que pour les generations dont tous
 les etablissements ont atteint leur n-ieme anniversaire avant la fin de la
 fenetre. Une generation plus jeune compterait comme survivants des
 etablissements qui n'ont pas encore eu l'age.
+
+## Comment se lit la population
+
+La serie vient du recensement de l'INSEE, aux neuf millesimes de
+1968 a 2023, publiee a la commune et au groupement.
+L'outil ne recompose rien : les deux mailles sortent du meme fichier, et un
+controle bloquant verifie qu'elles coincident a chaque millesime.
+
+LE DERNIER POINT VAUT EXACTEMENT LA POPULATION AFFICHEE PARTOUT AILLEURS,
+celle que l'API Geo publie en somme des communes membres. Deux sources, deux
+chemins independants, un seul nombre, et un controle bloquant refuse la
+preparation s'ils cessent de coincider : sans lui, l'ecran d'entree
+afficherait une population et sa courbe en afficherait une autre, juste en
+dessous.
+
+Aucun taux d'evolution annuel moyen n'est calcule. Les intervalles entre
+recensements vont de six a neuf ans, et un taux annualise sur des pas inegaux
+se compare mal d'une periode a l'autre : l'ecart au sommet est une
+soustraction, et le sommet est marque sur la courbe.
+
+Les valeurs sont DECIMALES a partir de 2007 : le recensement se fait par
+sondage depuis, et l'INSEE publie des estimations ponderees. L'arrondi se
+fait a l'affichage et jamais avant.
+
+La vacance publiee avec cette serie est celle du LOGEMENT et jamais celle du
+commerce. Aucune source nationale ne mesure la seconde, et l'outil n'en
+publie aucun taux : c'est le renoncement de la passe 7, et il tient. Le total
+du parc est celui que la source publie, jamais la somme de ses categories :
+recalculer un denominateur donnerait des parts qui somment a cent sur un total
+qui n'est pas celui affiche a cote.
 
 ## Comment se lisent les quartiers
 
@@ -372,7 +436,7 @@ commerces. Son rang suit son effectif decroissant et non l'ordre du calcul,
 pour qu'un lien envoye a un elu rouvre la meme rue d'une preparation a
 l'autre.
 
-Sur ce territoire : 47 polarites.
+Sur ce territoire : 46 polarites.
 
 Un commerce de lineaire situe tombe dans une situation et une seule, et leur
 somme egale le nombre de commerces situes. La zone d'activite prime sur la
@@ -584,7 +648,7 @@ chaque position est publiee dans le champ `position_source`.
 - [dates] 2 etablissements sont fermes avant d'avoir ete crees. Ils comptent dans les deux series, a leurs dates respectives.
 - [dates] 5613 etablissements fermes n'ont pas de date de creation. Ils sont hors de toute generation, donc hors des taux de survie.
 - [zones] 5 des 30 parcs recenses n'ont de perimetre dans aucune source : ['Route de Dun', 'Pôle Chancellerie', 'Pont de Bran', "Route d'Orléans", 'Aillis II']. Ils sont nommes a l'ecran, absents de la carte.
-- [zones] 4 contours portent plus de 5 etablissements a l'hectare : Comitec (29.3 pour 2.8 ha), Esprit 1 (14.0 pour 16.7 ha), L'aéroport (5.0 pour 18.7 ha), Lahitolle (5.2 pour 19.6 ha). A cette densite, le contour mesure un batiment et non un parc.
+- [zones] 4 contours portent plus de 5 etablissements a l'hectare : Comitec (29.3 pour 2.8 ha), Esprit 1 (14.0 pour 16.7 ha), L'aéroport (5.1 pour 18.7 ha), Lahitolle (5.3 pour 19.6 ha). A cette densite, le contour mesure un batiment et non un parc.
 - [zones] 2 contours mesurent moins de 3 hectares : Comitec (2.8 ha), Les landes (1.8 ha). Un parc amenage n'est pas si petit.
 - [zones] Les contours mesurent 732 hectares quand la collectivite en annonce 1200, soit 39% d'ecart. Aucune surface n'est publiee depuis le 16/08/2026 : ni la BD TOPO ni OpenStreetMap ne dessinent un perimetre d'amenagement.
 - [mutations] 8 ventes sortent a moins de 10 ou plus de 20 000 euros le metre carre. Elles sont conservees : la mediane y resiste, et retirer des lignes d'une source publiee sans regle ecrite serait un recalcul silencieux.
