@@ -784,17 +784,17 @@
         <div class="work-row" role="button" aria-expanded="false" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggle(this)">
           <span class="work-num">01</span>
           <div>
-            <div class="work-title">Tableau de bord de pilotage de la collecte des biodéchets</div>
+            <div class="work-title">Tri à la source des biodéchets : évaluer un déploiement en continu</div>
             <div class="work-ctx">COBAN · 6 communes · 141 points de collecte</div>
-            <div class="work-tags">Loi AGEC · Pipeline automatisé · Amélioration continue</div>
+            <div class="work-tags">Loi AGEC · Évaluation en continu · Arbitrage sur données</div>
           </div>
           <span class="work-year">2025</span>
           <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
-            <p class="work-desc-lead">Depuis janvier 2024, la loi AGEC impose le tri à la source des biodéchets. La COBAN a déployé des points d'apport volontaire sur 6 de ses communes. Le services déchets a besoin de données d'usage, de comparaison entre communes, d'identifier un PAV sous-utilisé ou un quartier mal couvert.</p>
-            <p class="work-desc">J'ai construit un pipeline de données qui récupère chaque nuit les dépôts depuis l'API du prestataire, les enrichit géographiquement et les restitue dans un tableau de bord décisionnel à 4 vues complémentaires. En commission, les élus voient désormais commune par commune la montée en charge du tri. Le service déchets compare l'intensité d'usage de chaque point de collecte rapportée au nombre de logements desservis et arbitre les relocalisations sur cette base.</p>
+            <p class="work-desc-lead">Depuis janvier 2024, la loi AGEC impose le tri à la source des biodéchets. La COBAN a déployé des points d'apport volontaire sur 6 de ses communes. Restait la question que l'obligation ne règle pas : ce maillage atteint-il les habitants qu'il vise, et faut-il l'étendre, le déplacer ou le laisser tel quel ? Le ressenti de terrain répondait point par point ; il ne répondait pas à l'échelle du dispositif.</p>
+            <p class="work-desc">J'ai construit un pipeline qui récupère chaque nuit les dépôts depuis l'API du prestataire, les enrichit géographiquement et les restitue en quatre vues complémentaires. Le cœur du dispositif n'est pas le comptage, c'est le critère : les dépôts hebdomadaires rapportés aux logements desservis, seule grandeur qui rende comparables un point de bourg et un point de lotissement. C'est lui qui permet de conclure plutôt que de constater : le maillage existant est validé, les points sous-utilisés sont relocalisés, les implantations à venir s'arbitrent sur la couverture mesurée. En commission, les élus suivent la montée en charge commune par commune.</p>
 
             <div class="work-metrics">
               <div class="wm">
@@ -812,9 +812,10 @@
             </div>
 
             <ul class="work-highlights">
-              <li>A permis la relocalisation de points de collecte sur la base de données objectivées, là où seul le ressenti terrain existait</li>
-              <li>Ratio dépôts/semaine/logement par PAV : l'indicateur qui transforme un comptage brut en outil de comparaison et de décision</li>
-              <li>Cartographie dynamique avec distinction PAV collectifs / PAV de quartier, consultable directement</li>
+              <li>Question posée avec le service déchets avant d'être outillée : le maillage est-il au bon endroit ? Le dispositif a été construit pour y répondre, pas pour afficher une activité</li>
+              <li>Dépôts par semaine et par logement desservi : le critère qui rend deux points de collecte comparables et fait passer d'un comptage à un jugement</li>
+              <li>Conclusion rendue et suivie d'effet : maillage existant validé, points sous-utilisés relocalisés, extensions arbitrées sur la couverture mesurée et non sur le ressenti</li>
+              <li>Ce que la mesure n'établit pas, et qui est dit avec elle : un usage n'est ni un tonnage détourné ni un geste de tri conforme, et la montée en charge depuis 2024 ne s'impute pas au seul maillage — l'obligation réglementaire y contribue. Cette limite borne ce que le dispositif autorise à conclure</li>
               <li>Pipeline autonome de bout en bout : aucune saisie, aucune dépendance à un prestataire pour exploiter ses propres données</li>
             </ul>
 
@@ -946,20 +947,20 @@
           <div>
             <div class="work-title">Observatoire du commerce et revitalisation du centre-ville</div>
             <div class="work-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</div>
-            <div class="work-tags">Pérennité · Prospective · Évaluation</div>
+            <div class="work-tags">Évaluation d'une politique publique · Mesure dans la durée · Restitution aux élus</div>
           </div>
           <span class="work-year">2006–2022</span>
           <span class="work-arrow" aria-hidden="true">→</span>
         </div>
         <div class="work-detail">
           <div class="work-detail-inner">
-            <p class="work-desc-lead">Un observatoire n'est pas un tableau de bord. C'est un dispositif qui installe une mesure dans la durée, structure un langage commun entre élus, services et partenaires, et rend visible ce qui sinon reste une intuition. C'est particulièrement vrai face à la désertification commerciale. Les élus la voient, les habitants la ressentent, mais sans mesure précise, impossible de prioriser une rue, de cibler une action, de convaincre un investisseur.</p>
-            <p class="work-desc">Chaque cellule commerciale du centre-ville de Beauvais inventoriée : activité, superficie, statut d'occupation, loyer. La donnée ne reste pas dans un rapport annuel : elle circule entre le manager de commerce, les porteurs de projets et les élus, elle sert à négocier, à décider, à attirer. Récompensé aux Défis Urbains 2019, le dispositif est devenu la colonne vertébrale de la stratégie de revitalisation. Cette maîtrise s'est exercée sur d'autres champs : habitat, développement économique, chacun traité avec ses propres enjeux et interlocuteurs.</p>
+            <p class="work-desc-lead">Un observatoire n'est pas un tableau de bord. C'est un dispositif qui installe une mesure dans la durée, structure un langage commun entre élus, services et partenaires, et rend visible ce qui sinon reste une intuition. Face à la désertification commerciale, la question des élus n'était pas de savoir combien de cellules étaient vides, mais où porter l'effort et si ce qui était engagé produisait quelque chose. Ils voyaient la vacance, les habitants la ressentaient : personne ne pouvait prioriser une rue, cibler une action, ni convaincre un investisseur.</p>
+            <p class="work-desc">Chaque cellule commerciale du centre-ville de Beauvais inventoriée : activité, superficie, statut d'occupation, loyer. Le taux de vacance cesse alors d'être un chiffre annuel pour devenir un critère de jugement : mesuré rue par rue et par type d'activité, il se compare d'une année sur l'autre et désigne les linéaires où l'effort public a un sens. La donnée ne reste pas dans un rapport : elle circule entre le manager de commerce, les porteurs de projets et les élus, elle sert à négocier, à décider, à attirer. Récompensé aux Défis Urbains 2019, le dispositif a été jugé hors de la collectivité qui l'a produit, et il est devenu la colonne vertébrale de la stratégie de revitalisation. La méthode a été reportée sur l'habitat et le développement économique, chacun avec ses propres enjeux et interlocuteurs.</p>
 
             <div class="work-metrics">
               <div class="wm">
                 <span class="wm-n">−3 pts</span>
-                <span class="wm-l">de vacance commerciale<br/>en 3 ans (12% → &lt;9%)</span>
+                <span class="wm-l">de vacance commerciale constatés<br/>sur 3 ans (12 % → &lt;9 %)</span>
               </div>
               <div class="wm">
                 <span class="wm-n">★ 2019</span>
@@ -972,7 +973,8 @@
             </div>
 
             <ul class="work-highlights">
-              <li>Taux de vacance commerciale mesuré en continu, par rue et par type d'activité, le manager de commerce et les porteurs de projets disposent enfin d'un outil de pilotage plutôt que d'une impression</li>
+              <li>Ce que la mesure établit, et ce qu'elle n'établit pas : sur la période, la vacance est passée de 12 % à moins de 9 %. L'observatoire n'en est pas la cause — la revitalisation est un faisceau d'actions publiques et de dynamiques de marché dont aucune mesure n'isole la part propre. Ce qu'il a permis, c'est de le savoir, de cibler où agir, et de le prouver à ceux qu'il fallait convaincre</li>
+              <li>Taux de vacance mesuré en continu, rue par rue et par type d'activité : un critère comparable d'une année sur l'autre, sur lequel le manager de commerce et les porteurs de projets arbitrent au lieu de s'en remettre à une impression</li>
               <li>Observatoire de l'habitat mobilisé comme base de négociation avec l'État et les bailleurs (PLH, ANAH, conventions), la donnée remplace le ressenti dans les arbitrages</li>
               <li>Observatoire économique intégré à la stratégie de promotion du territoire, comme au Salon de l'investissement Immobilier (SIMI), pour commercialiser les ZAE avec des arguments chiffrés</li>
             </ul>
