@@ -1,0 +1,13 @@
+# Dépôt de publication GitHub Pages : seul le build sert. Rien de local ici.
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code / opencode : artefacts locaux de session, pas du dépôt
+**/.claude/settings.local.json
+**/.claude/plans/
+.opencode/plans/
+
+# Worktrees opencode du mode parallèle (cf. dotfiles/docs/convention_repos.md)
+*-oc/
