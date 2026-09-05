@@ -1,26 +1,29 @@
-# AGENTS.md
+# AGENTS.md — castaingalex.github.io
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Site personnel publié par GitHub Pages sur **castaing.dev**. Pas de build, pas de dépendance : on
+édite, on pousse sur `main`, c'est en ligne.
 
-## Project Overview
+## La règle qui prime : tout est public
 
-This is a personal portfolio website for Alexandre CASTAING, deployed via GitHub Pages. It is a **single static HTML file** — no build system, no dependencies, no package manager.
+Ce dépôt est le seul du poste dont le contenu est **publié sur Internet**. Avant toute écriture :
+aucune donnée nominative, aucun identifiant, aucun chemin machine, aucun extrait de base, aucun nom
+d'agent ou de service interne. Le doute vaut refus.
 
-The live site is at: `https://castaingalex.github.io`
+## Où écrire, et où ne pas
 
-## Development
+- **`index.html`** est le portfolio. Un seul fichier de 2 Mo, CSS dans un `<style>`, une quinzaine
+  de lignes de JS en bas pour l'accordéon des travaux (`aria-expanded`). Polices Google Fonts
+  (`Bricolage Grotesque`, `DM Mono`). Contenu en français. Points de rupture à 680 px et 480 px.
+- **`carte-pdf/`, `portrait-eco/`, `portrait-finances/`** sont des **démos déposées**, pas du code
+  source. Ne jamais y corriger quoi que ce soit : la source vit dans `coban_products`
+  (`app_portrait_eco`, `app_retro_financiere`) et `coban_processing` (`tool_carte_pdf`). On corrige
+  là-bas, puis on redépose ici.
 
-**Edit directly:** All code lives in `index.html`. Open it in a browser to preview changes.
+Seule `carte-pdf` est liée depuis la page d'accueil. Les deux autres sont publiées et atteignables
+par URL directe, sans être exposées : ne pas ajouter de lien vers elles sans demande explicite.
 
-**No build step required.** Deploy by pushing to the `main` branch on GitHub — GitHub Pages serves the file automatically.
+## Registre
 
-## Architecture
-
-Everything is in `index.html`:
-
-- **CSS** — embedded in a `<style>` block. Uses CSS custom properties for theming (colors: `--bg`, `--ink`, `--accent`, etc.). Layout uses flexbox and CSS Grid. Responsive breakpoints at 680px and 480px.
-- **Fonts** — loaded from Google Fonts: `Bricolage Grotesque` (display) and `DM Mono` (monospace metadata/labels).
-- **JavaScript** — ~16 lines at the bottom. A single `toggle()` function drives accordion expand/collapse on work items using `aria-expanded`.
-- **Content language** — French.
-
-**Page sections** (in order): header nav → hero → Travaux (work/projects) → Parcours (career timeline) → Contact → footer.
+Français, pas de tiret cadratin en incise. C'est un écrit adressé à des lecteurs extérieurs, dont
+des recruteurs : la doctrine de travail (`~/.claude/CLAUDE.md`) s'applique au mot près, en
+particulier l'interdiction de la posture haute.
