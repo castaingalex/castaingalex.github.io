@@ -9,5 +9,6 @@ Thumbs.db
 **/.claude/plans/
 .opencode/plans/
 
-# Worktrees opencode du mode parallèle (cf. dotfiles/docs/convention_repos.md)
+# Worktrees opencode et Codex du mode parallèle (cf. dotfiles/docs/convention_repos.md)
 *-oc/
+*-cx/
