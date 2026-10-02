@@ -271,7 +271,7 @@
     .sw-now { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--accent-soft); }
     .map-src { margin-top: 8px; font-family: var(--m); font-size: .68rem; color: var(--ink-3); }
 
-    /* Code couleur des compétences du CV, en badges dans les cartes de travaux */
+    /* Code couleur des compétences du CV, en badges dans les cartes de réalisations */
     [data-c="a"] { --c: #2F6DB3; --c-ink: #24568E; --c-tint: #E3ECF7; }
     [data-c="b"] { --c: #C27019; --c-ink: #8E5110; --c-tint: #F7EAD9; }
     [data-c="c"] { --c: #2E8A5F; --c-ink: #226B49; --c-tint: #DDF0E6; }
@@ -353,7 +353,7 @@
 
     .labo-src { margin-top: .75rem; font-family: var(--m); font-size: .66rem; line-height: 1.5; color: var(--ink-3); }
 
-    /* Compétences → projets : diagramme de flux, rubans façon Sankey */
+    /* Compétences → réalisations : diagramme de flux, rubans façon Sankey */
     .flux-zone { margin-top: clamp(28px, 3.5vw, 44px); }
     .flux { position: relative; display: grid; grid-template-columns: minmax(220px, 300px) minmax(110px, 1fr) minmax(330px, 470px);
             padding: 1.6rem 1.8rem; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow-1); }
@@ -398,7 +398,7 @@
     .flux.focus .flux-p.on { border-color: var(--line-2); box-shadow: var(--shadow-2); }
 
 
-    /* Badges de compétences dans les cartes de travaux */
+    /* Badges de compétences dans les cartes de réalisations */
     .comp-badge { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .6rem; border-radius: 999px;
                   background: var(--c-tint); color: var(--c-ink); font-family: var(--f); font-size: .78rem; font-weight: 620; }
     .comp-badge::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--c); }
@@ -421,7 +421,7 @@
                letter-spacing: -.045em; }
     .s-count { font-family: var(--m); font-size: .85rem; color: var(--ink-3); padding-bottom: .4rem; }
 
-    /* ── Travaux ── */
+    /* ── Réalisations ── */
     .cases { display: grid; gap: clamp(18px, 2.4vw, 28px); margin-top: clamp(24px, 3vw, 40px); }
     .case {
       display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(22px, 3.6vw, 52px);
@@ -753,7 +753,7 @@
         <a class="brand" href="#top" aria-label="Haut de page"><span class="mono" aria-hidden="true">AC</span><span class="brand-name">Alexandre CASTAING</span></a>
         <nav aria-label="Navigation principale">
           <ul class="nav-links">
-            <li><a href="#travaux">Travaux</a></li>
+            <li><a href="#realisations">Réalisations</a></li>
             <li><a href="#parcours">Parcours</a></li>
             <li class="opt"><a href="#principes">Principes</a></li>
             <li><a class="nav-cta" href="#contact">Contact</a></li>
@@ -778,7 +778,7 @@
           <p class="hero-lead rv" style="--d:3">La maîtrise des politiques publiques est de moins en moins dissociable de <mark class="hl">la maîtrise de leurs données.</mark></p>
           <p class="hero-body rv" style="--d:4">Structurer cette donnée, la fiabiliser, en faire un levier de pilotage ; non pas tout mettre en données, mais cibler les politiques que cette orchestration peut bonifier.</p>
           <div class="hero-cta rv" style="--d:5">
-            <a class="btn btn-primary" href="#travaux">Voir les travaux <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-primary" href="#realisations">Voir les réalisations <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn-ghost" href="assets/cv-alexandre-castaing.pdf" download="CV_Alexandre_CASTAING.pdf">Télécharger le CV <svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span class="sr-only">(PDF)</span></a>
             <a class="btn btn-ghost btn-round" href="https://www.linkedin.com/in/alxcst" target="_blank" rel="noopener" aria-label="LinkedIn (nouvel onglet)"><svg class="i" aria-hidden="true"><use href="#i-in"/></svg></a>
           </div>
@@ -814,32 +814,32 @@
         <div class="flux rv" id="flux">
           <div class="flux-col flux-comp" role="group" aria-label="Compétences">
             <p class="flux-k">Compétences</p>
-            <button type="button" class="flux-c" data-c="a" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Gouvernance de la donnée</span><span class="flux-c-n">3 projets</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
-            <button type="button" class="flux-c" data-c="b" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Évaluation des politiques publiques</span><span class="flux-c-n">3 projets</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
-            <button type="button" class="flux-c" data-c="c" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Ingénierie et automatisation</span><span class="flux-c-n">4 projets</span></span><span class="flux-c-barre" style="--n:4" aria-hidden="true"></span></button>
-            <button type="button" class="flux-c" data-c="d" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Conduite de projet</span><span class="flux-c-n">2 projets</span></span><span class="flux-c-barre" style="--n:2" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="a" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Gouvernance de la donnée</span><span class="flux-c-n">3 réalisations</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="b" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Évaluation des politiques publiques</span><span class="flux-c-n">3 réalisations</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="c" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Ingénierie et automatisation</span><span class="flux-c-n">4 réalisations</span></span><span class="flux-c-barre" style="--n:4" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="d" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Conduite de projet</span><span class="flux-c-n">2 réalisations</span></span><span class="flux-c-barre" style="--n:2" aria-hidden="true"></span></button>
           </div>
           <svg class="flux-svg" id="flux-svg" aria-hidden="true"></svg>
           <div class="flux-col flux-proj">
-            <p class="flux-k">Projets</p>
-            <a class="flux-p" href="#travail-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t"><b>04</b>Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
-            <a class="flux-p" href="#travail-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t"><b>03</b>Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#travail-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>01</b>Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#travail-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>02</b>Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#travail-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>06</b>SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
-            <a class="flux-p" href="#travail-05" data-c="c d"><span class="flux-vis"><img src="assets/img/pile-cartes-pdf.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>05</b>Cartes de crise</span><span class="flux-r">Une carte PDF en <b>5 secondes</b></span><span class="flux-dots" aria-hidden="true"><i data-c="c"></i><i data-c="d"></i></span></span></a>
+            <p class="flux-k">Réalisations</p>
+            <a class="flux-p" href="#realisation-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t"><b>04</b>Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
+            <a class="flux-p" href="#realisation-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t"><b>03</b>Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>01</b>Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>02</b>Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>06</b>SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
+            <a class="flux-p" href="#realisation-05" data-c="c d"><span class="flux-vis"><img src="assets/img/pile-cartes-pdf.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>05</b>Cartes de crise</span><span class="flux-r">Une carte PDF en <b>5 secondes</b></span><span class="flux-dots" aria-hidden="true"><i data-c="c"></i><i data-c="d"></i></span></span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Travaux -->
-    <section class="section" id="travaux" aria-labelledby="travaux-titre">
+    <!-- Réalisations -->
+    <section class="section" id="realisations" aria-labelledby="realisations-titre">
       <div class="wrap">
         <div class="s-head rv">
           <div>
-            <p class="eyebrow">Travaux</p>
-            <h2 class="s-title" id="travaux-titre">Travaux sélectionnés</h2>
+            <p class="eyebrow">Réalisations</p>
+            <h2 class="s-title" id="realisations-titre">Réalisations sélectionnées</h2>
           </div>
           <span class="s-count">06</span>
         </div>
@@ -847,7 +847,7 @@
         <div class="cases">
 
           <!-- 01 -->
-          <article class="case rv" id="travail-01" aria-labelledby="t01">
+          <article class="case rv" id="realisation-01" aria-labelledby="t01">
             <div class="case-media">
               <button class="frame" type="button" data-zoom="assets/img/biodechets-tableau-de-bord.webp">
                 <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Interface</span></span>
@@ -860,7 +860,7 @@
               <div class="case-top"><span class="case-num">01</span><span class="case-year">2025</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t01">Tri à la source des biodéchets : évaluer un déploiement en continu</h3>
               <p class="case-ctx">COBAN · 6 communes · 141 points de collecte</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-01-contexte" aria-controls="pan-01-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-01-demarche" aria-controls="pan-01-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-01-bilan" aria-controls="pan-01-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -894,7 +894,7 @@
           </article>
 
           <!-- 02 -->
-          <article class="case rv" id="travail-02" aria-labelledby="t02">
+          <article class="case rv" id="realisation-02" aria-labelledby="t02">
             <div class="case-media">
               <button class="frame" type="button" data-zoom="assets/img/flux-budgetaires-bp2026.webp">
                 <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Visualisation</span></span>
@@ -907,7 +907,7 @@
               <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t02">Visualisation des flux budgétaires — BP 2026</h3>
               <p class="case-ctx">COBAN · 6 budgets consolidés</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-02-contexte" aria-controls="pan-02-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-02-demarche" aria-controls="pan-02-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-02-bilan" aria-controls="pan-02-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -939,7 +939,7 @@
           </article>
 
           <!-- 03 -->
-          <article class="case rv" id="travail-03" aria-labelledby="t03">
+          <article class="case rv" id="realisation-03" aria-labelledby="t03">
             <div class="case-media">
               <a class="cover cover-chat topo" href="https://youtu.be/czXq-mP2ezI" target="_blank" rel="noopener">
                 <span class="chat" aria-hidden="true">
@@ -961,7 +961,7 @@
               <div class="case-top"><span class="case-num">03</span><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t03">Assistant IA souverain pour l'accueil des usagers</h3>
               <p class="case-ctx">COBAN · 100 % hébergé en interne · Open source intégral</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-03-contexte" aria-controls="pan-03-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-03-demarche" aria-controls="pan-03-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-03-bilan" aria-controls="pan-03-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -993,7 +993,7 @@
           </article>
 
           <!-- 04 -->
-          <article class="case rv" id="travail-04" aria-labelledby="t04">
+          <article class="case rv" id="realisation-04" aria-labelledby="t04">
             <div class="case-media">
               <a class="cover cover-award topo" href="https://www.youtube.com/watch?v=_VXge_3WwfA" target="_blank" rel="noopener">
                 <svg class="laurel" viewBox="0 0 200 200" aria-hidden="true">
@@ -1027,7 +1027,7 @@
               <div class="case-top"><span class="case-num">04</span><span class="case-year">2006–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="b">Évaluation</span></div>
               <h3 class="case-title" id="t04">Observatoire du commerce et revitalisation du centre-ville</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-04-contexte" aria-controls="pan-04-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-04-demarche" aria-controls="pan-04-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-04-bilan" aria-controls="pan-04-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -1071,7 +1071,7 @@
           </article>
 
           <!-- 05 -->
-          <article class="case rv" id="travail-05" aria-labelledby="t05">
+          <article class="case rv" id="realisation-05" aria-labelledby="t05">
             <div class="case-media">
               <button class="frame" type="button" data-zoom="assets/img/generateur-cartes-pdf.webp">
                 <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>castaing.dev/carte-pdf</span></span>
@@ -1088,7 +1088,7 @@
               <div class="case-top"><span class="case-num">05</span><span class="case-year">2026</span><span class="comp-badge" data-c="c">Ingénierie</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t05">Des cartes pour la gestion de crise, en quelques secondes</h3>
               <p class="case-ctx">COBAN · Incendies de Gironde, juillet 2026 · Outil support</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-05-contexte" aria-controls="pan-05-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-05-demarche" aria-controls="pan-05-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-05-bilan" aria-controls="pan-05-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -1120,7 +1120,7 @@
           </article>
 
           <!-- 06 -->
-          <article class="case rv" id="travail-06" aria-labelledby="t06">
+          <article class="case rv" id="realisation-06" aria-labelledby="t06">
             <div class="case-media">
               <button class="frame" type="button" data-zoom="assets/img/carty-beauvaisis.webp">
                 <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Portail</span></span>
@@ -1133,7 +1133,7 @@
               <div class="case-top"><span class="case-num">06</span><span class="case-year">2002–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t06">SIG intercommunal : accompagner chaque commune, construire un référentiel commun</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
-              <div class="tabs" role="tablist" aria-label="Fiche projet">
+              <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-06-contexte" aria-controls="pan-06-contexte" aria-selected="true">Contexte</button>
                 <button class="tab" type="button" role="tab" id="tab-06-demarche" aria-controls="pan-06-demarche" aria-selected="false" tabindex="-1">Démarche</button>
                 <button class="tab" type="button" role="tab" id="tab-06-bilan" aria-controls="pan-06-bilan" aria-selected="false" tabindex="-1">Bilan</button>
@@ -1243,7 +1243,7 @@
           </figure>
         </div>
         <div class="outils rv">
-          <p class="outils-k">Outils mobilisés dans ces travaux</p>
+          <p class="outils-k">Outils mobilisés dans ces réalisations</p>
           <ul class="chips">
           <li class="chip">PostgreSQL / PostGIS</li>
           <li class="chip">Oracle Spatial</li>
@@ -1398,7 +1398,7 @@
 
   // Lien direct : castaing.dev/#<mot de passe> ouvre le portfolio sans saisie (lien envoyé par mail).
   // Le fragment après # n'est jamais envoyé au serveur, et il est retiré de la barre d'adresse
-  // dès qu'il a été lu. Un fragment qui désigne une section (#travaux, #contact…) est laissé tel quel.
+  // dès qu'il a été lu. Un fragment qui désigne une section (#realisations, #contact…) est laissé tel quel.
   (function () {
     var fragment = '';
     try { fragment = decodeURIComponent(location.hash.slice(1)); } catch (e) { /* fragment mal encodé */ }
@@ -1431,7 +1431,7 @@
         if (a) a.classList.toggle('active', en.isIntersecting);
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    ['travaux', 'parcours', 'principes', 'contact'].forEach(function (id) { espion.observe(document.getElementById(id)); });
+    ['realisations', 'parcours', 'principes', 'contact'].forEach(function (id) { espion.observe(document.getElementById(id)); });
 
     // Apparition au défilement
     var apparition = new IntersectionObserver(function (entrees) {
