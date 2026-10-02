@@ -547,6 +547,8 @@
     .outil strong { font-size: 1.05rem; font-weight: 660; line-height: 1.2; color: var(--ink); }
     .outil small { font-size: .85rem; line-height: 1.45; color: var(--ink-2); }
     .outil-cta { display: inline-flex; align-items: center; gap: .35rem; margin-top: .15rem; font-size: .88rem; font-weight: 620; color: var(--accent); }
+    .relais { margin-block: -2px; font-family: var(--m); font-size: .72rem; line-height: 1.5; color: var(--ink-3); text-align: center; }
+    .relais::before { content: "↓"; margin-right: .5rem; font-size: 1rem; color: var(--accent); }
     @media (max-width: 480px) { .outil { grid-template-columns: 1fr; } }
     .links { display: grid; gap: .5rem; }
     .link-row {
@@ -909,23 +911,24 @@
           <!-- 02 -->
           <article class="case rv" id="realisation-02" aria-labelledby="t02">
             <div class="case-media">
-              <button class="frame" type="button" data-zoom="assets/img/flux-budgetaires-bp2026.webp">
-                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="outil-k">Outil 1 · Budget voté 2026 : où va l'argent</span></span>
-                <img src="assets/img/flux-budgetaires-bp2026.webp" width="2000" height="1382" loading="lazy" decoding="async"
-                     alt="Diagramme de Sankey du budget primitif 2026 : recettes, budgets et charges sur les six périmètres"/>
-                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
-              </button>
               <a class="outil" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
                 <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
                      alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
                 <span class="outil-txt">
-                  <span class="outil-k">Outil 2 · Comptes 2018 → 2025 : d'où l'on part</span>
+                  <span class="outil-k">Étape 1 · Rétrospective 2018 → 2025</span>
                   <strong>Portrait des finances locales</strong>
-                  <small>Huit ans de comptes réalisés, comparés aux collectivités de même taille de toute la France.</small>
-                  <span class="outil-cta">Tester sur 4 intercommunalités et 82 communes <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span>
+                  <small>Comptes réalisés sur huit exercices, comparés à la médiane de la strate.</small>
+                  <span class="outil-cta">Tester l'outil <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span>
                   <span class="sr-only">(nouvel onglet)</span>
                 </span>
               </a>
+              <p class="relais">La rétrospective éclaire les arbitrages budgétaires</p>
+              <button class="frame" type="button" data-zoom="assets/img/flux-budgetaires-bp2026.webp">
+                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="outil-k">Étape 2 · Budget primitif 2026</span></span>
+                <img src="assets/img/flux-budgetaires-bp2026.webp" width="2000" height="1382" loading="lazy" decoding="async"
+                     alt="Diagramme de Sankey du budget primitif 2026 : recettes, budgets et charges sur les six périmètres"/>
+                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
+              </button>
             </div>
             <div class="case-body">
               <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
