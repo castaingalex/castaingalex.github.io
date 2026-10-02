@@ -415,11 +415,11 @@
 
     /* ── Sections ── */
     .section { padding: clamp(44px, 5.5vw, 76px) 0 0; }
-    .s-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem;
+    .s-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: .6rem 1rem;
               padding-bottom: 1.4rem; border-bottom: 1px solid var(--line-2); }
     .s-title { margin-top: .6rem; font-size: clamp(2.1rem, 5vw, 3.6rem); font-weight: 760; line-height: 1;
                letter-spacing: -.045em; }
-    .s-count { font-family: var(--m); font-size: .85rem; color: var(--ink-3); padding-bottom: .4rem; }
+    .s-count { font-family: var(--m); font-size: .85rem; color: var(--ink-3); padding-bottom: .4rem; white-space: nowrap; }
 
     /* ── Réalisations ── */
     .cases { display: grid; gap: clamp(18px, 2.4vw, 28px); margin-top: clamp(24px, 3vw, 40px); }
@@ -841,7 +841,7 @@
             <p class="eyebrow">Réalisations</p>
             <h2 class="s-title" id="realisations-titre">Réalisations sélectionnées</h2>
           </div>
-          <span class="s-count">06</span>
+          <span class="s-count">6 réalisations · 2002–2026</span>
         </div>
 
         <div class="cases">
