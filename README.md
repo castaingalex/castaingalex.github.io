@@ -15,10 +15,10 @@ GitHub Pages sert le résultat.
 | `v1/` | ancien portfolio, gardé en archive, non lié |
 | `carte-pdf/` | démo publiée de l'outil de carte PDF, **liée depuis la page d'accueil** |
 | `portrait-eco/` | démo du portrait économique, publiée mais **non liée** |
-| `portrait-finances/` | démo de la rétrospective financière, publiée mais **non liée** |
+| `portrait-finances/` | démo de la rétrospective financière, **liée depuis la fiche 02** |
 
-Les deux démos non liées sont atteignables par URL directe. Elles sont publiées volontairement,
-sans être exposées depuis l'accueil.
+La démo non liée est atteignable par URL directe. Elle est publiée volontairement,
+sans être exposée depuis l'accueil.
 
 ## D'où viennent les démos
 

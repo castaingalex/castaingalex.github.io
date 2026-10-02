@@ -534,6 +534,9 @@
             font-size: .95rem; color: var(--ink-2); }
     .tech-k { display: block; margin-bottom: .35rem; font-family: var(--m); font-size: .72rem; letter-spacing: .08em;
               text-transform: uppercase; color: var(--accent); }
+    .suite { padding: 1rem 1.1rem; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); }
+    .suite p { font-size: .92rem; line-height: 1.55; color: var(--ink-2); }
+    .suite .link-row { margin-top: .85rem; }
     .links { display: grid; gap: .5rem; }
     .link-row {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -901,6 +904,14 @@
                      alt="Diagramme de Sankey du budget primitif 2026 : recettes, budgets et charges sur les six périmètres"/>
                 <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
               </button>
+              <div class="suite">
+                <span class="tech-k">Après le vote : les comptes réalisés</span>
+                <p>Le budget voté dit ce qui est prévu, les comptes disent ce qui a été fait. Ce second outil reprend les comptes de 2018 à 2025, publiés en données ouvertes par l'Observatoire des finances et de la gestion publique locales (OFGL). Il lit ceux de toutes les communes et intercommunalités de France pour situer chaque collectivité par rapport à celles de même taille, et explique chaque indicateur en clair, sans aucun accès aux systèmes de la collectivité.</p>
+                <a class="link-row" href="https://castaing.dev/portrait-finances/" target="_blank" rel="noopener">
+                  <span><small>Quatre intercommunalités et leurs 82 communes, en ligne, sans compte</small>Tester le portrait des finances locales</span>
+                  <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only">(nouvel onglet)</span>
+                </a>
+              </div>
             </div>
             <div class="case-body">
               <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
