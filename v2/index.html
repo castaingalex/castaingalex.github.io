@@ -215,11 +215,11 @@
     .nav-links .nav-cta:hover, .nav-links .nav-cta.active { background: var(--accent-ink); color: #fff; }
 
     /* ── Introduction ── */
-    .hero { padding: clamp(36px, 7vw, 88px) 0 clamp(48px, 7vw, 96px); overflow: clip; }
+    .hero { padding: clamp(20px, 3.5vw, 48px) 0 clamp(24px, 3vw, 40px); overflow: clip; }
     .hero::before { top: -140px; right: -18%; width: min(1150px, 130vw); aspect-ratio: 16 / 10; opacity: .32;
                     -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent);
                     mask-image: radial-gradient(closest-side, #000 55%, transparent); }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(28px, 3.5vw, 48px); align-items: center; }
     .hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }
     .hero-name {
       margin-top: 1.4rem; font-size: clamp(2.7rem, 7.2vw, 5.75rem); font-weight: 780;
@@ -228,7 +228,7 @@
     .hero-role { margin-top: 1.1rem; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 620; line-height: 1.15;
                  letter-spacing: -.025em; color: var(--accent); }
     .hero-sub { margin-top: .4rem; color: var(--ink-3); font-size: 1.05rem; }
-    .hero-lead { margin-top: 1.9rem; max-width: 34em; font-size: clamp(1.12rem, 1.7vw, 1.3rem); font-weight: 520;
+    .hero-lead { margin-top: 1.4rem; max-width: 34em; font-size: clamp(1.12rem, 1.7vw, 1.3rem); font-weight: 520;
                  line-height: 1.45; letter-spacing: -.01em; color: var(--ink); }
     .hl {
       color: inherit; padding: 0 .08em;
@@ -237,7 +237,7 @@
     }
     .in .hl, .hl.in { background-size: 100% 42%; }
     .hero-body { margin-top: .9rem; max-width: 36em; color: var(--ink-2); }
-    .hero-cta { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .7rem; }
+    .hero-cta { margin-top: 1.6rem; display: flex; flex-wrap: wrap; gap: .7rem; }
 
     /* Carte du parcours */
     .map-card {
@@ -271,27 +271,150 @@
     .sw-now { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--accent-soft); }
     .map-src { margin-top: 8px; font-family: var(--m); font-size: .68rem; color: var(--ink-3); }
 
-    /* ── En bref ── */
-    .bref { padding-bottom: 0; }
-    .bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-    .tile {
-      position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
-      gap: 1.6rem; min-height: 168px; padding: 1.4rem 1.4rem 1.3rem;
-      background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+    /* Code couleur des compétences du CV, en badges dans les cartes de travaux */
+    [data-c="a"] { --c: #2F6DB3; --c-ink: #24568E; --c-tint: #E3ECF7; }
+    [data-c="b"] { --c: #C27019; --c-ink: #8E5110; --c-tint: #F7EAD9; }
+    [data-c="c"] { --c: #2E8A5F; --c-ink: #226B49; --c-tint: #DDF0E6; }
+    [data-c="d"] { --c: #94508F; --c-ink: #743D70; --c-tint: #F1E4F0; }
+
+    /* « Et chez vous ? » : le territoire du visiteur, dessiné en direct */
+    .labo { position: relative; padding: 24px; background: var(--surface); border: 1px solid var(--line);
+            border-radius: 28px; box-shadow: var(--shadow-2); }
+    .labo-titre { display: block; font-size: clamp(1.5rem, 2.4vw, 1.9rem); font-weight: 760; line-height: 1.05; letter-spacing: -.035em; }
+    .labo-aide { margin-top: .4rem; font-size: .9rem; line-height: 1.45; color: var(--ink-3); }
+    .labo-recherche { position: relative; margin-top: 1rem; }
+    .labo-recherche > .i { position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%);
+                           font-size: 1.15rem; color: var(--accent); pointer-events: none; }
+    #labo-q {
+      width: 100%; min-height: 56px; padding: 0 1.2rem 0 3rem; border-radius: 999px;
+      border: 1.5px solid var(--line-2); background: var(--paper); color: var(--ink);
+      font: inherit; font-size: 1.04rem; outline: none; transition: border-color .2s, box-shadow .2s, background .2s;
     }
-    .tile-n { font-size: clamp(1.9rem, 3.4vw, 2.6rem); font-weight: 760; line-height: 1; letter-spacing: -.045em; color: var(--ink); }
-    .tile-l { color: var(--ink-2); font-size: .95rem; line-height: 1.45; }
-    .tile-wide { grid-column: span 2; background: var(--accent-tint); border-color: #D4E4E8; }
-    .tile-wide::before { inset: 0; opacity: .35; background-position: 70% 30%; background-size: 160%; }
-    .tile-wide .tile-n { color: var(--accent); font-size: clamp(2.3rem, 4.6vw, 3.6rem); }
-    .tile-award { background: var(--sand); border-color: #EADCC2; }
-    .tile-award .tile-n { color: var(--sand-ink); display: flex; align-items: center; gap: .5rem; }
-    .tile-award .tile-n .i { width: .8em; height: .8em; fill: currentColor; stroke: none; }
-    .tile-tools { grid-column: span 3; justify-content: flex-start; gap: 1rem; }
-    .tile-k { font-family: var(--m); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+    #labo-q:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 5px var(--accent-soft); }
+    #labo-q::placeholder { color: var(--ink-3); }
+    .labo-liste { position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 6px); padding: 6px;
+                  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-2); }
+    .labo-liste li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+                     padding: .6rem .8rem; border-radius: 12px; cursor: pointer; font-weight: 580; }
+    .labo-liste li small { flex-shrink: 0; font-family: var(--m); font-size: .72rem; font-weight: 400; color: var(--ink-3); }
+    .labo-liste li[aria-selected="true"], .labo-liste li:hover { background: var(--accent-tint); }
+    .labo-liste .vide { cursor: default; font-weight: 400; color: var(--ink-3); }
+    .labo-liste .vide:hover { background: none; }
+
+    .labo-carte { position: relative; margin-top: .9rem; border-radius: 18px; background: var(--paper);
+                  border: 1px solid var(--line); overflow: hidden; }
+    .labo-nom { display: flex; align-items: center; gap: .5rem; min-height: 2.4rem; padding: .75rem .95rem 0;
+                font-weight: 660; letter-spacing: -.01em; }
+    .labo-ex { padding: .15rem .55rem; border-radius: 999px; background: var(--sand); color: var(--sand-ink);
+               font-family: var(--m); font-size: .7rem; font-weight: 500; }
+    .labo-svg { width: 100%; height: auto; transition: opacity .3s; }
+    .labo-carte.charge .labo-svg { opacity: .3; }
+    .labo-etat { position: absolute; left: 0; right: 0; top: 50%; padding: 0 1.5rem; text-align: center;
+                 font-family: var(--m); font-size: .8rem; color: var(--ink-2); }
+    .labo-etat:empty { display: none; }
+    .labo-svg .u { fill: #E9E6DC; stroke: #fff; stroke-width: 1; stroke-linejoin: round;
+                   animation: apparait .6s var(--ease) both; animation-delay: calc(var(--i) * 10ms); transition: fill .2s; }
+    .labo-svg .u:hover { fill: #DCD8CB; }
+    .labo-svg .u-actif, .labo-svg .u-actif:hover { fill: #9CC3CF; stroke: var(--accent); stroke-width: 2; }
+    .labo-svg .rond-actif { fill: rgba(14, 90, 115, .55); stroke: #fff; stroke-width: 1.5; }
+    .labo-svg .halo-actif { fill: none; stroke: var(--accent); stroke-width: 2; pointer-events: none;
+                            transform-box: fill-box; transform-origin: center; animation: halo-actif 2.2s var(--ease) 1s infinite; }
+    @keyframes halo-actif { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(3); opacity: 0; } }
+    .kpi-grille dd small, .kpi-pop small { margin-left: .15em; font-size: .62em; font-weight: 600; letter-spacing: 0; color: var(--ink-2); }
+    .labo-svg .et-actif { font-size: 15px; font-weight: 780; fill: var(--accent-ink); stroke-width: 5px; }
+    .labo-svg .ctr { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round;
+                     stroke-dasharray: 1; animation: trace 1.4s var(--ease) .1s both; }
+    .labo-svg .rond { fill: rgba(14, 90, 115, .15); stroke: var(--accent); stroke-width: 1; pointer-events: none;
+                      transform-box: fill-box; transform-origin: center;
+                      animation: pop .6s var(--ease) both; animation-delay: calc(.4s + var(--i) * 18ms); }
+    .labo-svg .et { font-family: var(--f); font-size: 12.5px; font-weight: 650; fill: var(--ink); pointer-events: none;
+                    paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round;
+                    animation: apparait .5s .9s both; }
+    .labo-svg .ech line { stroke: var(--ink-3); stroke-width: 1.5; }
+    .labo-svg .ech text { font-family: var(--m); font-size: 10px; fill: var(--ink-3); }
+    @keyframes apparait { from { opacity: 0; } }
+    @keyframes trace { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+    @keyframes pop { from { transform: scale(0); opacity: 0; } }
+
+    .kpi { padding: .9rem 1.1rem 1.05rem; background: var(--surface); border-top: 1px solid var(--line); }
+    .kpi-pop { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .7rem; }
+    .kpi-pop strong { font-size: clamp(2.7rem, 5vw, 3.9rem); font-weight: 800; line-height: .95; letter-spacing: -.055em;
+                      color: var(--accent); font-variant-numeric: tabular-nums; }
+    .kpi-pop span { font-size: 1.1rem; font-weight: 620; color: var(--ink-2); }
+    .kpi-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem 1rem; margin-top: .85rem; }
+    .kpi-grille div { display: flex; flex-direction: column-reverse; justify-content: flex-end; padding-left: .75rem;
+                      border-left: 3px solid var(--accent-soft); }
+    .kpi-grille dd { font-size: clamp(1.15rem, 1.8vw, 1.45rem); font-weight: 750; line-height: 1.15; letter-spacing: -.03em;
+                     color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .kpi-grille dt { margin-top: .1rem; font-size: .78rem; line-height: 1.3; color: var(--ink-3); }
+    .kpi-lecture { margin-top: .85rem; padding: .55rem .8rem; border-radius: 12px; background: var(--sand);
+                   font-size: .88rem; line-height: 1.4; color: var(--sand-ink); }
+    .kpi-lecture b { font-weight: 720; }
+
+    .labo-src { margin-top: .75rem; font-family: var(--m); font-size: .66rem; line-height: 1.5; color: var(--ink-3); }
+
+    /* Compétences → projets : diagramme de flux, rubans façon Sankey */
+    .flux-zone { margin-top: clamp(28px, 3.5vw, 44px); }
+    .flux { position: relative; display: grid; grid-template-columns: minmax(220px, 300px) minmax(110px, 1fr) minmax(330px, 470px);
+            padding: 1.6rem 1.8rem; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow-1); }
+    .flux-col { display: flex; flex-direction: column; }
+    .flux-comp { justify-content: space-around; padding-top: 1.6rem; }
+    .flux-k { position: absolute; top: 1.2rem; font-family: var(--m); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+    .flux-comp .flux-k { right: auto; }
+    .flux-proj { gap: 10px; padding-top: 1.6rem; }
+    .flux-c { display: flex; align-items: center; justify-content: flex-end; gap: .9rem; padding: .3rem 0; text-align: right;
+              transition: opacity .3s; }
+    .flux-c-txt { display: grid; gap: .1rem; }
+    .flux-c-nom { font-size: 1.02rem; font-weight: 680; line-height: 1.2; letter-spacing: -.015em; color: var(--ink); }
+    .flux-c-n { font-family: var(--m); font-size: .72rem; color: var(--ink-3); }
+    .flux-c-barre { flex-shrink: 0; width: 12px; height: calc(var(--n) * 14px); border-radius: 3px; background: var(--c); }
+    .flux-c:hover .flux-c-nom, .flux-c[aria-pressed="true"] .flux-c-nom { color: var(--c-ink); }
+    .flux-svg { width: 100%; height: 100%; overflow: visible; }
+    .flux-svg .lien { fill: none; stroke: var(--c); stroke-opacity: .3; stroke-dasharray: 1;
+                      animation: trace 1.3s var(--ease) both; animation-delay: calc(.2s + var(--i) * 70ms); transition: stroke-opacity .3s; }
+    .flux-p { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; gap: .9rem; padding: 6px;
+              border-radius: 16px; border: 1px solid var(--line); background: var(--surface);
+              transition: opacity .3s, border-color .3s, box-shadow .3s, transform .3s var(--ease); }
+    .flux-p:hover, .flux-p:focus-visible { border-color: var(--line-2); box-shadow: var(--shadow-2); transform: translateX(4px); }
+    .flux-vis { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 11px; background: var(--paper); border: 1px solid var(--line); }
+    .flux-vis img { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+    .flux-vis-chat { display: grid; align-content: center; gap: 5px; padding: 8px 10px; background: var(--accent-tint); }
+    .flux-vis-chat i { display: block; width: 64%; height: 9px; border-radius: 5px; background: var(--surface); }
+    .flux-vis-chat i:nth-child(odd) { justify-self: end; width: 48%; background: var(--accent); }
+    .flux-vis-prix { display: grid; place-items: center; background: var(--sand); color: #A6732B; }
+    .flux-vis-prix svg { width: auto; height: 88%; }
+    .flux-vis-prix text { font-family: var(--f); font-weight: 760; letter-spacing: -1.5px; fill: var(--sand-ink); }
+    .flux-txt { display: grid; gap: .15rem; min-width: 0; }
+    .flux-t { display: flex; align-items: baseline; gap: .45rem; font-size: .95rem; font-weight: 680; letter-spacing: -.01em; }
+    .flux-t b { font-family: var(--m); font-size: .72rem; font-weight: 500; color: var(--accent); }
+    .flux-r { font-size: .85rem; color: var(--ink-2); }
+    .flux-r b { font-weight: 720; color: var(--accent); }
+    .flux-dots { display: none; gap: 4px; margin-top: .2rem; }
+    .flux-dots i { width: 9px; height: 9px; border-radius: 3px; background: var(--c); }
+    /* Survol : la compétence ou le projet survolé et ses liens restent, le reste s'efface */
+    .flux.focus .lien { stroke-opacity: .06; }
+    .flux.focus .lien.on { stroke-opacity: .85; }
+    .flux.focus .flux-p:not(.on), .flux.focus .flux-c:not(.on) { opacity: .35; }
+    .flux.focus .flux-p.on { border-color: var(--line-2); box-shadow: var(--shadow-2); }
+
+
+    /* Badges de compétences dans les cartes de travaux */
+    .comp-badge { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .6rem; border-radius: 999px;
+                  background: var(--c-tint); color: var(--c-ink); font-family: var(--f); font-size: .78rem; font-weight: 620; }
+    .comp-badge::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--c); }
+
+    /* Parcours : frise et carte côte à côte */
+    .parcours-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .9fr);
+                     gap: clamp(24px, 4vw, 48px); align-items: start; margin-top: clamp(24px, 3vw, 40px); }
+    .parcours-grid .timeline { margin-top: 0; }
+    .parcours-grid .tl { grid-template-columns: 7.5rem 28px minmax(0, 1fr); }
+    .parcours-grid .map-card { position: sticky; top: 100px; }
+    .outils { display: grid; gap: .9rem; margin-top: 1.2rem; padding: 1.3rem 1.4rem;
+              background: var(--surface); border: 1px solid var(--line); border-radius: 22px; }
+    .outils-k { font-family: var(--m); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
 
     /* ── Sections ── */
-    .section { padding: clamp(56px, 8vw, 112px) 0 0; }
+    .section { padding: clamp(44px, 5.5vw, 76px) 0 0; }
     .s-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem;
               padding-bottom: 1.4rem; border-bottom: 1px solid var(--line-2); }
     .s-title { margin-top: .6rem; font-size: clamp(2.1rem, 5vw, 3.6rem); font-weight: 760; line-height: 1;
@@ -366,7 +489,7 @@
     .cover-award:hover .award-link { transform: translateY(-2px); }
     .award-link .i { width: .85em; height: .85em; fill: currentColor; stroke: none; }
 
-    .case-top { display: flex; align-items: center; gap: .6rem; font-family: var(--m); font-size: .78rem; color: var(--ink-3); }
+    .case-top { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; font-family: var(--m); font-size: .78rem; color: var(--ink-3); }
     .case-num { color: var(--accent); font-weight: 500; }
     .case-year { padding: .2rem .6rem; border-radius: 999px; border: 1px solid var(--line); }
     .case-title { margin-top: .9rem; font-size: clamp(1.4rem, 2.3vw, 1.85rem); font-weight: 680; line-height: 1.12;
@@ -453,7 +576,7 @@
     .pr-t strong { font-weight: 620; color: var(--ink); }
 
     /* ── Contact ── */
-    .contact { padding: clamp(56px, 8vw, 112px) 0 clamp(24px, 3vw, 40px); }
+    .contact { padding: clamp(44px, 5.5vw, 76px) 0 clamp(20px, 2.5vw, 32px); }
     .contact-card {
       padding: clamp(28px, 5vw, 64px); border-radius: 32px; overflow: hidden;
       background: var(--accent-tint); border: 1px solid #D4E4E8;
@@ -491,12 +614,27 @@
     .lb-close { position: absolute; top: -16px; right: -16px; display: grid; place-items: center; width: 44px; height: 44px;
                 border-radius: 50%; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-2); }
 
+    @media (max-width: 860px) {
+      .flux { display: block; padding: 1.1rem; }
+      .flux-svg, .flux-c-barre, .flux-c-n { display: none; }
+      .flux-k { position: static; margin-bottom: .6rem; }
+      .flux-comp { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 6px; padding-top: 0; }
+      .flux-comp .flux-k { flex-basis: 100%; }
+      .flux-c { gap: .45rem; padding: .4rem .75rem; border-radius: 999px; border: 1.5px solid var(--line); text-align: left; }
+      .flux-c::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+      .flux-c-nom { font-size: .85rem; }
+      .flux-c:hover, .flux-c[aria-pressed="true"] { background: var(--c-tint); border-color: var(--c); }
+      .flux-proj { margin-top: 1.2rem; padding-top: 0; }
+      .flux-p { grid-template-columns: 88px minmax(0, 1fr); }
+      .flux-dots { display: flex; }
+    }
+
     /* ── Écrans moyens ── */
     @media (max-width: 960px) {
       .hero-grid { grid-template-columns: 1fr; }
-      .map-card { max-width: 560px; }
-      .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .tile-wide, .tile-tools, .tile-award { grid-column: span 2; }
+      .labo { width: 100%; max-width: 620px; }
+      .parcours-grid { grid-template-columns: 1fr; }
+      .parcours-grid .map-card { position: static; order: -1; width: 100%; max-width: 560px; }
       .case { grid-template-columns: 1fr; }
       .case:nth-child(even) .case-media { order: 0; }
       .case-media { position: static; }
@@ -515,9 +653,9 @@
       .nav-links { gap: 0; overflow-x: auto; scrollbar-width: none; }
       .nav-links a { padding: .45rem .62rem; font-size: .86rem; white-space: nowrap; }
       .nav-links .nav-cta { margin-left: .15rem; }
-      .tile { min-height: 0; padding: 1.15rem; gap: 1rem; }
-      .tile-l { font-size: .9rem; }
-      .tile-award .tile-n { font-size: 1.6rem; }
+      .labo { padding: 16px; border-radius: 22px; }
+      .kpi-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kpi-grille div:last-child { grid-column: span 2; }
       .cover { aspect-ratio: auto; min-height: 320px; }
       .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .metric:last-child:nth-child(odd) { grid-column: span 2; }
@@ -525,7 +663,7 @@
       .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
       .tabs { width: 100%; }
       .tab { flex: 1 0 auto; padding: .45rem .6rem; font-size: .84rem; }
-      .tl { grid-template-columns: 20px minmax(0, 1fr); column-gap: .8rem; }
+      .tl, .parcours-grid .tl { grid-template-columns: 20px minmax(0, 1fr); column-gap: .8rem; }
       .tl-date { grid-column: 2; grid-row: 1; padding: 0 0 .5rem; text-align: left; }
       .tl-rail { grid-column: 1; grid-row: 1 / span 2; }
       .tl-card { grid-column: 2; }
@@ -603,6 +741,7 @@
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-loupe" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
 </svg>
 
 <div id="app" hidden>
@@ -645,70 +784,51 @@
           </div>
         </div>
 
-        <figure class="map-card rv" style="--d:3">
-          <div class="map-head">
-            <span class="eyebrow">Parcours</span>
-            <span class="map-proj">Lambert-93</span>
+        <div class="labo rv" style="--d:3">
+          <label class="labo-titre" for="labo-q">Et chez vous ?</label>
+          <p class="labo-aide" id="labo-aide">Votre commune, votre intercommunalité ou votre département : la carte se dessine à partir des données publiques.</p>
+          <div class="labo-recherche">
+            <svg class="i" aria-hidden="true"><use href="#i-loupe"/></svg>
+            <input id="labo-q" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="labo-liste" aria-describedby="labo-aide" autocomplete="off" spellcheck="false" placeholder="Annecy, Pays basque, Finistère…"/>
+            <ul class="labo-liste" id="labo-liste" role="listbox" aria-label="Collectivités trouvées" hidden></ul>
           </div>
-          <svg class="map" viewBox="0 0 1143 1064" role="img" aria-labelledby="map-titre">
-            <title id="map-titre">Carte des postes occupés : Beauvais de 2002 à 2022, Bourges de 2023 à 2024, Bassin d'Arcachon depuis 2024.</title>
-            <defs><mask id="route-masque" maskUnits="userSpaceOnUse"><path class="route-draw" pathLength="1" d="M534 185C610 260 615 370 555 446C495 525 380 640 276 697"/></mask></defs>
-            <g><path class="reg" d="M499 261L496 256L498 250L494 246L496 244L494 240L491 240L490 236L492 234L488 233L490 231L487 226L491 225L492 222L493 224L500 222L504 208L507 205L509 207L507 209L510 213L514 211L516 214L519 213L520 214L526 212L528 213L534 209L540 214L544 212L545 214L544 215L545 216L549 215L551 212L554 216L555 215L562 218L565 220L564 221L567 222L568 219L570 224L574 221L579 225L581 224L581 226L587 222L590 225L599 223L600 225L601 223L606 223L606 220L613 222L612 223L615 227L613 231L619 236L620 239L623 238L625 243L628 241L629 247L634 248L635 251L636 249L637 253L631 254L633 254L633 256L631 257L630 259L635 262L634 273L640 272L639 273L642 275L638 277L639 278L635 280L636 284L631 285L633 289L629 291L632 300L629 299L628 302L622 301L620 303L614 302L609 305L605 304L602 310L604 316L601 321L596 324L596 326L591 326L588 329L586 329L586 325L581 325L583 328L579 330L568 328L560 330L562 325L565 325L565 318L558 315L557 308L553 309L550 307L549 309L546 309L545 310L545 307L542 305L540 309L538 308L539 310L535 309L530 312L525 311L525 299L522 298L522 293L517 294L515 291L512 291L510 286L511 282L509 279L506 279L506 275L503 275L501 271L498 269L499 266L496 265Z"><title>Île-de-France</title></path><path class="reg" d="M750 506L738 545L734 545L733 539L735 539L730 536L733 534L730 531L727 531L725 535L723 535L721 532L720 534L717 535L713 532L709 532L707 544L703 545L700 548L697 548L698 544L695 546L694 544L692 546L688 546L686 543L677 547L676 543L669 542L671 538L669 534L674 532L674 530L678 529L677 529L676 521L678 514L674 513L674 511L667 511L665 507L663 508L658 506L656 496L650 487L649 482L646 481L647 485L643 486L644 489L640 490L638 494L635 492L636 490L634 487L630 487L627 490L625 489L624 486L621 486L616 491L605 482L603 477L606 471L605 465L607 460L607 452L602 447L603 441L600 426L592 419L596 406L589 394L599 392L596 388L597 383L595 379L592 375L589 375L590 371L603 368L602 362L603 360L600 359L602 354L605 354L610 347L608 342L610 340L605 336L603 331L602 331L603 329L596 325L604 316L602 310L605 304L609 305L611 302L620 303L622 301L627 303L629 299L632 300L633 304L634 302L638 303L647 315L645 317L647 319L644 323L648 323L651 328L654 327L654 324L656 325L656 329L660 330L662 339L666 342L666 343L663 343L664 345L666 346L667 343L669 346L668 352L676 350L679 352L680 349L684 352L688 348L691 350L691 346L692 346L694 351L697 351L699 347L717 346L715 342L719 339L734 341L736 344L734 346L739 347L740 349L738 353L740 354L740 351L743 351L745 356L750 362L744 367L745 369L748 369L749 377L753 374L753 376L755 376L755 379L760 381L764 377L764 380L769 384L770 383L769 386L770 388L775 384L778 386L782 377L791 377L793 373L796 377L803 375L802 371L804 369L804 366L801 365L802 360L806 360L807 356L810 357L812 357L813 352L814 350L816 351L820 342L822 343L819 347L821 347L823 344L825 344L828 339L834 337L836 338L836 343L840 345L840 347L854 343L857 345L861 351L870 344L873 348L884 354L887 358L888 356L890 361L896 362L903 367L904 373L902 380L903 382L904 380L908 381L912 390L908 393L904 391L901 392L902 397L898 399L898 402L896 403L894 408L904 406L906 407L907 410L904 411L903 414L899 416L900 420L892 429L892 430L882 439L881 441L883 443L876 450L867 452L862 457L865 461L862 470L864 474L852 484L839 497L842 502L837 510L838 512L836 515L830 521L827 528L826 527L825 530L821 533L811 533L810 528L804 527L804 524L797 533L791 534L790 533L791 527L788 528L787 525L786 529L786 526L782 522L784 521L777 518L779 516L779 514L771 512L770 507L767 506L767 508L765 507L759 510L755 507L750 509Z"><title>Bourgogne-Franche-Comté</title></path><path class="reg" d="M319 286L317 281L312 282L310 279L305 282L301 279L287 275L285 279L281 280L277 284L269 280L264 265L270 266L277 263L279 263L279 264L280 264L280 265L280 263L277 262L278 260L278 259L279 259L279 258L273 262L273 260L270 259L268 253L265 251L265 243L262 241L265 239L267 232L268 230L267 232L267 233L267 235L268 235L268 220L272 221L268 219L266 222L266 223L265 220L265 199L268 199L265 197L264 199L261 191L261 192L262 191L259 187L260 186L258 184L258 186L259 185L259 186L258 186L253 181L254 180L252 181L250 166L247 162L251 158L251 152L249 149L244 146L245 141L248 143L251 142L253 145L256 147L262 148L263 148L264 148L263 148L264 150L266 149L268 150L266 150L267 152L269 150L273 151L277 149L278 146L293 147L292 149L295 152L295 157L293 156L293 159L292 161L292 159L290 159L289 164L290 167L297 177L298 179L299 180L297 186L295 188L294 189L293 188L292 188L293 191L295 188L297 187L298 185L302 187L302 189L300 190L303 189L302 185L305 182L313 181L328 187L354 190L365 195L366 197L365 197L364 199L367 198L366 196L376 195L375 195L374 196L382 192L393 184L399 182L408 181L408 179L403 180L403 179L394 179L392 178L391 178L391 177L396 178L391 177L392 176L390 175L392 177L396 177L391 175L388 172L395 157L395 155L393 155L394 154L395 155L399 150L409 146L426 136L463 128L484 113L487 114L488 112L490 113L490 116L501 127L506 130L513 147L511 147L506 155L507 156L511 155L507 160L508 163L506 165L508 167L507 167L506 167L510 172L508 176L510 178L511 175L513 176L507 187L509 187L508 188L511 191L512 200L514 202L513 205L511 202L507 203L503 217L499 223L493 224L493 223L492 222L491 225L487 226L490 231L489 234L492 234L490 236L491 238L487 240L489 243L488 246L481 250L481 256L478 258L472 257L470 258L463 255L462 259L459 258L456 261L452 261L448 263L446 262L440 268L440 274L442 274L442 277L448 280L447 282L451 284L448 289L451 293L446 301L437 303L436 306L434 308L438 309L437 313L440 318L438 320L434 322L429 313L426 312L425 315L418 313L415 307L414 308L408 305L407 293L401 287L392 288L392 290L390 289L391 291L384 294L383 298L379 295L375 298L375 289L368 288L367 283L369 281L364 276L361 276L360 278L362 279L359 282L356 281L353 285L350 282L342 282L338 285L335 285L331 288L330 284L328 285L325 285L326 288L323 289L322 285Z"><title>Normandie</title></path><path class="reg" d="M571 224L568 219L567 222L564 221L565 220L562 218L555 215L554 216L551 212L549 215L545 216L544 212L540 214L534 209L528 213L526 212L519 214L514 211L509 212L507 209L509 207L506 206L507 203L511 202L513 205L514 202L512 200L511 191L508 188L509 187L507 186L513 176L511 175L510 178L508 176L510 172L506 167L508 166L506 165L508 163L507 160L511 155L507 156L506 155L511 147L513 147L506 130L501 127L490 116L490 113L485 113L490 108L493 101L494 99L495 97L496 97L495 98L497 97L498 96L499 96L498 97L500 100L503 99L505 101L507 100L506 97L502 97L501 92L497 91L498 80L503 80L504 82L503 79L498 76L500 60L501 62L505 64L500 57L499 40L500 38L499 40L500 41L501 39L502 40L502 35L502 32L501 26L501 23L505 23L511 16L520 12L523 13L538 9L537 8L538 9L542 5L545 6L555 3L557 5L556 4L569 0L571 10L573 11L575 16L572 19L573 27L575 31L581 31L586 41L590 41L594 44L597 38L605 34L607 35L609 33L611 33L615 42L619 43L618 48L621 63L628 67L633 65L635 62L638 63L636 67L644 66L648 70L648 80L651 87L654 82L661 82L665 85L674 81L678 86L681 87L682 92L684 92L684 89L687 90L688 93L683 97L683 103L682 106L687 106L689 113L684 115L682 119L684 121L683 123L689 125L688 130L691 131L688 145L691 148L690 151L682 157L681 162L676 161L675 163L679 169L677 172L679 172L679 175L676 176L678 183L676 183L676 192L671 190L668 187L666 189L661 188L663 189L663 194L657 193L648 198L650 206L649 209L651 211L652 210L653 213L656 213L655 215L652 217L651 215L646 216L645 219L648 224L644 226L644 228L648 228L650 231L648 232L646 236L644 237L645 239L643 239L642 242L640 242L635 251L634 248L629 247L628 241L625 243L623 238L620 239L619 236L613 231L615 227L612 223L613 222L606 220L606 223L601 223L600 225L599 223L590 225L587 222L581 226L581 224L579 225L574 221Z"><title>Hauts-de-France</title></path><path class="reg" d="M648 323L644 323L647 319L645 317L647 315L644 312L643 308L641 308L638 303L634 302L633 304L629 291L633 289L631 285L636 284L635 280L639 278L638 277L642 275L639 273L640 272L634 273L635 262L630 260L631 257L633 256L631 254L637 253L636 247L640 242L643 242L648 232L650 231L648 228L644 228L644 226L648 224L645 219L646 216L651 215L652 217L655 215L656 213L653 213L652 210L651 211L649 209L650 206L648 198L657 193L663 194L663 189L662 189L661 188L666 189L668 187L671 190L676 192L676 183L678 183L676 176L679 175L679 172L677 172L679 169L675 163L676 161L681 162L682 157L686 154L691 148L688 145L691 135L691 131L688 130L689 125L695 124L705 127L710 126L714 122L722 121L723 114L721 113L731 101L737 104L735 107L735 110L733 109L731 113L733 116L729 123L737 130L734 135L736 140L734 143L744 142L746 144L752 146L754 151L757 151L757 153L765 153L769 157L768 162L771 160L776 164L779 167L778 169L779 170L778 172L779 174L786 171L790 173L792 168L800 169L802 167L805 169L806 169L809 173L814 173L816 174L817 178L821 179L823 177L826 178L827 173L830 173L831 171L836 171L843 176L849 174L858 179L858 182L862 186L860 188L868 195L867 198L869 199L870 202L872 202L871 205L873 208L880 209L882 206L880 202L888 201L889 203L895 204L897 213L900 208L900 210L904 211L911 210L914 211L916 208L919 208L919 205L925 203L924 205L928 205L928 208L931 212L939 215L939 217L948 217L951 215L957 218L961 215L964 218L973 222L984 224L981 225L978 231L974 242L970 245L969 248L966 248L966 252L957 261L955 268L956 276L953 279L951 290L952 297L949 300L947 309L943 316L941 325L941 330L946 337L941 348L940 359L942 364L939 368L946 379L945 381L939 385L942 387L941 388L939 387L940 390L938 392L934 390L934 392L936 393L931 398L927 397L921 400L920 398L915 397L917 392L912 391L912 389L907 381L903 382L902 380L904 371L902 365L890 361L888 356L887 358L884 354L873 348L870 344L861 351L857 345L854 343L846 344L841 347L840 345L836 343L837 342L835 337L830 338L821 347L819 347L822 343L819 343L816 351L814 350L813 352L812 357L807 356L806 360L802 360L801 365L804 366L804 369L802 371L803 375L796 377L793 373L791 377L782 377L778 386L775 384L770 388L769 386L770 383L769 384L764 380L764 377L760 381L755 379L755 376L753 376L753 374L749 377L748 369L745 369L744 367L750 362L745 356L743 351L740 351L740 354L738 353L740 349L739 347L734 346L736 344L734 341L719 339L715 342L717 346L699 347L697 351L694 351L692 346L691 346L691 350L688 348L684 352L680 349L679 352L676 350L668 352L669 346L667 343L666 346L664 345L663 343L666 343L666 342L662 339L660 330L656 329L657 325L654 324L654 327L651 328Z"><title>Grand Est</title></path><path class="reg" d="M204 446L201 446L198 443L198 439L204 440L204 443L203 442L202 442L202 443L203 443L204 443L204 445L209 448L209 454ZM365 443L360 442L363 439L360 438L358 440L353 438L343 439L342 442L338 442L337 443L338 440L336 440L331 442L332 445L328 449L322 448L319 450L313 447L308 451L306 450L304 451L311 457L309 461L313 465L319 469L316 474L322 482L320 483L323 486L321 489L324 491L323 496L325 499L324 501L323 501L322 502L324 509L321 515L323 516L324 514L329 517L327 520L324 520L320 524L316 523L314 526L308 523L308 521L306 521L305 524L302 522L298 524L296 523L299 517L295 519L289 519L286 523L285 521L282 523L281 521L278 522L277 528L268 518L270 524L271 525L270 525L271 525L272 525L271 525L270 525L270 524L266 518L258 518L254 511L244 509L244 507L234 500L234 499L233 499L233 501L232 500L229 487L222 477L224 477L222 477L218 471L209 462L209 454L212 454L218 446L219 442L223 440L215 430L203 427L206 424L210 424L210 412L209 411L200 416L194 410L191 409L191 412L189 412L182 408L184 406L184 407L186 409L188 409L188 408L185 407L185 402L182 399L189 394L189 395L192 395L190 391L192 388L194 390L201 390L202 384L206 385L206 387L211 385L210 387L212 388L213 384L217 383L219 371L228 366L229 369L237 365L252 366L255 360L266 356L266 353L272 354L274 357L283 360L291 340L293 337L299 338L302 336L297 307L301 300L299 288L301 279L305 282L309 279L312 282L317 281L319 286L322 285L323 289L326 288L325 285L328 285L330 284L331 288L335 285L338 285L342 282L350 282L353 285L356 281L359 282L362 279L360 278L361 276L364 276L369 281L367 283L368 288L375 289L375 296L375 298L379 295L383 298L384 294L391 291L390 289L392 290L392 288L401 287L407 293L408 305L414 308L415 307L418 313L425 315L426 312L429 313L433 321L437 320L446 326L441 327L440 330L438 331L441 331L440 334L437 334L437 337L440 338L438 343L440 348L438 349L437 354L436 351L433 353L434 359L428 365L429 367L423 369L419 373L422 376L410 380L409 383L404 380L403 383L406 387L404 389L393 383L393 387L390 391L392 393L392 396L386 407L388 409L385 411L386 413L380 419L378 432L376 433L375 431L371 437L371 441L367 439Z"><title>Pays de la Loire</title></path><path class="reg" d="M139 401L144 403L141 406L139 405L137 405L135 403L131 404L131 403L129 402L130 400L130 399L129 400L129 398L128 397L130 395L130 393L132 396L132 395L135 397L136 397L137 396L136 398ZM285 278L286 275L290 275L301 280L299 288L301 300L297 307L302 336L299 338L293 337L291 340L283 360L274 357L272 354L266 353L266 356L255 360L252 366L237 365L229 369L228 366L219 371L217 383L213 384L212 388L210 387L211 385L206 387L206 385L202 384L201 390L198 391L193 390L193 388L188 392L187 386L193 387L196 386L196 385L192 386L185 382L183 384L178 384L175 382L174 385L170 383L165 385L162 384L156 376L159 376L161 379L164 379L163 377L165 379L166 378L167 379L170 379L172 375L171 374L171 373L172 373L167 370L170 371L170 369L169 370L169 368L163 371L163 370L160 370L161 372L159 371L158 374L156 374L153 365L153 373L155 377L152 376L152 375L151 372L151 375L148 372L149 375L147 373L143 375L143 373L141 371L140 380L143 385L140 385L139 383L138 379L138 378L139 378L140 377L140 373L135 366L136 363L137 363L135 362L140 360L135 359L136 361L135 362L135 364L135 365L129 360L124 360L127 358L130 360L130 357L125 358L124 357L129 353L131 350L130 348L131 348L130 348L130 350L127 353L126 353L125 351L125 353L123 357L117 358L112 350L113 346L112 350L107 348L104 348L104 346L103 347L102 346L101 348L98 344L104 343L100 341L97 344L97 339L97 345L88 345L89 343L89 344L86 340L85 340L86 338L84 337L86 337L85 335L83 335L83 332L79 332L81 333L79 334L80 337L75 338L71 335L74 337L73 335L71 335L68 330L68 328L69 328L70 328L71 326L71 327L72 326L72 327L73 327L73 328L74 328L73 327L72 327L73 326L73 325L71 326L72 324L72 323L71 323L71 322L71 327L68 328L67 330L68 331L65 330L70 335L65 337L65 333L64 333L65 336L64 334L62 334L64 338L66 338L65 341L61 342L50 341L50 338L49 339L50 338L52 337L51 331L46 320L40 316L40 315L40 314L37 317L33 313L25 311L27 311L27 309L30 309L31 308L33 309L36 309L37 308L39 309L41 307L44 308L50 306L58 309L59 307L60 305L61 305L61 302L59 301L59 297L54 295L50 291L45 292L43 296L42 297L41 297L41 298L40 298L41 294L39 291L42 289L36 289L36 285L40 286L40 283L40 281L42 279L44 279L41 284L43 286L45 283L45 286L51 285L53 288L61 286L63 287L61 288L63 290L62 290L64 292L66 291L66 292L67 293L66 291L64 291L62 288L69 287L65 286L65 285L66 285L64 285L64 286L62 284L64 283L65 283L58 284L60 282L59 282L61 281L62 281L61 280L63 280L64 279L58 281L60 279L57 280L57 279L58 279L56 280L55 282L52 282L53 281L54 280L49 281L53 276L61 273L63 271L64 270L54 275L46 275L45 277L47 277L38 279L33 277L30 279L28 279L26 279L27 275L25 275L27 274L25 270L27 266L26 266L28 264L31 264L27 262L29 255L32 254L33 255L33 253L35 253L39 252L41 253L41 255L48 257L40 253L42 249L42 251L47 252L44 249L44 248L46 248L46 247L49 249L52 248L53 246L56 248L56 247L54 246L54 245L61 243L64 245L62 247L64 249L66 247L72 247L70 245L77 243L80 243L82 246L81 244L82 245L83 244L83 245L84 244L83 244L82 244L83 242L86 240L87 242L88 240L88 241L89 240L89 241L88 243L89 249L92 246L94 247L93 250L96 252L95 255L96 255L96 247L97 249L97 245L99 243L99 244L100 244L100 242L110 247L112 246L111 250L114 247L115 249L117 249L117 243L126 243L120 242L119 239L117 239L118 236L120 236L121 235L121 233L124 231L124 233L126 231L127 234L129 233L128 235L128 236L129 236L137 232L139 233L141 232L142 233L144 229L145 230L146 235L149 231L155 230L153 234L156 234L151 240L151 242L155 236L160 236L160 238L159 238L159 239L157 239L157 240L160 240L158 240L158 241L159 242L164 242L165 244L164 247L167 250L168 250L168 253L170 253L171 255L173 256L172 261L180 267L178 270L180 269L182 274L182 270L186 272L185 269L192 263L198 261L198 259L197 259L197 258L201 258L202 260L210 254L212 257L208 262L209 263L215 259L214 263L217 266L216 268L215 271L218 263L220 267L221 263L223 264L222 262L222 261L224 261L224 260L225 261L229 261L230 265L233 267L231 269L234 272L232 274L233 275L232 277L232 278L234 274L235 275L237 275L235 274L236 273L234 273L233 267L236 268L235 266L231 266L232 264L231 260L234 258L234 256L238 256L236 256L238 254L240 256L245 254L245 257L242 261L244 264L249 266L264 265L269 280L272 280L274 283L277 284Z"><title>Bretagne</title></path><path class="reg" d="M270 571L261 562L260 551L263 552L267 558L273 559L272 561L273 561L273 560L273 561L272 562L273 566L276 570L276 571L276 572L275 571L276 573L275 572L274 574L275 576L272 579L273 579L272 579L272 578ZM268 541L262 537L257 534L254 535L251 534L250 529L254 527L256 530L253 530L254 532L253 532L254 532L253 533L255 534L257 531L261 531L259 533L260 534L265 534L270 536L271 539L273 539ZM360 442L364 444L367 439L371 441L371 437L375 431L379 435L380 438L384 437L384 439L386 440L387 438L389 441L387 444L389 445L392 443L394 444L393 447L396 446L397 452L395 453L397 459L401 457L406 460L411 456L418 457L416 451L420 451L421 454L425 455L426 463L431 469L433 469L434 476L441 483L443 487L441 488L442 492L440 494L441 497L445 501L449 501L449 505L455 505L459 508L459 515L462 517L464 516L461 522L463 521L464 524L471 523L471 521L474 520L479 526L488 518L489 521L494 518L496 522L500 519L503 522L506 518L505 515L508 515L512 518L517 516L518 518L522 516L531 520L539 518L546 519L546 523L549 524L550 525L547 528L552 531L554 529L556 534L560 534L562 538L564 539L564 545L567 549L567 558L570 562L571 569L567 571L565 575L567 576L562 578L561 581L558 581L558 583L553 585L558 593L564 598L564 606L561 606L559 611L563 616L561 630L564 633L560 636L553 631L550 631L552 634L551 640L547 641L537 652L538 657L541 658L536 662L536 668L533 667L530 670L533 676L532 678L521 679L518 682L515 679L506 685L502 683L502 681L493 672L486 673L486 671L476 675L478 685L475 686L478 689L475 690L475 693L472 693L472 697L466 698L468 704L460 711L454 712L454 716L450 721L450 723L448 722L443 727L441 726L443 730L443 737L446 739L446 746L438 746L437 748L436 745L433 744L431 752L435 752L437 755L435 756L433 765L429 765L432 767L431 771L424 770L425 773L421 774L420 779L414 783L408 776L405 779L397 779L396 782L391 784L386 783L385 785L378 782L373 787L370 784L365 788L366 793L365 795L358 791L361 789L357 785L352 791L350 789L347 791L346 790L342 793L341 795L344 796L345 798L343 799L344 804L341 804L342 811L344 812L339 815L339 821L337 823L336 822L336 825L339 825L339 829L344 828L346 830L351 830L351 834L353 834L355 838L354 840L357 842L353 843L354 848L352 849L358 845L357 853L360 856L358 859L355 858L354 861L356 864L353 870L351 870L351 875L348 876L347 874L345 880L341 881L341 888L338 890L335 890L335 892L333 893L333 901L329 903L330 908L329 912L327 912L324 916L319 916L314 912L310 917L300 905L296 904L296 898L295 896L290 897L282 895L279 896L265 888L263 890L261 886L256 884L253 885L250 882L253 877L248 878L246 886L239 884L237 879L242 875L245 868L245 861L243 859L233 856L230 857L229 861L227 860L226 854L220 853L217 855L217 851L213 849L212 846L223 845L229 840L242 818L254 769L256 769L255 769L254 769L263 720L267 713L268 706L272 706L272 708L272 709L281 707L284 709L281 704L282 704L280 704L279 703L281 703L280 701L272 693L266 701L264 710L263 708L277 615L282 606L284 605L286 613L303 631L311 661L313 665L316 668L318 670L320 670L313 656L309 630L304 619L290 605L288 600L280 597L274 591L272 591L272 593L275 593L272 594L271 590L271 581L280 580L277 574L281 574L285 568L285 565L283 564L285 563L285 560L282 557L284 559L287 557L284 547L281 546L282 544L279 542L281 540L276 541L275 541L274 540L276 540L274 540L277 534L285 529L283 524L287 523L289 519L295 519L299 517L296 523L298 524L302 522L305 524L306 521L308 521L308 523L314 526L316 523L320 524L324 520L327 520L329 517L324 514L323 516L321 515L324 509L322 502L324 501L325 499L323 496L324 491L321 489L323 486L320 483L322 482L316 474L319 469L313 465L309 461L311 457L304 451L308 451L313 447L319 450L322 448L328 449L332 445L331 442L336 440L338 440L337 443L338 442L342 442L343 439L353 438L358 440L359 438L363 439Z"><title>Nouvelle-Aquitaine</title></path><path class="reg" d="M712 755L716 756L717 749L721 749L725 753L731 755L735 763L737 763L739 766L739 778L742 777L749 785L749 788L746 788L746 790L744 793L733 802L733 803L735 804L733 806L734 811L731 817L732 822L725 819L721 821L716 829L720 830L719 833L709 839L707 838L708 837L707 837L707 838L708 840L701 843L700 847L692 844L691 842L693 842L692 842L691 842L692 841L692 842L693 842L693 841L692 841L693 840L693 839L690 837L680 838L664 851L660 853L658 855L653 856L643 866L643 867L644 867L642 869L643 868L642 868L641 868L642 868L642 869L636 867L632 868L615 880L608 893L606 896L607 897L608 898L606 896L605 902L604 907L606 908L603 915L605 913L604 932L603 932L604 932L603 943L604 941L605 950L612 953L611 956L614 957L615 962L608 963L604 958L598 959L596 957L594 960L588 959L584 964L579 963L574 965L572 967L574 973L565 971L562 973L558 972L554 967L540 961L535 964L531 963L525 970L520 971L516 968L513 959L509 960L504 956L496 955L497 949L501 946L496 944L497 941L486 940L483 937L477 937L475 939L476 941L472 942L469 933L466 931L466 930L466 929L458 929L456 928L450 930L443 921L436 921L434 919L431 921L425 916L413 912L409 914L410 918L408 921L410 921L407 924L411 927L410 931L404 929L389 930L384 926L379 932L376 927L369 924L354 930L346 925L342 917L340 918L330 910L329 903L333 901L333 893L335 892L335 890L338 890L341 888L341 881L345 880L347 874L348 876L351 875L351 870L353 870L356 864L354 861L355 858L358 859L360 856L357 853L358 845L352 849L354 848L353 843L357 842L354 840L355 838L353 834L351 834L351 830L346 830L344 828L339 829L339 825L336 825L336 822L337 823L339 821L339 815L344 812L342 811L341 804L344 804L343 799L345 798L341 794L346 790L347 791L350 789L352 791L357 785L361 789L358 791L365 795L366 793L365 788L370 784L373 787L378 782L385 785L386 783L391 784L396 782L397 779L405 779L408 776L414 783L420 779L421 774L425 773L424 770L430 772L432 771L432 767L429 765L433 765L435 756L437 755L435 752L431 752L433 744L436 745L437 748L438 746L446 746L446 739L443 737L443 730L441 726L443 727L448 722L450 723L450 721L454 716L454 712L460 711L468 704L466 698L472 697L472 693L475 693L475 690L478 689L475 686L478 685L476 675L483 672L494 673L499 680L502 681L502 683L506 685L515 679L518 682L521 679L527 679L530 687L529 689L535 698L532 710L534 710L536 713L535 717L538 719L539 716L544 714L547 714L550 717L560 716L561 711L566 708L565 704L569 700L569 694L580 684L583 687L583 693L585 691L590 691L592 700L595 700L596 702L594 704L596 705L596 713L599 717L602 709L604 709L605 699L607 695L609 696L609 690L612 688L616 692L620 690L620 684L622 683L623 685L630 680L630 681L634 683L634 689L639 698L646 695L647 696L648 691L651 690L654 693L653 696L660 695L665 703L667 702L667 705L670 706L669 709L671 710L670 712L673 722L677 725L679 735L686 743L684 744L684 752L691 750L692 753L695 752L701 758L704 752L712 749Z"><title>Occitanie</title></path><path class="reg" d="M738 545L750 506L750 509L753 507L759 510L765 507L767 508L767 506L770 507L771 512L779 514L779 516L777 518L784 521L782 522L786 526L786 529L787 525L788 528L791 527L790 533L791 534L797 533L804 524L804 527L810 528L811 533L822 533L835 515L839 516L844 520L840 530L841 533L830 538L829 540L832 541L829 547L832 546L835 547L836 545L843 545L849 539L855 536L856 532L855 531L852 533L850 530L855 520L858 520L859 522L861 523L871 515L893 515L891 520L898 528L894 536L894 544L902 545L900 553L902 554L905 551L913 563L914 567L910 573L904 576L902 575L901 578L897 577L897 589L900 593L905 594L906 597L912 598L911 604L913 613L917 614L917 616L921 617L922 621L928 623L927 628L923 632L925 640L921 645L918 644L912 646L911 650L906 651L907 654L903 656L897 652L895 655L890 655L886 658L882 657L879 660L877 659L875 661L875 665L866 664L865 660L863 658L860 660L857 658L855 660L856 664L854 665L853 671L857 672L863 672L863 677L866 678L866 688L860 686L858 688L848 687L842 693L839 691L834 694L837 697L834 699L829 701L825 700L823 706L825 707L822 712L819 711L817 713L810 712L811 717L807 724L813 729L810 729L808 733L796 730L797 735L800 736L798 738L793 738L795 742L795 744L800 748L802 746L804 748L811 748L809 751L811 751L812 755L815 755L816 763L813 764L812 766L815 766L815 768L811 768L812 766L809 763L807 764L807 767L804 770L797 772L796 768L791 768L791 763L789 762L785 763L781 760L779 762L773 760L774 751L769 755L765 752L755 757L750 758L747 761L745 753L741 750L732 750L733 757L725 753L721 749L717 749L716 756L713 755L711 749L704 752L701 758L695 752L692 753L691 750L685 752L684 744L686 743L679 735L677 725L673 722L670 712L671 710L669 709L670 706L667 705L667 702L665 703L660 695L653 696L654 693L651 690L648 691L647 696L646 695L639 698L634 689L634 683L630 681L630 680L623 685L622 683L620 684L620 690L616 692L612 688L609 690L609 696L607 695L605 699L604 709L602 709L599 717L596 713L596 705L594 704L596 702L595 700L592 700L590 691L585 691L583 693L583 687L580 684L569 694L569 700L565 704L566 708L561 711L560 716L550 717L547 714L539 716L538 719L535 717L534 714L536 713L534 710L532 710L535 698L529 689L530 687L527 679L532 678L533 677L530 670L533 667L536 668L536 662L541 658L538 657L537 652L547 641L551 640L552 634L550 631L560 636L564 635L563 632L561 630L563 616L559 611L561 606L564 606L564 598L558 593L553 585L558 583L558 581L561 581L562 578L567 576L565 575L567 571L571 569L570 562L566 556L567 549L564 545L564 539L562 538L560 534L556 534L554 529L552 531L547 528L550 525L546 523L545 519L550 510L561 507L565 508L571 505L571 500L568 498L570 495L568 493L571 491L572 493L572 489L578 486L579 483L582 486L585 484L589 485L591 481L598 477L603 478L606 483L616 491L621 486L624 486L625 489L627 490L630 487L634 487L636 494L644 489L643 486L647 485L645 483L646 481L649 482L650 487L656 496L658 506L663 508L665 507L667 511L674 511L674 512L678 514L676 521L677 529L678 529L674 530L673 532L670 533L671 538L669 542L676 543L677 547L686 543L688 546L692 546L694 544L695 546L698 544L697 548L699 548L703 545L707 544L708 534L711 531L715 533L717 535L720 534L721 532L723 535L725 535L727 531L731 531L732 535L730 536L735 539L733 539L734 545ZM752 753L759 754L762 746L766 743L761 742L762 740L758 738L754 741L750 748L752 749Z"><title>Auvergne-Rhône-Alpes</title></path><path class="reg" d="M759 753L752 753L752 749L750 748L754 741L758 738L762 740L761 742L766 744L762 746ZM755 757L765 752L769 755L774 751L772 756L773 760L779 762L781 760L785 763L789 762L791 763L791 768L796 768L797 772L804 770L807 767L807 764L809 763L812 766L811 768L815 768L815 766L812 766L813 764L816 763L815 755L812 755L811 751L809 751L811 748L804 748L802 746L800 748L795 744L795 742L793 738L798 738L800 736L797 735L796 730L808 733L810 729L813 729L807 724L811 717L810 712L817 713L819 711L822 712L825 707L823 706L825 700L829 701L834 699L837 697L834 694L839 691L842 693L848 687L858 688L860 686L866 688L866 678L863 677L863 672L857 672L853 671L854 665L856 664L855 660L856 658L860 660L863 658L865 660L866 664L873 665L875 665L875 661L877 659L879 660L882 657L885 657L889 662L890 668L896 668L895 671L898 674L897 681L906 686L910 687L911 684L919 689L917 692L924 704L920 703L915 705L914 708L916 711L914 712L912 718L909 719L907 722L909 727L915 733L911 734L911 740L913 741L916 747L920 749L921 754L935 757L943 763L948 762L949 766L952 764L955 766L955 764L966 760L970 761L971 758L975 757L974 763L979 768L977 772L974 774L974 780L967 783L967 789L962 792L965 802L962 806L960 805L956 810L952 809L950 812L951 813L950 815L949 811L948 814L946 812L943 814L941 818L940 816L936 818L934 825L935 830L934 830L932 827L931 827L931 828L930 828L927 831L925 830L921 831L919 834L921 836L919 838L918 839L919 839L918 841L916 842L916 844L913 844L913 846L911 845L907 847L904 845L905 845L902 851L902 853L902 854L899 854L899 858L896 858L892 863L892 862L891 862L892 863L891 863L891 862L891 863L893 864L898 863L899 861L901 863L899 866L900 870L898 871L897 872L897 874L895 875L894 872L891 872L885 876L876 877L875 878L874 880L875 884L868 880L862 881L858 885L858 890L860 890L858 891L856 890L853 891L853 890L856 889L855 885L847 886L847 884L842 883L839 884L840 882L838 881L835 883L838 884L837 886L840 885L841 887L836 886L833 890L831 890L830 888L829 888L829 887L830 885L830 883L826 883L826 880L820 880L819 876L814 875L813 878L807 872L804 874L804 873L800 873L799 873L800 874L796 873L791 873L794 868L793 867L791 865L794 864L792 859L790 858L791 858L789 857L789 858L788 857L790 857L789 857L788 856L787 857L782 860L777 860L766 861L763 853L774 853L781 845L779 842L774 846L772 839L766 839L764 835L763 844L767 846L768 852L762 852L762 853L760 850L757 849L754 853L755 850L753 851L751 847L753 852L749 850L751 853L752 853L750 853L751 854L748 854L747 855L750 855L750 854L753 854L749 856L751 856L752 857L752 856L753 858L754 858L756 855L752 860L750 861L745 859L735 859L729 858L727 855L729 854L729 851L725 848L700 847L701 843L708 840L707 838L707 837L709 839L719 833L720 830L716 829L721 821L725 819L732 822L731 817L734 811L733 806L735 804L733 803L733 802L744 793L746 790L746 788L749 788L744 779L742 777L739 778L738 775L739 766L737 763L735 763L733 758L732 750L743 751L745 753L747 761L750 758Z"><title>Provence-Alpes-Côte d'Azur</title></path><path class="reg" d="M1123 877L1128 879L1127 882L1132 899L1129 914L1138 928L1143 974L1133 994L1133 1011L1135 1021L1132 1025L1134 1028L1131 1030L1131 1032L1128 1032L1128 1031L1127 1031L1127 1032L1125 1035L1127 1036L1128 1033L1133 1034L1133 1035L1131 1037L1131 1038L1125 1042L1126 1049L1122 1052L1121 1055L1122 1056L1125 1053L1125 1055L1122 1061L1119 1061L1115 1057L1111 1058L1114 1052L1109 1053L1110 1049L1106 1052L1102 1049L1102 1050L1100 1048L1096 1049L1095 1047L1094 1047L1093 1047L1092 1045L1089 1046L1090 1043L1085 1042L1086 1040L1083 1038L1084 1034L1091 1032L1094 1026L1085 1025L1083 1026L1082 1022L1076 1024L1076 1022L1072 1023L1078 1018L1076 1015L1081 1014L1081 1013L1082 1012L1079 1010L1082 1010L1081 1006L1083 1005L1078 1001L1076 1004L1067 1006L1068 1001L1065 998L1070 997L1070 993L1077 988L1075 986L1073 981L1070 983L1065 979L1063 980L1063 977L1061 978L1064 976L1061 975L1063 974L1062 971L1061 972L1061 971L1061 969L1059 968L1071 964L1068 960L1063 960L1063 959L1065 957L1064 955L1059 957L1058 953L1063 951L1063 948L1067 947L1066 945L1068 941L1066 941L1067 936L1071 935L1070 930L1071 928L1071 931L1074 930L1076 931L1077 926L1083 925L1083 923L1087 921L1094 920L1098 918L1097 914L1103 910L1110 909L1117 915L1121 908L1120 901L1117 897L1119 893L1117 890L1120 887L1118 879Z"><title>Corse</title></path><path class="reg" d="M500 261L496 265L499 266L498 269L501 271L503 275L506 275L506 279L509 279L511 282L510 286L512 291L515 291L517 294L522 293L522 298L525 299L525 311L530 312L535 309L539 310L538 308L540 309L542 305L545 307L545 310L546 309L549 309L550 307L553 309L557 308L558 315L565 318L565 325L562 325L559 330L565 330L568 328L579 330L583 328L581 325L586 325L586 329L588 329L591 326L597 326L603 329L602 331L603 331L605 336L610 340L608 342L610 343L610 347L605 354L602 354L600 359L603 360L603 368L590 370L589 374L595 379L597 383L596 388L599 392L589 394L596 406L591 417L600 426L603 441L602 447L607 452L607 460L605 465L606 471L603 478L598 477L594 478L589 485L585 484L582 486L579 483L578 486L572 489L572 493L571 491L568 493L570 494L568 498L571 500L571 505L565 508L562 508L562 507L552 508L549 514L547 513L546 519L539 518L531 520L522 516L518 518L517 516L512 518L508 515L505 515L506 518L503 522L500 519L496 522L494 518L489 521L487 518L479 526L475 520L471 521L470 523L464 524L463 521L461 523L464 516L462 517L459 515L459 508L455 505L449 505L449 501L441 498L440 494L442 492L441 488L443 487L441 483L434 476L433 469L431 469L426 463L425 455L421 454L420 451L416 451L418 457L411 456L406 460L401 457L397 459L395 453L397 452L396 446L393 447L394 444L392 443L389 445L387 444L389 441L387 438L386 440L384 439L384 437L380 438L378 429L380 427L380 419L386 413L385 411L388 409L386 407L392 396L392 393L390 391L393 387L393 383L404 389L406 387L403 383L404 380L409 383L410 380L421 377L422 375L420 376L419 373L423 369L429 367L428 365L434 359L433 353L436 351L437 354L438 349L440 348L438 343L440 338L437 337L437 334L440 334L441 331L438 331L440 330L441 327L446 326L437 321L440 318L437 313L438 309L434 308L437 304L447 300L451 293L448 289L451 284L447 282L448 280L442 277L442 274L440 274L440 268L446 262L448 263L452 261L456 261L459 258L462 259L463 255L470 258L472 257L478 258L481 256L481 250L488 246L487 240L490 238L494 240L496 244L494 246L498 250L497 251L497 258Z"><title>Centre-Val de Loire</title></path></g>
-            <path class="route" d="M534 185C610 260 615 370 555 446C495 525 380 640 276 697" mask="url(#route-masque)"/>
-            <circle class="pt" cx="534" cy="185" r="15"/>
-            <circle class="pt" cx="555" cy="446" r="15"/>
-            <circle class="halo" cx="276" cy="697" r="16"/>
-            <circle class="pt-now" cx="276" cy="697" r="17"/>
-            <text class="lbl" x="510" y="178" text-anchor="end">Beauvais<tspan class="lbl-sub" x="510" dy="1.05em">2002–2022</tspan></text>
-            <text class="lbl" x="583" y="458">Bourges<tspan class="lbl-sub" x="583" dy="1.05em">2023–2024</tspan></text>
-            <text class="lbl" x="232" y="753">Bassin d'Arcachon<tspan class="lbl-sub" x="232" dy="1.05em">depuis 2024</tspan></text>
-            <g class="scale"><line x1="40" y1="1032" x2="240" y2="1032"/><line x1="40" y1="1020" x2="40" y2="1032"/><line x1="140" y1="1024" x2="140" y2="1032"/><line x1="240" y1="1020" x2="240" y2="1032"/><text x="40" y="1008">200 km</text></g>
-          </svg>
-          <ul class="legend">
-            <li><span class="sw sw-route" aria-hidden="true"></span>Parcours depuis 2002</li>
-            <li><span class="sw sw-now" aria-hidden="true"></span>Poste actuel</li>
-          </ul>
-          <figcaption class="map-src">Fond : IGN, Admin Express COG Carto, généralisé</figcaption>
-        </figure>
+          <figure class="labo-carte" id="labo-carte">
+            <figcaption class="labo-tete"><p class="labo-nom"><span class="labo-ex" id="labo-ex">Exemple</span><span id="labo-nom"></span></p></figcaption>
+            <svg class="labo-svg" id="labo-svg" viewBox="0 0 600 400" role="img" aria-labelledby="labo-svg-titre"><title id="labo-svg-titre">Carte du territoire</title></svg>
+            <p class="labo-etat" id="labo-etat" role="status"></p>
+            <div class="kpi">
+              <p class="kpi-pop"><strong id="k-pop">–</strong><span>habitants</span></p>
+              <dl class="kpi-grille">
+                <div><dt>superficie</dt><dd id="k-km2">–</dd></div>
+                <div><dt>densité</dt><dd id="k-dens">–</dd></div>
+                <div><dt id="k-4-l">communes</dt><dd id="k-4">–</dd></div>
+              </dl>
+              <p class="kpi-lecture" id="k-lecture"></p>
+            </div>
+            <p class="sr-only" id="labo-annonce" aria-live="polite"></p>
+          </figure>
+          <p class="labo-src">Contours IGN Admin Express et populations Insee, via geo.api.gouv.fr · Lambert-93 · cercles proportionnels à la population</p>
+        </div>
       </div>
-    </section>
-
-    <!-- En bref -->
-    <section class="bref" aria-labelledby="bref-titre">
-      <h2 class="sr-only" id="bref-titre">En bref</h2>
-      <div class="wrap bento">
-        <div class="tile tile-wide topo rv">
-          <p class="tile-n">Depuis 2002</p>
-          <p class="tile-l">SIG et données territoriales en intercommunalité, de la numérisation cadastrale à l'évaluation des politiques publiques</p>
-        </div>
-        <div class="tile rv" style="--d:1">
-          <p class="tile-n">3</p>
-          <p class="tile-l">agglomérations : Beauvaisis, Bourges Plus, Bassin d'Arcachon Nord</p>
-        </div>
-        <div class="tile rv" style="--d:2">
-          <p class="tile-n">17 → 53</p>
-          <p class="tile-l">communes accompagnées dans le Beauvaisis en 20 ans</p>
-        </div>
-        <div class="tile tile-award rv">
-          <p class="tile-n"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>2019</p>
-          <p class="tile-l">Lauréat Défis Urbains, catégorie Stratégie commerciale</p>
-        </div>
-        <div class="tile tile-tools rv" style="--d:1">
-          <p class="tile-k">Outils mobilisés dans ces travaux</p>
-          <ul class="chips">
-            <li class="chip">PostgreSQL / PostGIS</li>
-            <li class="chip">Oracle Spatial</li>
-            <li class="chip">FME</li>
-            <li class="chip">Python / Pandas</li>
-            <li class="chip">Plotly</li>
-            <li class="chip">Power BI</li>
-            <li class="chip">ArcGIS Pro</li>
-            <li class="chip">ArcGIS Enterprise</li>
-            <li class="chip">ArcGIS Online</li>
-            <li class="chip">Ollama</li>
-            <li class="chip">Open WebUI</li>
-            <li class="chip">Docker</li>
-          </ul>
+      <div class="wrap flux-zone">
+        <div class="flux rv" id="flux">
+          <div class="flux-col flux-comp" role="group" aria-label="Compétences">
+            <p class="flux-k">Compétences</p>
+            <button type="button" class="flux-c" data-c="a" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Gouvernance de la donnée</span><span class="flux-c-n">3 projets</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="b" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Évaluation des politiques publiques</span><span class="flux-c-n">3 projets</span></span><span class="flux-c-barre" style="--n:3" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="c" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Ingénierie et automatisation</span><span class="flux-c-n">4 projets</span></span><span class="flux-c-barre" style="--n:4" aria-hidden="true"></span></button>
+            <button type="button" class="flux-c" data-c="d" aria-pressed="false"><span class="flux-c-txt"><span class="flux-c-nom">Conduite de projet</span><span class="flux-c-n">2 projets</span></span><span class="flux-c-barre" style="--n:2" aria-hidden="true"></span></button>
+          </div>
+          <svg class="flux-svg" id="flux-svg" aria-hidden="true"></svg>
+          <div class="flux-col flux-proj">
+            <p class="flux-k">Projets</p>
+            <a class="flux-p" href="#travail-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t"><b>04</b>Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
+            <a class="flux-p" href="#travail-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t"><b>03</b>Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#travail-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>01</b>Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#travail-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>02</b>Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#travail-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>06</b>SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
+            <a class="flux-p" href="#travail-05" data-c="c d"><span class="flux-vis"><img src="assets/img/pile-cartes-pdf.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>05</b>Cartes de crise</span><span class="flux-r">Une carte PDF en <b>5 secondes</b></span><span class="flux-dots" aria-hidden="true"><i data-c="c"></i><i data-c="d"></i></span></span></a>
+          </div>
         </div>
       </div>
     </section>
@@ -737,7 +857,7 @@
               </button>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">01</span><span class="case-year">2025</span></div>
+              <div class="case-top"><span class="case-num">01</span><span class="case-year">2025</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t01">Tri à la source des biodéchets : évaluer un déploiement en continu</h3>
               <p class="case-ctx">COBAN · 6 communes · 141 points de collecte</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -784,7 +904,7 @@
               </button>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span></div>
+              <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t02">Visualisation des flux budgétaires — BP 2026</h3>
               <p class="case-ctx">COBAN · 6 budgets consolidés</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -838,7 +958,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">03</span><span class="case-year">2026</span></div>
+              <div class="case-top"><span class="case-num">03</span><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t03">Assistant IA souverain pour l'accueil des usagers</h3>
               <p class="case-ctx">COBAN · 100 % hébergé en interne · Open source intégral</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -904,7 +1024,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">04</span><span class="case-year">2006–2022</span></div>
+              <div class="case-top"><span class="case-num">04</span><span class="case-year">2006–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="b">Évaluation</span></div>
               <h3 class="case-title" id="t04">Observatoire du commerce et revitalisation du centre-ville</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -965,7 +1085,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">05</span><span class="case-year">2026</span></div>
+              <div class="case-top"><span class="case-num">05</span><span class="case-year">2026</span><span class="comp-badge" data-c="c">Ingénierie</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t05">Des cartes pour la gestion de crise, en quelques secondes</h3>
               <p class="case-ctx">COBAN · Incendies de Gironde, juillet 2026 · Outil support</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -1010,7 +1130,7 @@
               </button>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">06</span><span class="case-year">2002–2022</span></div>
+              <div class="case-top"><span class="case-num">06</span><span class="case-year">2002–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t06">SIG intercommunal : accompagner chaque commune, construire un référentiel commun</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
               <div class="tabs" role="tablist" aria-label="Fiche projet">
@@ -1057,44 +1177,88 @@
             <h2 class="s-title" id="parcours-titre">Parcours</h2>
           </div>
         </div>
-        <ol class="timeline">
-          <li class="tl tl-now rv">
-            <p class="tl-date">Depuis<br/>juillet 2024</p>
-            <span class="tl-rail" aria-hidden="true"></span>
-            <div class="tl-card">
-              <h3 class="tl-role">Responsable valorisation des données et SIG</h3>
-              <p class="tl-org">COBAN — Communauté d'Agglomération du Bassin d'Arcachon Nord (Gironde) · 8 communes / 74 500 hab.</p>
-              <p class="tl-desc">Créer de zéro l'écosystème data d'une collectivité : référentiels, flux automatisés, tableaux de bord. Former les services à exploiter leurs propres données et offrir à la direction et aux élus les moyens d'objectiver leurs décisions.</p>
+        <div class="parcours-grid">
+          <ol class="timeline">
+            <li class="tl tl-now rv">
+              <p class="tl-date">Depuis<br/>juillet 2024</p>
+              <span class="tl-rail" aria-hidden="true"></span>
+              <div class="tl-card">
+                <h3 class="tl-role">Responsable valorisation des données et SIG</h3>
+                <p class="tl-org">COBAN — Communauté d'Agglomération du Bassin d'Arcachon Nord (Gironde) · 8 communes / 74 500 hab.</p>
+                <p class="tl-desc">Créer de zéro l'écosystème data d'une collectivité : référentiels, flux automatisés, tableaux de bord. Former les services à exploiter leurs propres données et offrir à la direction et aux élus les moyens d'objectiver leurs décisions.</p>
+              </div>
+            </li>
+            <li class="tl rv">
+              <p class="tl-date">2023–2024</p>
+              <span class="tl-rail" aria-hidden="true"></span>
+              <div class="tl-card">
+                <h3 class="tl-role">Chef du service cartographie-topographie</h3>
+                <p class="tl-org">Bourges Plus Agglomération (Cher) · 17 communes / 103 300 hab. · 6 agents</p>
+                <p class="tl-desc">Structurer et standardiser des données géoréférencées, refondre le marché de prestations topographiques, préparer l'arrivée du PCRS.</p>
+              </div>
+            </li>
+            <li class="tl rv">
+              <p class="tl-date">2006–2022</p>
+              <span class="tl-rail" aria-hidden="true"></span>
+              <div class="tl-card">
+                <h3 class="tl-role">Responsable SIG</h3>
+                <p class="tl-org">Agglo du Beauvaisis (Oise) · 53 communes / 103 900 hab. · 3 agents</p>
+                <p class="tl-desc">16 ans à faire du SIG une infrastructure de pilotage territorial : modélisation, traitement et analyse de la donnée, observatoires décisionnels, applications métier. Interlocuteur SIG des 53 communes membres : formation, support, projets à la demande.</p>
+              </div>
+            </li>
+            <li class="tl rv">
+              <p class="tl-date">2002–2006</p>
+              <span class="tl-rail" aria-hidden="true"></span>
+              <div class="tl-card">
+                <h3 class="tl-role">Technicien SIG</h3>
+                <p class="tl-org">CC du Beauvaisis (Oise) · 17 communes / 66 000 hab.</p>
+                <p class="tl-desc">Construire le socle de données géographiques de la collectivité.</p>
+              </div>
+            </li>
+          </ol>
+          <figure class="map-card rv" style="--d:1">
+            <div class="map-head">
+              <span class="eyebrow">Territoires</span>
+              <span class="map-proj">Lambert-93</span>
             </div>
-          </li>
-          <li class="tl rv">
-            <p class="tl-date">2023–2024</p>
-            <span class="tl-rail" aria-hidden="true"></span>
-            <div class="tl-card">
-              <h3 class="tl-role">Chef du service cartographie-topographie</h3>
-              <p class="tl-org">Bourges Plus Agglomération (Cher) · 17 communes / 103 300 hab. · 6 agents</p>
-              <p class="tl-desc">Structurer et standardiser des données géoréférencées, refondre le marché de prestations topographiques, préparer l'arrivée du PCRS.</p>
-            </div>
-          </li>
-          <li class="tl rv">
-            <p class="tl-date">2006–2022</p>
-            <span class="tl-rail" aria-hidden="true"></span>
-            <div class="tl-card">
-              <h3 class="tl-role">Responsable SIG</h3>
-              <p class="tl-org">Agglo du Beauvaisis (Oise) · 53 communes / 103 900 hab. · 3 agents</p>
-              <p class="tl-desc">16 ans à faire du SIG une infrastructure de pilotage territorial : modélisation, traitement et analyse de la donnée, observatoires décisionnels, applications métier. Interlocuteur SIG des 53 communes membres : formation, support, projets à la demande.</p>
-            </div>
-          </li>
-          <li class="tl rv">
-            <p class="tl-date">2002–2006</p>
-            <span class="tl-rail" aria-hidden="true"></span>
-            <div class="tl-card">
-              <h3 class="tl-role">Technicien SIG</h3>
-              <p class="tl-org">CC du Beauvaisis (Oise) · 17 communes / 66 000 hab.</p>
-              <p class="tl-desc">Construire le socle de données géographiques de la collectivité.</p>
-            </div>
-          </li>
-        </ol>
+            <svg class="map" viewBox="0 0 1143 1064" role="img" aria-labelledby="map-titre">
+              <title id="map-titre">Carte des postes occupés : Beauvais de 2002 à 2022, Bourges de 2023 à 2024, Bassin d'Arcachon depuis 2024.</title>
+              <defs><mask id="route-masque" maskUnits="userSpaceOnUse"><path class="route-draw" pathLength="1" d="M534 185C610 260 615 370 555 446C495 525 380 640 276 697"/></mask></defs>
+              <g><path class="reg" d="M499 261L496 256L498 250L494 246L496 244L494 240L491 240L490 236L492 234L488 233L490 231L487 226L491 225L492 222L493 224L500 222L504 208L507 205L509 207L507 209L510 213L514 211L516 214L519 213L520 214L526 212L528 213L534 209L540 214L544 212L545 214L544 215L545 216L549 215L551 212L554 216L555 215L562 218L565 220L564 221L567 222L568 219L570 224L574 221L579 225L581 224L581 226L587 222L590 225L599 223L600 225L601 223L606 223L606 220L613 222L612 223L615 227L613 231L619 236L620 239L623 238L625 243L628 241L629 247L634 248L635 251L636 249L637 253L631 254L633 254L633 256L631 257L630 259L635 262L634 273L640 272L639 273L642 275L638 277L639 278L635 280L636 284L631 285L633 289L629 291L632 300L629 299L628 302L622 301L620 303L614 302L609 305L605 304L602 310L604 316L601 321L596 324L596 326L591 326L588 329L586 329L586 325L581 325L583 328L579 330L568 328L560 330L562 325L565 325L565 318L558 315L557 308L553 309L550 307L549 309L546 309L545 310L545 307L542 305L540 309L538 308L539 310L535 309L530 312L525 311L525 299L522 298L522 293L517 294L515 291L512 291L510 286L511 282L509 279L506 279L506 275L503 275L501 271L498 269L499 266L496 265Z"><title>Île-de-France</title></path><path class="reg" d="M750 506L738 545L734 545L733 539L735 539L730 536L733 534L730 531L727 531L725 535L723 535L721 532L720 534L717 535L713 532L709 532L707 544L703 545L700 548L697 548L698 544L695 546L694 544L692 546L688 546L686 543L677 547L676 543L669 542L671 538L669 534L674 532L674 530L678 529L677 529L676 521L678 514L674 513L674 511L667 511L665 507L663 508L658 506L656 496L650 487L649 482L646 481L647 485L643 486L644 489L640 490L638 494L635 492L636 490L634 487L630 487L627 490L625 489L624 486L621 486L616 491L605 482L603 477L606 471L605 465L607 460L607 452L602 447L603 441L600 426L592 419L596 406L589 394L599 392L596 388L597 383L595 379L592 375L589 375L590 371L603 368L602 362L603 360L600 359L602 354L605 354L610 347L608 342L610 340L605 336L603 331L602 331L603 329L596 325L604 316L602 310L605 304L609 305L611 302L620 303L622 301L627 303L629 299L632 300L633 304L634 302L638 303L647 315L645 317L647 319L644 323L648 323L651 328L654 327L654 324L656 325L656 329L660 330L662 339L666 342L666 343L663 343L664 345L666 346L667 343L669 346L668 352L676 350L679 352L680 349L684 352L688 348L691 350L691 346L692 346L694 351L697 351L699 347L717 346L715 342L719 339L734 341L736 344L734 346L739 347L740 349L738 353L740 354L740 351L743 351L745 356L750 362L744 367L745 369L748 369L749 377L753 374L753 376L755 376L755 379L760 381L764 377L764 380L769 384L770 383L769 386L770 388L775 384L778 386L782 377L791 377L793 373L796 377L803 375L802 371L804 369L804 366L801 365L802 360L806 360L807 356L810 357L812 357L813 352L814 350L816 351L820 342L822 343L819 347L821 347L823 344L825 344L828 339L834 337L836 338L836 343L840 345L840 347L854 343L857 345L861 351L870 344L873 348L884 354L887 358L888 356L890 361L896 362L903 367L904 373L902 380L903 382L904 380L908 381L912 390L908 393L904 391L901 392L902 397L898 399L898 402L896 403L894 408L904 406L906 407L907 410L904 411L903 414L899 416L900 420L892 429L892 430L882 439L881 441L883 443L876 450L867 452L862 457L865 461L862 470L864 474L852 484L839 497L842 502L837 510L838 512L836 515L830 521L827 528L826 527L825 530L821 533L811 533L810 528L804 527L804 524L797 533L791 534L790 533L791 527L788 528L787 525L786 529L786 526L782 522L784 521L777 518L779 516L779 514L771 512L770 507L767 506L767 508L765 507L759 510L755 507L750 509Z"><title>Bourgogne-Franche-Comté</title></path><path class="reg" d="M319 286L317 281L312 282L310 279L305 282L301 279L287 275L285 279L281 280L277 284L269 280L264 265L270 266L277 263L279 263L279 264L280 264L280 265L280 263L277 262L278 260L278 259L279 259L279 258L273 262L273 260L270 259L268 253L265 251L265 243L262 241L265 239L267 232L268 230L267 232L267 233L267 235L268 235L268 220L272 221L268 219L266 222L266 223L265 220L265 199L268 199L265 197L264 199L261 191L261 192L262 191L259 187L260 186L258 184L258 186L259 185L259 186L258 186L253 181L254 180L252 181L250 166L247 162L251 158L251 152L249 149L244 146L245 141L248 143L251 142L253 145L256 147L262 148L263 148L264 148L263 148L264 150L266 149L268 150L266 150L267 152L269 150L273 151L277 149L278 146L293 147L292 149L295 152L295 157L293 156L293 159L292 161L292 159L290 159L289 164L290 167L297 177L298 179L299 180L297 186L295 188L294 189L293 188L292 188L293 191L295 188L297 187L298 185L302 187L302 189L300 190L303 189L302 185L305 182L313 181L328 187L354 190L365 195L366 197L365 197L364 199L367 198L366 196L376 195L375 195L374 196L382 192L393 184L399 182L408 181L408 179L403 180L403 179L394 179L392 178L391 178L391 177L396 178L391 177L392 176L390 175L392 177L396 177L391 175L388 172L395 157L395 155L393 155L394 154L395 155L399 150L409 146L426 136L463 128L484 113L487 114L488 112L490 113L490 116L501 127L506 130L513 147L511 147L506 155L507 156L511 155L507 160L508 163L506 165L508 167L507 167L506 167L510 172L508 176L510 178L511 175L513 176L507 187L509 187L508 188L511 191L512 200L514 202L513 205L511 202L507 203L503 217L499 223L493 224L493 223L492 222L491 225L487 226L490 231L489 234L492 234L490 236L491 238L487 240L489 243L488 246L481 250L481 256L478 258L472 257L470 258L463 255L462 259L459 258L456 261L452 261L448 263L446 262L440 268L440 274L442 274L442 277L448 280L447 282L451 284L448 289L451 293L446 301L437 303L436 306L434 308L438 309L437 313L440 318L438 320L434 322L429 313L426 312L425 315L418 313L415 307L414 308L408 305L407 293L401 287L392 288L392 290L390 289L391 291L384 294L383 298L379 295L375 298L375 289L368 288L367 283L369 281L364 276L361 276L360 278L362 279L359 282L356 281L353 285L350 282L342 282L338 285L335 285L331 288L330 284L328 285L325 285L326 288L323 289L322 285Z"><title>Normandie</title></path><path class="reg" d="M571 224L568 219L567 222L564 221L565 220L562 218L555 215L554 216L551 212L549 215L545 216L544 212L540 214L534 209L528 213L526 212L519 214L514 211L509 212L507 209L509 207L506 206L507 203L511 202L513 205L514 202L512 200L511 191L508 188L509 187L507 186L513 176L511 175L510 178L508 176L510 172L506 167L508 166L506 165L508 163L507 160L511 155L507 156L506 155L511 147L513 147L506 130L501 127L490 116L490 113L485 113L490 108L493 101L494 99L495 97L496 97L495 98L497 97L498 96L499 96L498 97L500 100L503 99L505 101L507 100L506 97L502 97L501 92L497 91L498 80L503 80L504 82L503 79L498 76L500 60L501 62L505 64L500 57L499 40L500 38L499 40L500 41L501 39L502 40L502 35L502 32L501 26L501 23L505 23L511 16L520 12L523 13L538 9L537 8L538 9L542 5L545 6L555 3L557 5L556 4L569 0L571 10L573 11L575 16L572 19L573 27L575 31L581 31L586 41L590 41L594 44L597 38L605 34L607 35L609 33L611 33L615 42L619 43L618 48L621 63L628 67L633 65L635 62L638 63L636 67L644 66L648 70L648 80L651 87L654 82L661 82L665 85L674 81L678 86L681 87L682 92L684 92L684 89L687 90L688 93L683 97L683 103L682 106L687 106L689 113L684 115L682 119L684 121L683 123L689 125L688 130L691 131L688 145L691 148L690 151L682 157L681 162L676 161L675 163L679 169L677 172L679 172L679 175L676 176L678 183L676 183L676 192L671 190L668 187L666 189L661 188L663 189L663 194L657 193L648 198L650 206L649 209L651 211L652 210L653 213L656 213L655 215L652 217L651 215L646 216L645 219L648 224L644 226L644 228L648 228L650 231L648 232L646 236L644 237L645 239L643 239L642 242L640 242L635 251L634 248L629 247L628 241L625 243L623 238L620 239L619 236L613 231L615 227L612 223L613 222L606 220L606 223L601 223L600 225L599 223L590 225L587 222L581 226L581 224L579 225L574 221Z"><title>Hauts-de-France</title></path><path class="reg" d="M648 323L644 323L647 319L645 317L647 315L644 312L643 308L641 308L638 303L634 302L633 304L629 291L633 289L631 285L636 284L635 280L639 278L638 277L642 275L639 273L640 272L634 273L635 262L630 260L631 257L633 256L631 254L637 253L636 247L640 242L643 242L648 232L650 231L648 228L644 228L644 226L648 224L645 219L646 216L651 215L652 217L655 215L656 213L653 213L652 210L651 211L649 209L650 206L648 198L657 193L663 194L663 189L662 189L661 188L666 189L668 187L671 190L676 192L676 183L678 183L676 176L679 175L679 172L677 172L679 169L675 163L676 161L681 162L682 157L686 154L691 148L688 145L691 135L691 131L688 130L689 125L695 124L705 127L710 126L714 122L722 121L723 114L721 113L731 101L737 104L735 107L735 110L733 109L731 113L733 116L729 123L737 130L734 135L736 140L734 143L744 142L746 144L752 146L754 151L757 151L757 153L765 153L769 157L768 162L771 160L776 164L779 167L778 169L779 170L778 172L779 174L786 171L790 173L792 168L800 169L802 167L805 169L806 169L809 173L814 173L816 174L817 178L821 179L823 177L826 178L827 173L830 173L831 171L836 171L843 176L849 174L858 179L858 182L862 186L860 188L868 195L867 198L869 199L870 202L872 202L871 205L873 208L880 209L882 206L880 202L888 201L889 203L895 204L897 213L900 208L900 210L904 211L911 210L914 211L916 208L919 208L919 205L925 203L924 205L928 205L928 208L931 212L939 215L939 217L948 217L951 215L957 218L961 215L964 218L973 222L984 224L981 225L978 231L974 242L970 245L969 248L966 248L966 252L957 261L955 268L956 276L953 279L951 290L952 297L949 300L947 309L943 316L941 325L941 330L946 337L941 348L940 359L942 364L939 368L946 379L945 381L939 385L942 387L941 388L939 387L940 390L938 392L934 390L934 392L936 393L931 398L927 397L921 400L920 398L915 397L917 392L912 391L912 389L907 381L903 382L902 380L904 371L902 365L890 361L888 356L887 358L884 354L873 348L870 344L861 351L857 345L854 343L846 344L841 347L840 345L836 343L837 342L835 337L830 338L821 347L819 347L822 343L819 343L816 351L814 350L813 352L812 357L807 356L806 360L802 360L801 365L804 366L804 369L802 371L803 375L796 377L793 373L791 377L782 377L778 386L775 384L770 388L769 386L770 383L769 384L764 380L764 377L760 381L755 379L755 376L753 376L753 374L749 377L748 369L745 369L744 367L750 362L745 356L743 351L740 351L740 354L738 353L740 349L739 347L734 346L736 344L734 341L719 339L715 342L717 346L699 347L697 351L694 351L692 346L691 346L691 350L688 348L684 352L680 349L679 352L676 350L668 352L669 346L667 343L666 346L664 345L663 343L666 343L666 342L662 339L660 330L656 329L657 325L654 324L654 327L651 328Z"><title>Grand Est</title></path><path class="reg" d="M204 446L201 446L198 443L198 439L204 440L204 443L203 442L202 442L202 443L203 443L204 443L204 445L209 448L209 454ZM365 443L360 442L363 439L360 438L358 440L353 438L343 439L342 442L338 442L337 443L338 440L336 440L331 442L332 445L328 449L322 448L319 450L313 447L308 451L306 450L304 451L311 457L309 461L313 465L319 469L316 474L322 482L320 483L323 486L321 489L324 491L323 496L325 499L324 501L323 501L322 502L324 509L321 515L323 516L324 514L329 517L327 520L324 520L320 524L316 523L314 526L308 523L308 521L306 521L305 524L302 522L298 524L296 523L299 517L295 519L289 519L286 523L285 521L282 523L281 521L278 522L277 528L268 518L270 524L271 525L270 525L271 525L272 525L271 525L270 525L270 524L266 518L258 518L254 511L244 509L244 507L234 500L234 499L233 499L233 501L232 500L229 487L222 477L224 477L222 477L218 471L209 462L209 454L212 454L218 446L219 442L223 440L215 430L203 427L206 424L210 424L210 412L209 411L200 416L194 410L191 409L191 412L189 412L182 408L184 406L184 407L186 409L188 409L188 408L185 407L185 402L182 399L189 394L189 395L192 395L190 391L192 388L194 390L201 390L202 384L206 385L206 387L211 385L210 387L212 388L213 384L217 383L219 371L228 366L229 369L237 365L252 366L255 360L266 356L266 353L272 354L274 357L283 360L291 340L293 337L299 338L302 336L297 307L301 300L299 288L301 279L305 282L309 279L312 282L317 281L319 286L322 285L323 289L326 288L325 285L328 285L330 284L331 288L335 285L338 285L342 282L350 282L353 285L356 281L359 282L362 279L360 278L361 276L364 276L369 281L367 283L368 288L375 289L375 296L375 298L379 295L383 298L384 294L391 291L390 289L392 290L392 288L401 287L407 293L408 305L414 308L415 307L418 313L425 315L426 312L429 313L433 321L437 320L446 326L441 327L440 330L438 331L441 331L440 334L437 334L437 337L440 338L438 343L440 348L438 349L437 354L436 351L433 353L434 359L428 365L429 367L423 369L419 373L422 376L410 380L409 383L404 380L403 383L406 387L404 389L393 383L393 387L390 391L392 393L392 396L386 407L388 409L385 411L386 413L380 419L378 432L376 433L375 431L371 437L371 441L367 439Z"><title>Pays de la Loire</title></path><path class="reg" d="M139 401L144 403L141 406L139 405L137 405L135 403L131 404L131 403L129 402L130 400L130 399L129 400L129 398L128 397L130 395L130 393L132 396L132 395L135 397L136 397L137 396L136 398ZM285 278L286 275L290 275L301 280L299 288L301 300L297 307L302 336L299 338L293 337L291 340L283 360L274 357L272 354L266 353L266 356L255 360L252 366L237 365L229 369L228 366L219 371L217 383L213 384L212 388L210 387L211 385L206 387L206 385L202 384L201 390L198 391L193 390L193 388L188 392L187 386L193 387L196 386L196 385L192 386L185 382L183 384L178 384L175 382L174 385L170 383L165 385L162 384L156 376L159 376L161 379L164 379L163 377L165 379L166 378L167 379L170 379L172 375L171 374L171 373L172 373L167 370L170 371L170 369L169 370L169 368L163 371L163 370L160 370L161 372L159 371L158 374L156 374L153 365L153 373L155 377L152 376L152 375L151 372L151 375L148 372L149 375L147 373L143 375L143 373L141 371L140 380L143 385L140 385L139 383L138 379L138 378L139 378L140 377L140 373L135 366L136 363L137 363L135 362L140 360L135 359L136 361L135 362L135 364L135 365L129 360L124 360L127 358L130 360L130 357L125 358L124 357L129 353L131 350L130 348L131 348L130 348L130 350L127 353L126 353L125 351L125 353L123 357L117 358L112 350L113 346L112 350L107 348L104 348L104 346L103 347L102 346L101 348L98 344L104 343L100 341L97 344L97 339L97 345L88 345L89 343L89 344L86 340L85 340L86 338L84 337L86 337L85 335L83 335L83 332L79 332L81 333L79 334L80 337L75 338L71 335L74 337L73 335L71 335L68 330L68 328L69 328L70 328L71 326L71 327L72 326L72 327L73 327L73 328L74 328L73 327L72 327L73 326L73 325L71 326L72 324L72 323L71 323L71 322L71 327L68 328L67 330L68 331L65 330L70 335L65 337L65 333L64 333L65 336L64 334L62 334L64 338L66 338L65 341L61 342L50 341L50 338L49 339L50 338L52 337L51 331L46 320L40 316L40 315L40 314L37 317L33 313L25 311L27 311L27 309L30 309L31 308L33 309L36 309L37 308L39 309L41 307L44 308L50 306L58 309L59 307L60 305L61 305L61 302L59 301L59 297L54 295L50 291L45 292L43 296L42 297L41 297L41 298L40 298L41 294L39 291L42 289L36 289L36 285L40 286L40 283L40 281L42 279L44 279L41 284L43 286L45 283L45 286L51 285L53 288L61 286L63 287L61 288L63 290L62 290L64 292L66 291L66 292L67 293L66 291L64 291L62 288L69 287L65 286L65 285L66 285L64 285L64 286L62 284L64 283L65 283L58 284L60 282L59 282L61 281L62 281L61 280L63 280L64 279L58 281L60 279L57 280L57 279L58 279L56 280L55 282L52 282L53 281L54 280L49 281L53 276L61 273L63 271L64 270L54 275L46 275L45 277L47 277L38 279L33 277L30 279L28 279L26 279L27 275L25 275L27 274L25 270L27 266L26 266L28 264L31 264L27 262L29 255L32 254L33 255L33 253L35 253L39 252L41 253L41 255L48 257L40 253L42 249L42 251L47 252L44 249L44 248L46 248L46 247L49 249L52 248L53 246L56 248L56 247L54 246L54 245L61 243L64 245L62 247L64 249L66 247L72 247L70 245L77 243L80 243L82 246L81 244L82 245L83 244L83 245L84 244L83 244L82 244L83 242L86 240L87 242L88 240L88 241L89 240L89 241L88 243L89 249L92 246L94 247L93 250L96 252L95 255L96 255L96 247L97 249L97 245L99 243L99 244L100 244L100 242L110 247L112 246L111 250L114 247L115 249L117 249L117 243L126 243L120 242L119 239L117 239L118 236L120 236L121 235L121 233L124 231L124 233L126 231L127 234L129 233L128 235L128 236L129 236L137 232L139 233L141 232L142 233L144 229L145 230L146 235L149 231L155 230L153 234L156 234L151 240L151 242L155 236L160 236L160 238L159 238L159 239L157 239L157 240L160 240L158 240L158 241L159 242L164 242L165 244L164 247L167 250L168 250L168 253L170 253L171 255L173 256L172 261L180 267L178 270L180 269L182 274L182 270L186 272L185 269L192 263L198 261L198 259L197 259L197 258L201 258L202 260L210 254L212 257L208 262L209 263L215 259L214 263L217 266L216 268L215 271L218 263L220 267L221 263L223 264L222 262L222 261L224 261L224 260L225 261L229 261L230 265L233 267L231 269L234 272L232 274L233 275L232 277L232 278L234 274L235 275L237 275L235 274L236 273L234 273L233 267L236 268L235 266L231 266L232 264L231 260L234 258L234 256L238 256L236 256L238 254L240 256L245 254L245 257L242 261L244 264L249 266L264 265L269 280L272 280L274 283L277 284Z"><title>Bretagne</title></path><path class="reg" d="M270 571L261 562L260 551L263 552L267 558L273 559L272 561L273 561L273 560L273 561L272 562L273 566L276 570L276 571L276 572L275 571L276 573L275 572L274 574L275 576L272 579L273 579L272 579L272 578ZM268 541L262 537L257 534L254 535L251 534L250 529L254 527L256 530L253 530L254 532L253 532L254 532L253 533L255 534L257 531L261 531L259 533L260 534L265 534L270 536L271 539L273 539ZM360 442L364 444L367 439L371 441L371 437L375 431L379 435L380 438L384 437L384 439L386 440L387 438L389 441L387 444L389 445L392 443L394 444L393 447L396 446L397 452L395 453L397 459L401 457L406 460L411 456L418 457L416 451L420 451L421 454L425 455L426 463L431 469L433 469L434 476L441 483L443 487L441 488L442 492L440 494L441 497L445 501L449 501L449 505L455 505L459 508L459 515L462 517L464 516L461 522L463 521L464 524L471 523L471 521L474 520L479 526L488 518L489 521L494 518L496 522L500 519L503 522L506 518L505 515L508 515L512 518L517 516L518 518L522 516L531 520L539 518L546 519L546 523L549 524L550 525L547 528L552 531L554 529L556 534L560 534L562 538L564 539L564 545L567 549L567 558L570 562L571 569L567 571L565 575L567 576L562 578L561 581L558 581L558 583L553 585L558 593L564 598L564 606L561 606L559 611L563 616L561 630L564 633L560 636L553 631L550 631L552 634L551 640L547 641L537 652L538 657L541 658L536 662L536 668L533 667L530 670L533 676L532 678L521 679L518 682L515 679L506 685L502 683L502 681L493 672L486 673L486 671L476 675L478 685L475 686L478 689L475 690L475 693L472 693L472 697L466 698L468 704L460 711L454 712L454 716L450 721L450 723L448 722L443 727L441 726L443 730L443 737L446 739L446 746L438 746L437 748L436 745L433 744L431 752L435 752L437 755L435 756L433 765L429 765L432 767L431 771L424 770L425 773L421 774L420 779L414 783L408 776L405 779L397 779L396 782L391 784L386 783L385 785L378 782L373 787L370 784L365 788L366 793L365 795L358 791L361 789L357 785L352 791L350 789L347 791L346 790L342 793L341 795L344 796L345 798L343 799L344 804L341 804L342 811L344 812L339 815L339 821L337 823L336 822L336 825L339 825L339 829L344 828L346 830L351 830L351 834L353 834L355 838L354 840L357 842L353 843L354 848L352 849L358 845L357 853L360 856L358 859L355 858L354 861L356 864L353 870L351 870L351 875L348 876L347 874L345 880L341 881L341 888L338 890L335 890L335 892L333 893L333 901L329 903L330 908L329 912L327 912L324 916L319 916L314 912L310 917L300 905L296 904L296 898L295 896L290 897L282 895L279 896L265 888L263 890L261 886L256 884L253 885L250 882L253 877L248 878L246 886L239 884L237 879L242 875L245 868L245 861L243 859L233 856L230 857L229 861L227 860L226 854L220 853L217 855L217 851L213 849L212 846L223 845L229 840L242 818L254 769L256 769L255 769L254 769L263 720L267 713L268 706L272 706L272 708L272 709L281 707L284 709L281 704L282 704L280 704L279 703L281 703L280 701L272 693L266 701L264 710L263 708L277 615L282 606L284 605L286 613L303 631L311 661L313 665L316 668L318 670L320 670L313 656L309 630L304 619L290 605L288 600L280 597L274 591L272 591L272 593L275 593L272 594L271 590L271 581L280 580L277 574L281 574L285 568L285 565L283 564L285 563L285 560L282 557L284 559L287 557L284 547L281 546L282 544L279 542L281 540L276 541L275 541L274 540L276 540L274 540L277 534L285 529L283 524L287 523L289 519L295 519L299 517L296 523L298 524L302 522L305 524L306 521L308 521L308 523L314 526L316 523L320 524L324 520L327 520L329 517L324 514L323 516L321 515L324 509L322 502L324 501L325 499L323 496L324 491L321 489L323 486L320 483L322 482L316 474L319 469L313 465L309 461L311 457L304 451L308 451L313 447L319 450L322 448L328 449L332 445L331 442L336 440L338 440L337 443L338 442L342 442L343 439L353 438L358 440L359 438L363 439Z"><title>Nouvelle-Aquitaine</title></path><path class="reg" d="M712 755L716 756L717 749L721 749L725 753L731 755L735 763L737 763L739 766L739 778L742 777L749 785L749 788L746 788L746 790L744 793L733 802L733 803L735 804L733 806L734 811L731 817L732 822L725 819L721 821L716 829L720 830L719 833L709 839L707 838L708 837L707 837L707 838L708 840L701 843L700 847L692 844L691 842L693 842L692 842L691 842L692 841L692 842L693 842L693 841L692 841L693 840L693 839L690 837L680 838L664 851L660 853L658 855L653 856L643 866L643 867L644 867L642 869L643 868L642 868L641 868L642 868L642 869L636 867L632 868L615 880L608 893L606 896L607 897L608 898L606 896L605 902L604 907L606 908L603 915L605 913L604 932L603 932L604 932L603 943L604 941L605 950L612 953L611 956L614 957L615 962L608 963L604 958L598 959L596 957L594 960L588 959L584 964L579 963L574 965L572 967L574 973L565 971L562 973L558 972L554 967L540 961L535 964L531 963L525 970L520 971L516 968L513 959L509 960L504 956L496 955L497 949L501 946L496 944L497 941L486 940L483 937L477 937L475 939L476 941L472 942L469 933L466 931L466 930L466 929L458 929L456 928L450 930L443 921L436 921L434 919L431 921L425 916L413 912L409 914L410 918L408 921L410 921L407 924L411 927L410 931L404 929L389 930L384 926L379 932L376 927L369 924L354 930L346 925L342 917L340 918L330 910L329 903L333 901L333 893L335 892L335 890L338 890L341 888L341 881L345 880L347 874L348 876L351 875L351 870L353 870L356 864L354 861L355 858L358 859L360 856L357 853L358 845L352 849L354 848L353 843L357 842L354 840L355 838L353 834L351 834L351 830L346 830L344 828L339 829L339 825L336 825L336 822L337 823L339 821L339 815L344 812L342 811L341 804L344 804L343 799L345 798L341 794L346 790L347 791L350 789L352 791L357 785L361 789L358 791L365 795L366 793L365 788L370 784L373 787L378 782L385 785L386 783L391 784L396 782L397 779L405 779L408 776L414 783L420 779L421 774L425 773L424 770L430 772L432 771L432 767L429 765L433 765L435 756L437 755L435 752L431 752L433 744L436 745L437 748L438 746L446 746L446 739L443 737L443 730L441 726L443 727L448 722L450 723L450 721L454 716L454 712L460 711L468 704L466 698L472 697L472 693L475 693L475 690L478 689L475 686L478 685L476 675L483 672L494 673L499 680L502 681L502 683L506 685L515 679L518 682L521 679L527 679L530 687L529 689L535 698L532 710L534 710L536 713L535 717L538 719L539 716L544 714L547 714L550 717L560 716L561 711L566 708L565 704L569 700L569 694L580 684L583 687L583 693L585 691L590 691L592 700L595 700L596 702L594 704L596 705L596 713L599 717L602 709L604 709L605 699L607 695L609 696L609 690L612 688L616 692L620 690L620 684L622 683L623 685L630 680L630 681L634 683L634 689L639 698L646 695L647 696L648 691L651 690L654 693L653 696L660 695L665 703L667 702L667 705L670 706L669 709L671 710L670 712L673 722L677 725L679 735L686 743L684 744L684 752L691 750L692 753L695 752L701 758L704 752L712 749Z"><title>Occitanie</title></path><path class="reg" d="M738 545L750 506L750 509L753 507L759 510L765 507L767 508L767 506L770 507L771 512L779 514L779 516L777 518L784 521L782 522L786 526L786 529L787 525L788 528L791 527L790 533L791 534L797 533L804 524L804 527L810 528L811 533L822 533L835 515L839 516L844 520L840 530L841 533L830 538L829 540L832 541L829 547L832 546L835 547L836 545L843 545L849 539L855 536L856 532L855 531L852 533L850 530L855 520L858 520L859 522L861 523L871 515L893 515L891 520L898 528L894 536L894 544L902 545L900 553L902 554L905 551L913 563L914 567L910 573L904 576L902 575L901 578L897 577L897 589L900 593L905 594L906 597L912 598L911 604L913 613L917 614L917 616L921 617L922 621L928 623L927 628L923 632L925 640L921 645L918 644L912 646L911 650L906 651L907 654L903 656L897 652L895 655L890 655L886 658L882 657L879 660L877 659L875 661L875 665L866 664L865 660L863 658L860 660L857 658L855 660L856 664L854 665L853 671L857 672L863 672L863 677L866 678L866 688L860 686L858 688L848 687L842 693L839 691L834 694L837 697L834 699L829 701L825 700L823 706L825 707L822 712L819 711L817 713L810 712L811 717L807 724L813 729L810 729L808 733L796 730L797 735L800 736L798 738L793 738L795 742L795 744L800 748L802 746L804 748L811 748L809 751L811 751L812 755L815 755L816 763L813 764L812 766L815 766L815 768L811 768L812 766L809 763L807 764L807 767L804 770L797 772L796 768L791 768L791 763L789 762L785 763L781 760L779 762L773 760L774 751L769 755L765 752L755 757L750 758L747 761L745 753L741 750L732 750L733 757L725 753L721 749L717 749L716 756L713 755L711 749L704 752L701 758L695 752L692 753L691 750L685 752L684 744L686 743L679 735L677 725L673 722L670 712L671 710L669 709L670 706L667 705L667 702L665 703L660 695L653 696L654 693L651 690L648 691L647 696L646 695L639 698L634 689L634 683L630 681L630 680L623 685L622 683L620 684L620 690L616 692L612 688L609 690L609 696L607 695L605 699L604 709L602 709L599 717L596 713L596 705L594 704L596 702L595 700L592 700L590 691L585 691L583 693L583 687L580 684L569 694L569 700L565 704L566 708L561 711L560 716L550 717L547 714L539 716L538 719L535 717L534 714L536 713L534 710L532 710L535 698L529 689L530 687L527 679L532 678L533 677L530 670L533 667L536 668L536 662L541 658L538 657L537 652L547 641L551 640L552 634L550 631L560 636L564 635L563 632L561 630L563 616L559 611L561 606L564 606L564 598L558 593L553 585L558 583L558 581L561 581L562 578L567 576L565 575L567 571L571 569L570 562L566 556L567 549L564 545L564 539L562 538L560 534L556 534L554 529L552 531L547 528L550 525L546 523L545 519L550 510L561 507L565 508L571 505L571 500L568 498L570 495L568 493L571 491L572 493L572 489L578 486L579 483L582 486L585 484L589 485L591 481L598 477L603 478L606 483L616 491L621 486L624 486L625 489L627 490L630 487L634 487L636 494L644 489L643 486L647 485L645 483L646 481L649 482L650 487L656 496L658 506L663 508L665 507L667 511L674 511L674 512L678 514L676 521L677 529L678 529L674 530L673 532L670 533L671 538L669 542L676 543L677 547L686 543L688 546L692 546L694 544L695 546L698 544L697 548L699 548L703 545L707 544L708 534L711 531L715 533L717 535L720 534L721 532L723 535L725 535L727 531L731 531L732 535L730 536L735 539L733 539L734 545ZM752 753L759 754L762 746L766 743L761 742L762 740L758 738L754 741L750 748L752 749Z"><title>Auvergne-Rhône-Alpes</title></path><path class="reg" d="M759 753L752 753L752 749L750 748L754 741L758 738L762 740L761 742L766 744L762 746ZM755 757L765 752L769 755L774 751L772 756L773 760L779 762L781 760L785 763L789 762L791 763L791 768L796 768L797 772L804 770L807 767L807 764L809 763L812 766L811 768L815 768L815 766L812 766L813 764L816 763L815 755L812 755L811 751L809 751L811 748L804 748L802 746L800 748L795 744L795 742L793 738L798 738L800 736L797 735L796 730L808 733L810 729L813 729L807 724L811 717L810 712L817 713L819 711L822 712L825 707L823 706L825 700L829 701L834 699L837 697L834 694L839 691L842 693L848 687L858 688L860 686L866 688L866 678L863 677L863 672L857 672L853 671L854 665L856 664L855 660L856 658L860 660L863 658L865 660L866 664L873 665L875 665L875 661L877 659L879 660L882 657L885 657L889 662L890 668L896 668L895 671L898 674L897 681L906 686L910 687L911 684L919 689L917 692L924 704L920 703L915 705L914 708L916 711L914 712L912 718L909 719L907 722L909 727L915 733L911 734L911 740L913 741L916 747L920 749L921 754L935 757L943 763L948 762L949 766L952 764L955 766L955 764L966 760L970 761L971 758L975 757L974 763L979 768L977 772L974 774L974 780L967 783L967 789L962 792L965 802L962 806L960 805L956 810L952 809L950 812L951 813L950 815L949 811L948 814L946 812L943 814L941 818L940 816L936 818L934 825L935 830L934 830L932 827L931 827L931 828L930 828L927 831L925 830L921 831L919 834L921 836L919 838L918 839L919 839L918 841L916 842L916 844L913 844L913 846L911 845L907 847L904 845L905 845L902 851L902 853L902 854L899 854L899 858L896 858L892 863L892 862L891 862L892 863L891 863L891 862L891 863L893 864L898 863L899 861L901 863L899 866L900 870L898 871L897 872L897 874L895 875L894 872L891 872L885 876L876 877L875 878L874 880L875 884L868 880L862 881L858 885L858 890L860 890L858 891L856 890L853 891L853 890L856 889L855 885L847 886L847 884L842 883L839 884L840 882L838 881L835 883L838 884L837 886L840 885L841 887L836 886L833 890L831 890L830 888L829 888L829 887L830 885L830 883L826 883L826 880L820 880L819 876L814 875L813 878L807 872L804 874L804 873L800 873L799 873L800 874L796 873L791 873L794 868L793 867L791 865L794 864L792 859L790 858L791 858L789 857L789 858L788 857L790 857L789 857L788 856L787 857L782 860L777 860L766 861L763 853L774 853L781 845L779 842L774 846L772 839L766 839L764 835L763 844L767 846L768 852L762 852L762 853L760 850L757 849L754 853L755 850L753 851L751 847L753 852L749 850L751 853L752 853L750 853L751 854L748 854L747 855L750 855L750 854L753 854L749 856L751 856L752 857L752 856L753 858L754 858L756 855L752 860L750 861L745 859L735 859L729 858L727 855L729 854L729 851L725 848L700 847L701 843L708 840L707 838L707 837L709 839L719 833L720 830L716 829L721 821L725 819L732 822L731 817L734 811L733 806L735 804L733 803L733 802L744 793L746 790L746 788L749 788L744 779L742 777L739 778L738 775L739 766L737 763L735 763L733 758L732 750L743 751L745 753L747 761L750 758Z"><title>Provence-Alpes-Côte d'Azur</title></path><path class="reg" d="M1123 877L1128 879L1127 882L1132 899L1129 914L1138 928L1143 974L1133 994L1133 1011L1135 1021L1132 1025L1134 1028L1131 1030L1131 1032L1128 1032L1128 1031L1127 1031L1127 1032L1125 1035L1127 1036L1128 1033L1133 1034L1133 1035L1131 1037L1131 1038L1125 1042L1126 1049L1122 1052L1121 1055L1122 1056L1125 1053L1125 1055L1122 1061L1119 1061L1115 1057L1111 1058L1114 1052L1109 1053L1110 1049L1106 1052L1102 1049L1102 1050L1100 1048L1096 1049L1095 1047L1094 1047L1093 1047L1092 1045L1089 1046L1090 1043L1085 1042L1086 1040L1083 1038L1084 1034L1091 1032L1094 1026L1085 1025L1083 1026L1082 1022L1076 1024L1076 1022L1072 1023L1078 1018L1076 1015L1081 1014L1081 1013L1082 1012L1079 1010L1082 1010L1081 1006L1083 1005L1078 1001L1076 1004L1067 1006L1068 1001L1065 998L1070 997L1070 993L1077 988L1075 986L1073 981L1070 983L1065 979L1063 980L1063 977L1061 978L1064 976L1061 975L1063 974L1062 971L1061 972L1061 971L1061 969L1059 968L1071 964L1068 960L1063 960L1063 959L1065 957L1064 955L1059 957L1058 953L1063 951L1063 948L1067 947L1066 945L1068 941L1066 941L1067 936L1071 935L1070 930L1071 928L1071 931L1074 930L1076 931L1077 926L1083 925L1083 923L1087 921L1094 920L1098 918L1097 914L1103 910L1110 909L1117 915L1121 908L1120 901L1117 897L1119 893L1117 890L1120 887L1118 879Z"><title>Corse</title></path><path class="reg" d="M500 261L496 265L499 266L498 269L501 271L503 275L506 275L506 279L509 279L511 282L510 286L512 291L515 291L517 294L522 293L522 298L525 299L525 311L530 312L535 309L539 310L538 308L540 309L542 305L545 307L545 310L546 309L549 309L550 307L553 309L557 308L558 315L565 318L565 325L562 325L559 330L565 330L568 328L579 330L583 328L581 325L586 325L586 329L588 329L591 326L597 326L603 329L602 331L603 331L605 336L610 340L608 342L610 343L610 347L605 354L602 354L600 359L603 360L603 368L590 370L589 374L595 379L597 383L596 388L599 392L589 394L596 406L591 417L600 426L603 441L602 447L607 452L607 460L605 465L606 471L603 478L598 477L594 478L589 485L585 484L582 486L579 483L578 486L572 489L572 493L571 491L568 493L570 494L568 498L571 500L571 505L565 508L562 508L562 507L552 508L549 514L547 513L546 519L539 518L531 520L522 516L518 518L517 516L512 518L508 515L505 515L506 518L503 522L500 519L496 522L494 518L489 521L487 518L479 526L475 520L471 521L470 523L464 524L463 521L461 523L464 516L462 517L459 515L459 508L455 505L449 505L449 501L441 498L440 494L442 492L441 488L443 487L441 483L434 476L433 469L431 469L426 463L425 455L421 454L420 451L416 451L418 457L411 456L406 460L401 457L397 459L395 453L397 452L396 446L393 447L394 444L392 443L389 445L387 444L389 441L387 438L386 440L384 439L384 437L380 438L378 429L380 427L380 419L386 413L385 411L388 409L386 407L392 396L392 393L390 391L393 387L393 383L404 389L406 387L403 383L404 380L409 383L410 380L421 377L422 375L420 376L419 373L423 369L429 367L428 365L434 359L433 353L436 351L437 354L438 349L440 348L438 343L440 338L437 337L437 334L440 334L441 331L438 331L440 330L441 327L446 326L437 321L440 318L437 313L438 309L434 308L437 304L447 300L451 293L448 289L451 284L447 282L448 280L442 277L442 274L440 274L440 268L446 262L448 263L452 261L456 261L459 258L462 259L463 255L470 258L472 257L478 258L481 256L481 250L488 246L487 240L490 238L494 240L496 244L494 246L498 250L497 251L497 258Z"><title>Centre-Val de Loire</title></path></g>
+              <path class="route" d="M534 185C610 260 615 370 555 446C495 525 380 640 276 697" mask="url(#route-masque)"/>
+              <circle class="pt" cx="534" cy="185" r="15"/>
+              <circle class="pt" cx="555" cy="446" r="15"/>
+              <circle class="halo" cx="276" cy="697" r="16"/>
+              <circle class="pt-now" cx="276" cy="697" r="17"/>
+              <text class="lbl" x="510" y="178" text-anchor="end">Beauvais<tspan class="lbl-sub" x="510" dy="1.05em">2002–2022</tspan></text>
+              <text class="lbl" x="583" y="458">Bourges<tspan class="lbl-sub" x="583" dy="1.05em">2023–2024</tspan></text>
+              <text class="lbl" x="232" y="753">Bassin d'Arcachon<tspan class="lbl-sub" x="232" dy="1.05em">depuis 2024</tspan></text>
+              <g class="scale"><line x1="40" y1="1032" x2="240" y2="1032"/><line x1="40" y1="1020" x2="40" y2="1032"/><line x1="140" y1="1024" x2="140" y2="1032"/><line x1="240" y1="1020" x2="240" y2="1032"/><text x="40" y="1008">200 km</text></g>
+            </svg>
+            <ul class="legend">
+              <li><span class="sw sw-route" aria-hidden="true"></span>Parcours depuis 2002</li>
+              <li><span class="sw sw-now" aria-hidden="true"></span>Poste actuel</li>
+            </ul>
+            <figcaption class="map-src">Fond : IGN, Admin Express COG Carto, généralisé</figcaption>
+          </figure>
+        </div>
+        <div class="outils rv">
+          <p class="outils-k">Outils mobilisés dans ces travaux</p>
+          <ul class="chips">
+          <li class="chip">PostgreSQL / PostGIS</li>
+          <li class="chip">Oracle Spatial</li>
+          <li class="chip">FME</li>
+          <li class="chip">Python / Pandas</li>
+          <li class="chip">Plotly</li>
+          <li class="chip">Power BI</li>
+          <li class="chip">ArcGIS Pro</li>
+          <li class="chip">ArcGIS Enterprise</li>
+          <li class="chip">ArcGIS Online</li>
+          <li class="chip">Ollama</li>
+          <li class="chip">Open WebUI</li>
+          <li class="chip">Docker</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -1170,6 +1334,7 @@
   </dialog>
 </div>
 
+<script type="application/json" id="labo-defaut">{"nom":"CA du Bassin d'Arcachon Nord (COBAN)","contour":{"type":"MultiPolygon","coordinates":[[[[-1.0784,44.7226],[-1.0829,44.7255],[-1.0865,44.7263],[-1.093,44.7339],[-1.0927,44.736],[-1.0937,44.7355],[-1.0937,44.734],[-1.096,44.737],[-1.1009,44.7396],[-1.102,44.7378],[-1.101,44.7397],[-1.1033,44.7415],[-1.1064,44.7429],[-1.1087,44.7424],[-1.1067,44.7434],[-1.1105,44.743],[-1.1076,44.7438],[-1.1107,44.7432],[-1.1111,44.7435],[-1.1087,44.7442],[-1.1118,44.7436],[-1.1093,44.742],[-1.1133,44.7445],[-1.1178,44.7442],[-1.1192,44.7455],[-1.1207,44.7493],[-1.1227,44.7514],[-1.1243,44.7513],[-1.1253,44.7505],[-1.131,44.7525],[-1.1336,44.7544],[-1.136,44.7574],[-1.1423,44.7611],[-1.1448,44.7621],[-1.1462,44.7614],[-1.1483,44.7624],[-1.1494,44.7643],[-1.1504,44.7642],[-1.1502,44.7667],[-1.1513,44.7641],[-1.151,44.7668],[-1.152,44.7669],[-1.1509,44.7673],[-1.1554,44.7703],[-1.157,44.7702],[-1.1589,44.7717],[-1.1611,44.7759],[-1.1621,44.7757],[-1.1612,44.7746],[-1.1628,44.7751],[-1.1633,44.7763],[-1.1638,44.7758],[-1.1637,44.7762],[-1.1642,44.7761],[-1.1643,44.7747],[-1.1675,44.7753],[-1.1689,44.7741],[-1.1689,44.7729],[-1.1683,44.7724],[-1.1688,44.7711],[-1.171,44.771],[-1.1702,44.7705],[-1.171,44.77],[-1.1708,44.7688],[-1.1716,44.7682],[-1.1716,44.7674],[-1.1738,44.7661],[-1.1735,44.7653],[-1.1744,44.7644],[-1.1765,44.7636],[-1.1768,44.7621],[-1.1773,44.7623],[-1.1781,44.7613],[-1.1776,44.761],[-1.1783,44.7611],[-1.1777,44.7608],[-1.1777,44.7599],[-1.1799,44.7587],[-1.1799,44.7579],[-1.1785,44.7572],[-1.1778,44.7559],[-1.1749,44.7557],[-1.1738,44.7549],[-1.1741,44.7528],[-1.172,44.7508],[-1.1743,44.7497],[-1.1739,44.7485],[-1.1725,44.7483],[-1.173,44.7456],[-1.1815,44.7436],[-1.183,44.741],[-1.1855,44.7392],[-1.185,44.7388],[-1.1856,44.7383],[-1.1901,44.7372],[-1.1919,44.7345],[-1.1896,44.7341],[-1.1923,44.7338],[-1.19,44.7333],[-1.1909,44.7309],[-1.1946,44.7287],[-1.1966,44.7266],[-1.1952,44.7272],[-1.1976,44.7245],[-1.2045,44.7213],[-1.2051,44.7195],[-1.2045,44.7177],[-1.2099,44.7158],[-1.2089,44.7156],[-1.2113,44.7141],[-1.2108,44.7135],[-1.2115,44.7139],[-1.2201,44.7104],[-1.2223,44.7104],[-1.224,44.708],[-1.2222,44.7076],[-1.2214,44.7086],[-1.2219,44.7063],[-1.2243,44.7038],[-1.2291,44.7007],[-1.2287,44.6978],[-1.2324,44.694],[-1.232,44.6904],[-1.2367,44.6832],[-1.2389,44.6743],[-1.2406,44.6758],[-1.2413,44.6753],[-1.2389,44.6737],[-1.2394,44.6732],[-1.239,44.6723],[-1.2401,44.6681],[-1.2389,44.6583],[-1.2392,44.6566],[-1.2368,44.6564],[-1.2392,44.6566],[-1.2445,44.6486],[-1.2461,44.6424],[-1.2458,44.6375],[-1.2464,44.6366],[-1.2486,44.6369],[-1.2484,44.636],[-1.2476,44.6359],[-1.2461,44.6339],[-1.2426,44.6387],[-1.2418,44.6411],[-1.2436,44.6467],[-1.2425,44.6465],[-1.2412,44.6447],[-1.2408,44.6422],[-1.2413,44.6406],[-1.2463,44.6326],[-1.2463,44.6319],[-1.2436,44.6303],[-1.2428,44.6292],[-1.2436,44.6278],[-1.2447,44.6272],[-1.2449,44.6245],[-1.2441,44.6241],[-1.2443,44.6229],[-1.2452,44.6212],[-1.2498,44.6215],[-1.2561,44.6242],[-1.2589,44.6289],[-1.2609,44.6388],[-1.2579,44.6692],[-1.252,44.7097],[-1.2396,44.7715],[-1.2327,44.809],[-1.2246,44.8088],[-1.1974,44.8102],[-1.1969,44.8108],[-1.1949,44.8111],[-1.1676,44.8135],[-1.1469,44.824],[-1.1418,44.8245],[-1.0833,44.8287],[-1.0501,44.8235],[-1.0469,44.8345],[-1.0406,44.8488],[-1.0064,44.8298],[-0.9635,44.83],[-0.9579,44.8304],[-0.9445,44.8335],[-0.9394,44.8359],[-0.9375,44.8374],[-0.925,44.8414],[-0.9218,44.8413],[-0.8849,44.8498],[-0.9051,44.8082],[-0.8814,44.7601],[-0.8375,44.7372],[-0.8236,44.7216],[-0.793,44.7038],[-0.7715,44.6932],[-0.7898,44.681],[-0.8099,44.6697],[-0.8128,44.666],[-0.8172,44.6649],[-0.8177,44.6625],[-0.8196,44.6601],[-0.8191,44.6591],[-0.8216,44.6581],[-0.823,44.6535],[-0.8219,44.6519],[-0.8235,44.6501],[-0.8254,44.6505],[-0.8253,44.6493],[-0.8176,44.6464],[-0.816,44.6454],[-0.8157,44.6444],[-0.8175,44.6433],[-0.8207,44.6354],[-0.8156,44.6287],[-0.8065,44.6257],[-0.8112,44.6183],[-0.8131,44.6177],[-0.8153,44.6078],[-0.8347,44.6106],[-0.8422,44.6072],[-0.8443,44.6048],[-0.8536,44.5998],[-0.8645,44.5925],[-0.8696,44.5915],[-0.8736,44.5962],[-0.8881,44.5856],[-0.9041,44.5672],[-0.942,44.5511],[-0.9584,44.5398],[-0.9782,44.5295],[-1.0112,44.5103],[-0.9951,44.549],[-0.9912,44.5496],[-0.9927,44.5551],[-0.9852,44.5736],[-0.9726,44.575],[-0.9755,44.5775],[-0.9746,44.5866],[-0.9719,44.5952],[-0.9652,44.5976],[-0.9641,44.5972],[-0.9618,44.6011],[-0.9692,44.6039],[-0.9712,44.6038],[-0.9708,44.6046],[-0.9716,44.6055],[-0.9716,44.6072],[-0.9707,44.6081],[-0.9697,44.6117],[-0.9711,44.614],[-0.97,44.6143],[-0.9717,44.6156],[-0.9739,44.6161],[-0.9773,44.6187],[-0.9784,44.6199],[-0.9791,44.622],[-0.9826,44.6229],[-0.9835,44.6216],[-0.9869,44.62],[-0.9887,44.6214],[-0.993,44.6225],[-0.996,44.6255],[-0.996,44.6277],[-0.9979,44.6287],[-0.9976,44.6312],[-0.9986,44.6322],[-0.9995,44.6357],[-1.0017,44.6377],[-1.0034,44.6363],[-1.0042,44.6365],[-1.0031,44.6401],[-1.0016,44.6426],[-1.0003,44.6432],[-1.0022,44.6451],[-1.0003,44.645],[-1.0003,44.644],[-0.999,44.6434],[-0.9996,44.6431],[-0.999,44.6422],[-0.9991,44.6429],[-0.9984,44.6423],[-0.9987,44.6432],[-0.9981,44.6426],[-1.0001,44.644],[-0.9998,44.6451],[-1.0011,44.6454],[-1.0004,44.6459],[-1.0008,44.6467],[-1.0035,44.647],[-1.0053,44.6494],[-1.0107,44.6531],[-1.0131,44.6539],[-1.0118,44.6551],[-1.0112,44.6564],[-1.0117,44.6565],[-1.0108,44.6568],[-1.0126,44.657],[-1.014,44.6598],[-1.0177,44.6629],[-1.0173,44.6634],[-1.0187,44.6639],[-1.0191,44.6658],[-1.0176,44.6669],[-1.0188,44.6696],[-1.0223,44.6737],[-1.0261,44.6758],[-1.0227,44.677],[-1.0234,44.6774],[-1.0251,44.6766],[-1.0267,44.6767],[-1.0222,44.678],[-1.0259,44.677],[-1.0245,44.6777],[-1.0258,44.6778],[-1.0283,44.6768],[-1.0315,44.6795],[-1.0358,44.6779],[-1.0382,44.679],[-1.0388,44.6798],[-1.0383,44.6799],[-1.0391,44.6848],[-1.0401,44.6843],[-1.0402,44.6833],[-1.0401,44.6844],[-1.0379,44.6855],[-1.0261,44.6881],[-1.038,44.6858],[-1.0401,44.6861],[-1.0425,44.6848],[-1.0433,44.6835],[-1.0473,44.6836],[-1.0496,44.682],[-1.0589,44.6877],[-1.0583,44.6892],[-1.0692,44.6962],[-1.0637,44.6974],[-1.0577,44.694],[-1.0552,44.6941],[-1.0532,44.6954],[-1.0507,44.6953],[-1.0491,44.6927],[-1.0461,44.6922],[-1.0428,44.6929],[-1.0378,44.6923],[-1.0362,44.6936],[-1.0395,44.6957],[-1.0439,44.6963],[-1.0456,44.7005],[-1.051,44.7017],[-1.0535,44.7036],[-1.0525,44.7056],[-1.0532,44.7066],[-1.0556,44.7074],[-1.0562,44.7092],[-1.0534,44.7104],[-1.0547,44.7101],[-1.0553,44.7107],[-1.0556,44.71],[-1.0564,44.7103],[-1.0569,44.7088],[-1.0609,44.7103],[-1.0636,44.712],[-1.0624,44.7154],[-1.0638,44.712],[-1.0674,44.7139],[-1.0701,44.7165],[-1.0696,44.7158],[-1.0703,44.7156],[-1.072,44.7181],[-1.0744,44.7194],[-1.0771,44.7221],[-1.0749,44.7228],[-1.0752,44.7234],[-1.077,44.7229],[-1.0777,44.7217],[-1.0784,44.7226]]],[[[-1.0325,44.6519],[-1.0307,44.6527],[-1.0286,44.656],[-1.0291,44.6588],[-1.0285,44.6584],[-1.0254,44.6617],[-1.0263,44.6623],[-1.0282,44.6615],[-1.0267,44.6625],[-1.0256,44.6625],[-1.0213,44.6584],[-1.0171,44.6558],[-1.0111,44.65],[-1.0131,44.6496],[-1.0145,44.6507],[-1.0206,44.6494],[-1.0216,44.6512],[-1.024,44.6524],[-1.0261,44.6521],[-1.0298,44.6488],[-1.0322,44.6501],[-1.0325,44.6519]]],[[[-1.0288,44.6594],[-1.0286,44.6607],[-1.028,44.6601],[-1.0288,44.6594]]],[[[-1.0281,44.6612],[-1.0263,44.6618],[-1.0275,44.6606],[-1.0261,44.6617],[-1.0279,44.6613],[-1.0263,44.662],[-1.0258,44.6616],[-1.0278,44.6603],[-1.0281,44.6612]]],[[[-1.0451,44.6818],[-1.0427,44.6818],[-1.0405,44.6827],[-1.0421,44.682],[-1.0451,44.6818]]]]},"unites":[{"nom":"Andernos-les-Bains","population":12710,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0412,44.7832],[-1.0466,44.7779],[-1.0506,44.7677],[-1.053,44.7567],[-1.0573,44.7488],[-1.0666,44.7372],[-1.0669,44.7361],[-1.0673,44.7364],[-1.0689,44.7345],[-1.0687,44.7318],[-1.0698,44.7297],[-1.0761,44.7263],[-1.0784,44.7226],[-1.0829,44.7255],[-1.0865,44.7263],[-1.093,44.7339],[-1.0927,44.736],[-1.0937,44.7355],[-1.0937,44.734],[-1.096,44.737],[-1.1009,44.7396],[-1.102,44.7378],[-1.101,44.7397],[-1.1033,44.7415],[-1.1064,44.7429],[-1.1087,44.7424],[-1.1067,44.7434],[-1.1102,44.7428],[-1.1074,44.7438],[-1.1107,44.7432],[-1.1111,44.7435],[-1.1087,44.7442],[-1.1118,44.7436],[-1.1093,44.742],[-1.1133,44.7445],[-1.1178,44.7442],[-1.1192,44.7455],[-1.1207,44.7493],[-1.1227,44.7511],[-1.1228,44.7518],[-1.1181,44.7536],[-1.1164,44.755],[-1.1163,44.7564],[-1.1154,44.757],[-1.1118,44.7571],[-1.1108,44.7582],[-1.1109,44.7596],[-1.1079,44.7612],[-1.1081,44.7624],[-1.1068,44.7629],[-1.1007,44.768],[-1.093,44.7704],[-1.0892,44.7708],[-1.0879,44.7703],[-1.0859,44.772],[-1.0854,44.7733],[-1.0823,44.7738],[-1.0824,44.7747],[-1.0412,44.7832]]]]}},{"nom":"Arès","population":6482,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0406,44.8488],[-1.0064,44.8298],[-1.0265,44.7969],[-1.0412,44.7832],[-1.0824,44.7747],[-1.0823,44.7738],[-1.0854,44.7733],[-1.0859,44.772],[-1.0879,44.7703],[-1.0892,44.7708],[-1.093,44.7704],[-1.1006,44.768],[-1.1068,44.7629],[-1.1081,44.7624],[-1.1079,44.7612],[-1.1109,44.7596],[-1.1108,44.7582],[-1.1118,44.7571],[-1.1154,44.757],[-1.1163,44.7564],[-1.1164,44.755],[-1.1181,44.7536],[-1.1253,44.7505],[-1.1317,44.7529],[-1.136,44.7574],[-1.1424,44.7612],[-1.1448,44.7621],[-1.1462,44.7614],[-1.1483,44.7624],[-1.1494,44.7643],[-1.1504,44.7642],[-1.1502,44.7667],[-1.1513,44.7641],[-1.151,44.7668],[-1.152,44.7669],[-1.1509,44.7673],[-1.1554,44.7703],[-1.1573,44.7704],[-1.1593,44.7721],[-1.161,44.7755],[-1.1536,44.7764],[-1.1481,44.7784],[-1.1444,44.7827],[-1.1427,44.7878],[-1.1396,44.7893],[-1.1389,44.7906],[-1.0697,44.8155],[-1.0501,44.8235],[-1.0469,44.8345],[-1.0406,44.8488]]]]}},{"nom":"Audenge","population":9596,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0451,44.6818],[-1.0427,44.6818],[-1.0405,44.6827],[-1.0421,44.682],[-1.0451,44.6818]]],[[[-0.8374,44.7371],[-0.8389,44.7292],[-0.923,44.6926],[-0.9526,44.6863],[-0.9802,44.6742],[-0.9877,44.6727],[-0.9894,44.6714],[-0.9894,44.6706],[-0.9904,44.6703],[-0.9965,44.6689],[-1.0058,44.6687],[-1.0123,44.6665],[-1.0132,44.6704],[-1.0184,44.6683],[-1.0188,44.6696],[-1.0223,44.6737],[-1.0261,44.6758],[-1.0228,44.6771],[-1.0267,44.6767],[-1.0222,44.678],[-1.0259,44.677],[-1.0245,44.6777],[-1.0258,44.6778],[-1.0283,44.6768],[-1.0317,44.6795],[-1.036,44.6779],[-1.0382,44.679],[-1.0388,44.6798],[-1.0383,44.6799],[-1.0391,44.6848],[-1.0401,44.6843],[-1.0403,44.6833],[-1.0402,44.6844],[-1.0379,44.6855],[-1.0262,44.6882],[-1.038,44.6858],[-1.0401,44.6861],[-1.0425,44.6848],[-1.0433,44.6835],[-1.0473,44.6836],[-1.049,44.6825],[-1.0503,44.6823],[-1.0589,44.6877],[-1.0583,44.6892],[-1.0692,44.6962],[-1.0637,44.6974],[-1.058,44.694],[-1.0552,44.6941],[-1.0532,44.6954],[-1.0507,44.6953],[-1.049,44.6926],[-1.0461,44.6922],[-1.0428,44.6929],[-1.0376,44.6924],[-1.0362,44.6935],[-1.037,44.694],[-1.036,44.6946],[-1.0314,44.6954],[-1.0291,44.6979],[-1.0245,44.7],[-1.0237,44.7013],[-1.0175,44.7039],[-1.0159,44.7054],[-1.0138,44.7055],[-1.0132,44.7087],[-1.0108,44.7118],[-1.009,44.7126],[-1.0096,44.7143],[-1.0087,44.7154],[-1.0059,44.717],[-1.0035,44.7167],[-1.0036,44.7179],[-1.002,44.7191],[-0.9979,44.7197],[-0.9978,44.7214],[-0.9961,44.7223],[-0.9954,44.7233],[-0.9957,44.724],[-0.9939,44.7246],[-0.9938,44.7257],[-0.9924,44.7267],[-0.99,44.7275],[-0.9874,44.7309],[-0.9863,44.7313],[-0.9858,44.7326],[-0.983,44.7323],[-0.941,44.7453],[-0.9093,44.7538],[-0.8814,44.7601],[-0.8374,44.7371]]]]}},{"nom":"Biganos","population":11431,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0325,44.6519],[-1.0307,44.6527],[-1.0286,44.656],[-1.0291,44.6588],[-1.0285,44.6584],[-1.0254,44.6617],[-1.0263,44.6623],[-1.0282,44.6615],[-1.0267,44.6625],[-1.0256,44.6625],[-1.0213,44.6584],[-1.0171,44.6558],[-1.0111,44.65],[-1.0131,44.6496],[-1.0145,44.6507],[-1.0206,44.6494],[-1.0216,44.6512],[-1.024,44.6524],[-1.0261,44.6521],[-1.0298,44.6488],[-1.0322,44.6501],[-1.0325,44.6519]]],[[[-0.8837,44.6696],[-0.8875,44.6641],[-0.8855,44.6622],[-0.8869,44.6576],[-0.8886,44.6568],[-0.8889,44.6554],[-0.895,44.6524],[-0.8967,44.65],[-0.9018,44.6493],[-0.9085,44.6502],[-0.9129,44.6486],[-0.9172,44.6493],[-0.9179,44.6476],[-0.9252,44.6451],[-0.9255,44.6439],[-0.9299,44.6409],[-0.94,44.6382],[-0.9422,44.6389],[-0.9459,44.6387],[-0.9475,44.6369],[-0.9507,44.6368],[-0.9541,44.6355],[-0.9559,44.6337],[-0.9579,44.6334],[-0.9593,44.631],[-0.961,44.631],[-0.9611,44.6297],[-0.9664,44.6303],[-0.9678,44.6284],[-0.9706,44.627],[-0.9717,44.6256],[-0.978,44.6219],[-0.9826,44.6229],[-0.9835,44.6216],[-0.9852,44.6212],[-0.9865,44.62],[-0.9887,44.6214],[-0.9926,44.6223],[-0.996,44.6255],[-0.9961,44.6279],[-0.9979,44.6287],[-0.9976,44.6312],[-0.9986,44.6322],[-0.9995,44.6357],[-1.0017,44.6377],[-1.0034,44.6363],[-1.0042,44.6365],[-1.0031,44.6401],[-1.0016,44.6426],[-1.0003,44.6432],[-1.0022,44.6451],[-1.0003,44.645],[-1.0003,44.644],[-0.999,44.6434],[-0.9996,44.6431],[-0.999,44.6422],[-0.9991,44.6429],[-0.9984,44.6423],[-0.9987,44.6432],[-0.9981,44.6424],[-0.9985,44.6434],[-1.0001,44.644],[-0.9998,44.6451],[-1.0011,44.6454],[-1.0004,44.6459],[-1.0008,44.6467],[-1.0035,44.647],[-1.0053,44.6494],[-1.0107,44.6531],[-1.0131,44.6539],[-1.0118,44.6551],[-1.0112,44.6564],[-1.0117,44.6565],[-1.0108,44.6568],[-1.0126,44.657],[-1.014,44.6598],[-1.0177,44.6629],[-1.0173,44.6634],[-1.0187,44.6639],[-1.0192,44.6651],[-1.0184,44.6667],[-1.0176,44.6669],[-1.018,44.6682],[-1.0132,44.6704],[-1.0123,44.6665],[-1.0058,44.6687],[-0.9965,44.6689],[-0.9904,44.6703],[-0.9894,44.6706],[-0.9894,44.6714],[-0.9877,44.6727],[-0.9802,44.6742],[-0.9526,44.6863],[-0.923,44.6926],[-0.9067,44.6997],[-0.8938,44.6879],[-0.8942,44.6872],[-0.8871,44.686],[-0.8852,44.6848],[-0.8861,44.6845],[-0.8851,44.6809],[-0.8856,44.6807],[-0.8853,44.6771],[-0.8841,44.6756],[-0.8849,44.674],[-0.8837,44.6696]]],[[[-1.0288,44.6594],[-1.0286,44.6607],[-1.028,44.6601],[-1.0288,44.6594]]],[[[-1.0281,44.6612],[-1.0263,44.6618],[-1.0275,44.6606],[-1.0261,44.6617],[-1.0279,44.6613],[-1.0263,44.662],[-1.0258,44.6616],[-1.0278,44.6603],[-1.0281,44.6612]]]]}},{"nom":"Lanton","population":7337,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0064,44.8298],[-0.9579,44.8304],[-0.9445,44.8335],[-0.9394,44.8359],[-0.9375,44.8374],[-0.925,44.8414],[-0.9218,44.8413],[-0.8849,44.8498],[-0.9051,44.8082],[-0.8814,44.7601],[-0.9093,44.7538],[-0.941,44.7453],[-0.983,44.7323],[-0.9858,44.7326],[-0.9863,44.7313],[-0.9874,44.7309],[-0.99,44.7275],[-0.9924,44.7267],[-0.9938,44.7257],[-0.9939,44.7246],[-0.9957,44.724],[-0.9954,44.7233],[-0.9961,44.7223],[-0.9978,44.7214],[-0.9979,44.7197],[-1.002,44.7191],[-1.0036,44.7179],[-1.0035,44.7167],[-1.0059,44.717],[-1.0087,44.7154],[-1.0096,44.7143],[-1.009,44.7126],[-1.0108,44.7118],[-1.0132,44.7087],[-1.0138,44.7055],[-1.0159,44.7054],[-1.0175,44.7039],[-1.0237,44.7013],[-1.0244,44.7003],[-1.0287,44.6982],[-1.0314,44.6954],[-1.0322,44.6956],[-1.0332,44.6947],[-1.037,44.694],[-1.0395,44.6957],[-1.0429,44.6958],[-1.044,44.6964],[-1.0456,44.7005],[-1.051,44.7017],[-1.0535,44.7036],[-1.0525,44.7056],[-1.0532,44.7066],[-1.0556,44.7074],[-1.0562,44.7092],[-1.0533,44.7103],[-1.0547,44.7101],[-1.0553,44.7107],[-1.0556,44.71],[-1.0564,44.7103],[-1.0569,44.7088],[-1.0609,44.7103],[-1.0636,44.712],[-1.0624,44.7154],[-1.0638,44.712],[-1.0674,44.7139],[-1.0701,44.7165],[-1.0696,44.7158],[-1.0703,44.7156],[-1.072,44.7181],[-1.0744,44.7194],[-1.0771,44.7221],[-1.0749,44.7228],[-1.0752,44.7234],[-1.077,44.7229],[-1.0777,44.7217],[-1.0784,44.7226],[-1.0761,44.7263],[-1.0698,44.7297],[-1.0687,44.7318],[-1.0689,44.7345],[-1.0673,44.7364],[-1.0669,44.7361],[-1.0666,44.7372],[-1.0573,44.7488],[-1.053,44.7567],[-1.0506,44.7677],[-1.0464,44.7782],[-1.0265,44.7969],[-1.0064,44.8298]]]]}},{"nom":"Lège-Cap-Ferret","population":7909,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-1.0501,44.8235],[-1.0697,44.8155],[-1.1389,44.7906],[-1.1396,44.7893],[-1.1427,44.7878],[-1.1452,44.7813],[-1.1492,44.7778],[-1.1536,44.7764],[-1.1618,44.7758],[-1.1612,44.7746],[-1.1628,44.7751],[-1.1633,44.7763],[-1.1638,44.7758],[-1.1637,44.7762],[-1.1642,44.7761],[-1.1643,44.7747],[-1.1667,44.7754],[-1.1687,44.7746],[-1.1689,44.7729],[-1.1683,44.7724],[-1.1688,44.7711],[-1.17,44.7706],[-1.1709,44.771],[-1.1702,44.7705],[-1.171,44.77],[-1.1708,44.7688],[-1.1716,44.7682],[-1.1716,44.7674],[-1.1738,44.7661],[-1.1735,44.7653],[-1.1744,44.7644],[-1.1765,44.7636],[-1.1768,44.7621],[-1.1773,44.7623],[-1.1781,44.7613],[-1.1776,44.761],[-1.1783,44.7611],[-1.1777,44.7608],[-1.1777,44.7599],[-1.1799,44.7587],[-1.1799,44.7579],[-1.1785,44.7572],[-1.1778,44.7559],[-1.1749,44.7557],[-1.1738,44.7549],[-1.1741,44.7528],[-1.172,44.7508],[-1.1743,44.7497],[-1.1739,44.7485],[-1.1725,44.7483],[-1.173,44.7457],[-1.1755,44.7446],[-1.1815,44.7436],[-1.183,44.741],[-1.1855,44.7392],[-1.185,44.7388],[-1.1856,44.7383],[-1.1901,44.7372],[-1.1919,44.7345],[-1.1896,44.7341],[-1.1923,44.7338],[-1.19,44.7333],[-1.1909,44.7309],[-1.1946,44.7287],[-1.1966,44.7266],[-1.1952,44.7272],[-1.1976,44.7245],[-1.2045,44.7213],[-1.2051,44.7195],[-1.2045,44.7177],[-1.2099,44.7158],[-1.2089,44.7156],[-1.2113,44.7141],[-1.2108,44.7135],[-1.2115,44.7139],[-1.2185,44.7109],[-1.2223,44.7104],[-1.2229,44.7098],[-1.224,44.708],[-1.2222,44.7076],[-1.2214,44.7086],[-1.2217,44.7066],[-1.2243,44.7038],[-1.2291,44.7007],[-1.2287,44.6978],[-1.2324,44.694],[-1.232,44.6904],[-1.2367,44.6832],[-1.239,44.6742],[-1.2406,44.6758],[-1.2413,44.6753],[-1.2389,44.6737],[-1.2394,44.6732],[-1.239,44.6723],[-1.2401,44.6681],[-1.2394,44.6632],[-1.2389,44.6583],[-1.2392,44.6566],[-1.2368,44.6564],[-1.2392,44.6566],[-1.2445,44.6486],[-1.2461,44.6424],[-1.2458,44.6375],[-1.2464,44.6366],[-1.2486,44.6369],[-1.2484,44.636],[-1.2476,44.6359],[-1.2461,44.6339],[-1.2426,44.6387],[-1.2418,44.6411],[-1.2436,44.6467],[-1.2425,44.6465],[-1.2411,44.6445],[-1.2408,44.6422],[-1.2418,44.6396],[-1.2463,44.6326],[-1.2463,44.6319],[-1.2436,44.6303],[-1.2428,44.6292],[-1.2436,44.6278],[-1.2447,44.6272],[-1.2449,44.6243],[-1.2441,44.6238],[-1.2452,44.6212],[-1.251,44.6218],[-1.2566,44.6246],[-1.2597,44.6316],[-1.261,44.6415],[-1.2558,44.685],[-1.252,44.7097],[-1.2396,44.7715],[-1.2327,44.809],[-1.2246,44.8088],[-1.1974,44.8102],[-1.1969,44.8108],[-1.1949,44.8111],[-1.1676,44.8135],[-1.1469,44.824],[-1.1418,44.8245],[-1.0833,44.8287],[-1.0501,44.8235]]]]}},{"nom":"Mios","population":12043,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-0.8046,44.7107],[-0.7908,44.7026],[-0.7715,44.6932],[-0.7898,44.681],[-0.8099,44.6697],[-0.8128,44.666],[-0.8172,44.6649],[-0.8177,44.6625],[-0.8196,44.6601],[-0.8191,44.6591],[-0.8216,44.6581],[-0.823,44.6535],[-0.8219,44.6519],[-0.8235,44.6501],[-0.8254,44.6505],[-0.8253,44.6493],[-0.8176,44.6464],[-0.816,44.6454],[-0.8157,44.6444],[-0.8175,44.6433],[-0.8207,44.6354],[-0.8156,44.6287],[-0.8065,44.6257],[-0.8112,44.6183],[-0.8131,44.6177],[-0.8153,44.6078],[-0.8347,44.6106],[-0.8422,44.6072],[-0.8443,44.6048],[-0.8536,44.5998],[-0.8645,44.5925],[-0.8696,44.5915],[-0.8736,44.5962],[-0.8881,44.5856],[-0.9041,44.5672],[-0.942,44.5511],[-0.9584,44.5398],[-0.9782,44.5295],[-1.0112,44.5103],[-0.9951,44.549],[-0.9912,44.5496],[-0.9927,44.5551],[-0.9852,44.5736],[-0.9726,44.575],[-0.9755,44.5775],[-0.9746,44.5866],[-0.9719,44.5952],[-0.9652,44.5976],[-0.9641,44.5972],[-0.9618,44.6011],[-0.9692,44.6039],[-0.9712,44.6038],[-0.9708,44.6046],[-0.9716,44.6055],[-0.9716,44.6072],[-0.9707,44.6081],[-0.9697,44.6117],[-0.9711,44.614],[-0.97,44.6141],[-0.9717,44.6156],[-0.9739,44.6161],[-0.9784,44.6199],[-0.9791,44.622],[-0.9763,44.6228],[-0.9678,44.6284],[-0.9664,44.6303],[-0.9611,44.6297],[-0.961,44.631],[-0.9593,44.631],[-0.9579,44.6334],[-0.9559,44.6337],[-0.9541,44.6355],[-0.9507,44.6368],[-0.9475,44.6369],[-0.9459,44.6387],[-0.9422,44.6389],[-0.94,44.6382],[-0.9299,44.6409],[-0.9255,44.6439],[-0.9252,44.6451],[-0.9179,44.6476],[-0.9174,44.6493],[-0.9129,44.6486],[-0.9085,44.6502],[-0.9018,44.6493],[-0.8967,44.65],[-0.895,44.6524],[-0.8889,44.6554],[-0.8886,44.6568],[-0.8869,44.6576],[-0.8855,44.6622],[-0.8875,44.6641],[-0.884,44.6694],[-0.8777,44.6709],[-0.8756,44.6748],[-0.8719,44.6745],[-0.8712,44.6754],[-0.8676,44.6768],[-0.8658,44.6782],[-0.8606,44.6797],[-0.8528,44.6854],[-0.8369,44.6942],[-0.8046,44.7107]]]]}},{"nom":"Marcheprime","population":5696,"geometrie":{"type":"MultiPolygon","coordinates":[[[[-0.8374,44.7371],[-0.8236,44.7216],[-0.8046,44.7107],[-0.8369,44.6942],[-0.8528,44.6854],[-0.8606,44.6797],[-0.8658,44.6782],[-0.8676,44.6768],[-0.8712,44.6754],[-0.8719,44.6745],[-0.8756,44.6748],[-0.8777,44.6709],[-0.8837,44.6696],[-0.8849,44.674],[-0.8841,44.6756],[-0.8853,44.6771],[-0.8856,44.6807],[-0.8851,44.6809],[-0.8861,44.6845],[-0.8852,44.6848],[-0.8871,44.686],[-0.8942,44.6872],[-0.8938,44.6879],[-0.9067,44.6997],[-0.8389,44.7292],[-0.8374,44.7371]]]]}}],"chiffres":{"communes":8,"habitants":72703,"km2":599}}</script>
 <script>
   // Le mot de passe n'est plus dans la page — seulement son empreinte, dérivée par PBKDF2-SHA256
   // avec 250 000 itérations et un sel fixe.
@@ -1302,6 +1467,304 @@
         }, 2200);
       });
     });
+
+    // « Et chez vous ? » : le territoire du visiteur, dessiné à partir des données publiques.
+    // Contours IGN Admin Express et populations Insee via geo.api.gouv.fr (API de l'État, sans clé).
+    // Projection Lambert-93 (formules IGN, vérifiées au mètre contre GDAL), cercles proportionnels
+    // à la population. Le territoire par défaut est embarqué dans la page : aucun appel au chargement.
+    (function () {
+      var API = 'https://geo.api.gouv.fr', W = 600, H = 400, M = 22;
+      var svg = document.getElementById('labo-svg'), carte = document.getElementById('labo-carte');
+      var champ = document.getElementById('labo-q'), liste = document.getElementById('labo-liste');
+      var etat = document.getElementById('labo-etat');
+      var options = [], actif = -1, minuterie, requete = 0;
+      var calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function l93(lon, lat) {
+        var e = 0.0818191910428158, n = 0.725607765053267, p = lat * Math.PI / 180, s = Math.sin(p);
+        var L = Math.log(Math.tan(Math.PI / 4 + p / 2) * Math.pow((1 - e * s) / (1 + e * s), e / 2));
+        var R = 11754255.426096 * Math.exp(-n * L), g = n * (lon - 3) * Math.PI / 180;
+        return [700000 + R * Math.sin(g), 12655612.049876 - R * Math.cos(g)];
+      }
+      function polygones(g) { return g.type === 'MultiPolygon' ? g.coordinates : [g.coordinates]; }
+      function fmt(v) { return Math.round(v || 0).toLocaleString('fr-FR'); }
+      function echap(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+      function somme(t, cle) { return t.reduce(function (s, x) { return s + (x[cle] || 0); }, 0); }
+      function unite(f) { return { nom: f.properties.nom, population: f.properties.population || 0, geometrie: f.geometry }; }
+
+      function dessiner(t, exemple) {
+        var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        function proj(g) {
+          return polygones(g).map(function (poly) {
+            return poly.map(function (anneau) {
+              return anneau.map(function (c) {
+                var p = l93(c[0], c[1]);
+                x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]);
+                return p;
+              });
+            });
+          });
+        }
+        var unites = t.unites.map(function (u) { return { u: u, polys: proj(u.geometrie) }; });
+        var contour = t.contour ? proj(t.contour) : null;
+        var k = Math.min((W - 2 * M) / (x1 - x0), (H - 2 * M) / (y1 - y0));
+        var ox = (W - k * (x1 - x0)) / 2, oy = (H - k * (y1 - y0)) / 2;
+        function px(p) { return [ox + (p[0] - x0) * k, oy + (y1 - p[1]) * k]; }
+        function chemin(polys) {
+          return polys.map(function (poly) {
+            return poly.map(function (anneau) {
+              var d = '', prec = null;
+              anneau.forEach(function (c, i) {
+                var q = px(c);
+                if (prec && i < anneau.length - 1 && Math.abs(q[0] - prec[0]) + Math.abs(q[1] - prec[1]) < .8) return;
+                d += (d ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+                prec = q;
+              });
+              return d + 'Z';
+            }).join('');
+          }).join('');
+        }
+        function centre(polys) {
+          var meilleur = null, max = 0;
+          polys.forEach(function (poly) {
+            var a = poly[0].map(px), s = 0, cx = 0, cy = 0;
+            for (var i = 0, j = a.length - 1; i < a.length; j = i++) {
+              var f = a[j][0] * a[i][1] - a[i][0] * a[j][1];
+              s += f; cx += (a[j][0] + a[i][0]) * f; cy += (a[j][1] + a[i][1]) * f;
+            }
+            if (Math.abs(s) > max) { max = Math.abs(s); meilleur = [cx / (3 * s), cy / (3 * s)]; }
+          });
+          return meilleur;
+        }
+
+        var popMax = Math.max.apply(null, t.unites.map(function (u) { return u.population; })) || 1;
+        var rMax = Math.max(12, Math.min(32, 240 / Math.sqrt(t.unites.length)));
+        var h = '<title id="labo-svg-titre">' + echap('Carte : ' + t.nom + (t.epci ? ', dans ' + t.epci : '') + ', '
+              + fmt(t.chiffres.habitants) + ' habitants. Cercles proportionnels à la population.') + '</title><g>';
+        // La commune saisie est dessinée en dernier : son contour passe au-dessus de ses voisines
+        unites.sort(function (a, b) { return (a.u.actif ? 1 : 0) - (b.u.actif ? 1 : 0); });
+        unites.forEach(function (x, i) {
+          h += '<path class="u' + (x.u.actif ? ' u-actif' : '') + '" style="--i:' + i + '" d="' + chemin(x.polys) + '"><title>'
+             + echap(x.u.nom + ' · ' + fmt(x.u.population) + ' hab.') + '</title></path>';
+        });
+        h += '</g>';
+        if (contour) h += '<path class="ctr" pathLength="1" d="' + chemin(contour) + '"/>';
+        var ronds = unites.map(function (x) { return { u: x.u, c: centre(x.polys), r: rMax * Math.sqrt(x.u.population / popMax) }; })
+                          .filter(function (o) { return o.c && o.r > .8; })
+                          .sort(function (a, b) { return b.r - a.r; });
+        ronds.forEach(function (o, i) {
+          var cx = o.c[0].toFixed(1), cy = o.c[1].toFixed(1);
+          if (o.u.actif) h += '<circle class="halo-actif" cx="' + cx + '" cy="' + cy + '" r="' + Math.max(o.r, 9).toFixed(1) + '"/>';
+          h += '<circle class="rond' + (o.u.actif ? ' rond-actif' : '') + '" style="--i:' + i + '" cx="' + cx + '" cy="' + cy + '" r="' + o.r.toFixed(1) + '"/>';
+        });
+        // Noms : la commune saisie d'abord, puis les plus peuplées, trois au plus, sans chevauchement
+        var poses = [], max = t.unites.some(function (u) { return u.actif; }) ? 4 : 3;
+        ronds.filter(function (o) { return o.u.actif; }).concat(ronds.slice(0, 8)).forEach(function (o) {
+          if (poses.length === max) return;
+          var l = o.u.nom.length * (o.u.actif ? 8 : 6.6), x = o.c[0], y = o.c[1] - o.r - 5, b = [x - l / 2, y - 13, x + l / 2, y + 3];
+          if (!o.u.actif && (b[0] < 4 || b[2] > W - 4 || b[1] < 4)) return;
+          if (poses.some(function (p) { return !(b[2] < p[0] || b[0] > p[2] || b[3] < p[1] || b[1] > p[3]); })) return;
+          poses.push(b);
+          h += '<text class="et' + (o.u.actif ? ' et-actif' : '') + '" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="middle">'
+             + echap(o.u.nom) + '</text>';
+        });
+        var cible = (W * .18) / k, pas = [200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000];
+        var L = pas.filter(function (v) { return v <= cible; }).pop() || 200;
+        h += '<g class="ech"><line x1="' + M + '" y1="' + (H - 14) + '" x2="' + (M + L * k).toFixed(1) + '" y2="' + (H - 14) + '"/><text x="' + M + '" y="'
+           + (H - 20) + '">' + (L >= 1000 ? L / 1000 + ' km' : L + ' m') + '</text></g>';
+        svg.innerHTML = h;
+
+        document.getElementById('labo-ex').hidden = !exemple;
+        document.getElementById('labo-nom').textContent = t.nom;
+        // Chiffres clés : population, superficie, densité, puis communes ou poids dans l'intercommunalité
+        var c = t.chiffres, pct = function (a, b) { return Math.round(100 * a / b) + ' %'; };
+        compter('k-pop', c.habitants, '');
+        compter('k-km2', c.km2, ' km²');
+        compter('k-dens', c.habitants / c.km2, ' hab./km²');
+        var lecture;
+        if (t.epci) {
+          document.getElementById('k-4-l').textContent = "de l'intercommunalité";
+          document.getElementById('k-4').textContent = pct(c.habitants, t.epciPop);
+          lecture = 'Dans la <b>' + echap(t.epci) + '</b> : ' + fmt(c.communes) + ' communes, ' + fmt(t.epciPop) + ' habitants';
+        } else {
+          document.getElementById('k-4-l').textContent = c.communes > 1 ? 'communes' : 'commune';
+          compter('k-4', c.communes, '');
+          var p = t.plusPeuplee || plusGrande(t.unites);
+          lecture = c.communes > 1 ? 'Commune la plus peuplée : <b>' + echap(p.nom) + '</b>, ' + pct(p.population, c.habitants) + ' des habitants'
+                  + (t.nbEpci ? ' · ' + t.nbEpci + ' intercommunalités' : '') : '';
+        }
+        document.getElementById('k-lecture').innerHTML = lecture;
+        document.getElementById('k-lecture').hidden = !lecture;
+        document.getElementById('labo-annonce').textContent = exemple ? '' : t.nom + ' : ' + fmt(c.habitants) + ' habitants, ' + fmt(c.km2) + ' km².';
+      }
+
+      function compter(id, v, suffixe) {  // défile jusqu'à la valeur, sauf si le visiteur a réduit les animations
+        var el = document.getElementById(id), t0 = performance.now();
+        var unite = suffixe ? '<small>' + suffixe + '</small>' : '';
+        if (calme) { el.innerHTML = fmt(v) + unite; return; }
+        (function pas(t) {
+          var a = Math.min(1, (t - t0) / 1000);
+          el.innerHTML = fmt(v * (1 - Math.pow(1 - a, 4))) + unite;
+          if (a < 1) requestAnimationFrame(pas);
+        })(t0);
+      }
+
+      function plusGrande(t) { return t.reduce(function (a, x) { return (x.population || 0) > (a.population || 0) ? x : a; }, t[0] || {}); }
+
+      function json(url) { return fetch(API + url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+
+      function charger(o) {
+        if (o.type === 'dep') {
+          return Promise.all([
+            json('/epcis?codeDepartement=' + o.code + '&fields=nom,population,contour&format=geojson&geometry=contour'),
+            json('/departements/' + o.code + '/communes?fields=nom,population,surface')
+          ]).then(function (r) {
+            return { nom: o.nom, contour: null, unites: r[0].features.map(unite), plusPeuplee: plusGrande(r[1]), nbEpci: r[0].features.length,
+                     chiffres: { communes: r[1].length, habitants: somme(r[1], 'population'), km2: somme(r[1], 'surface') / 100 } };
+          });
+        }
+        if (o.type === 'commune' && !o.epci) {
+          return json('/communes/' + o.code + '?fields=nom,population,surface,contour&format=geojson&geometry=contour').then(function (f) {
+            return { nom: o.nom, contour: f.geometry, unites: [unite(f)],
+                     chiffres: { communes: 1, habitants: f.properties.population, km2: f.properties.surface / 100 } };
+          });
+        }
+        // Intercommunalité, ou commune montrée dans son intercommunalité avec ses propres chiffres
+        var code = o.type === 'epci' ? o.code : o.epci;
+        var demandes = [
+          json('/epcis/' + code + '?fields=nom,population,surface,contour&format=geojson&geometry=contour'),
+          json('/epcis/' + code + '/communes?fields=nom,code,population,contour&format=geojson&geometry=contour')
+        ];
+        if (o.type === 'commune') demandes.push(json('/communes/' + o.code + '?fields=population,surface'));
+        return Promise.all(demandes).then(function (r) {
+          var e = r[0].properties, communes = r[1].features, ville = r[2];
+          return { nom: ville ? o.nom : e.nom, epci: ville ? e.nom : null, epciPop: e.population, contour: r[0].geometry,
+                   unites: communes.map(function (f) { var u = unite(f); u.actif = f.properties.code === o.code; return u; }),
+                   chiffres: { communes: communes.length,
+                               habitants: ville ? ville.population : e.population,
+                               km2: (ville ? ville.surface : e.surface) / 100 } };
+        });
+      }
+
+      function choisir(o) {
+        fermer();
+        champ.value = o.nom;
+        carte.classList.add('charge');
+        etat.textContent = 'Chargement de ' + o.nom + '…';
+        charger(o).then(function (t) {
+          carte.classList.remove('charge');
+          etat.textContent = '';
+          dessiner(t, false);
+        }).catch(function () {
+          carte.classList.remove('charge');
+          etat.textContent = 'Le service de données de l\'État ne répond pas. Réessayez dans un instant.';
+        });
+      }
+
+      function chercher(q) {
+        var n = ++requete, e = encodeURIComponent(q), vide = function () { return []; };
+        Promise.all([
+          json('/departements?nom=' + e + '&fields=nom,code&limit=2').catch(vide),
+          json('/epcis?nom=' + e + '&fields=nom,code,population&limit=4').catch(vide),
+          json('/communes?nom=' + e + '&fields=nom,code,codeEpci,codeDepartement&boost=population&limit=4').catch(vide)
+        ]).then(function (r) {
+          if (n !== requete) return;
+          options = r[0].map(function (x) { return { type: 'dep', code: x.code, nom: x.nom, info: 'département · ' + x.code }; })
+            .concat(r[1].map(function (x) { return { type: 'epci', code: x.code, nom: x.nom, info: 'intercommunalité · ' + fmt(x.population) + ' hab.' }; }))
+            .concat(r[2].map(function (x) { return { type: 'commune', code: x.code, epci: x.codeEpci, nom: x.nom, info: 'commune · ' + x.codeDepartement }; }));
+          actif = -1;
+          liste.innerHTML = options.length ? options.map(function (o, i) {
+            return '<li role="option" id="labo-o' + i + '" aria-selected="false">' + echap(o.nom) + '<small>' + echap(o.info) + '</small></li>';
+          }).join('') : '<li class="vide">Aucune collectivité trouvée</li>';
+          liste.hidden = false;
+          champ.setAttribute('aria-expanded', 'true');
+        });
+      }
+
+      function fermer() { liste.hidden = true; champ.setAttribute('aria-expanded', 'false'); champ.removeAttribute('aria-activedescendant'); }
+      function marquer() {
+        Array.from(liste.children).forEach(function (li, i) { li.setAttribute('aria-selected', i === actif); });
+        champ.setAttribute('aria-activedescendant', 'labo-o' + actif);
+      }
+
+      champ.addEventListener('input', function () {
+        clearTimeout(minuterie);
+        var q = champ.value.trim();
+        if (q.length < 2) { requete++; fermer(); return; }
+        minuterie = setTimeout(function () { chercher(q); }, 200);
+      });
+      champ.addEventListener('keydown', function (e) {
+        if (liste.hidden || !options.length) return;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          actif = (actif + (e.key === 'ArrowDown' ? 1 : options.length - 1)) % options.length;
+          marquer();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          choisir(options[Math.max(actif, 0)]);
+        } else if (e.key === 'Escape') {
+          fermer();
+        }
+      });
+      liste.addEventListener('mousedown', function (e) {
+        var li = e.target.closest('[role="option"]');
+        if (!li) return;
+        e.preventDefault();
+        choisir(options[Array.prototype.indexOf.call(liste.children, li)]);
+      });
+      champ.addEventListener('blur', function () { setTimeout(fermer, 150); });
+
+      dessiner(JSON.parse(document.getElementById('labo-defaut').textContent), true);
+    })();
+
+    // Compétences → projets : rubans tracés entre chaque compétence et les projets qui la mobilisent
+    (function () {
+      var flux = document.getElementById('flux'), svg = document.getElementById('flux-svg'), T = 14, fixe = null;
+      var comps = Array.from(flux.querySelectorAll('.flux-c')), projets = Array.from(flux.querySelectorAll('.flux-p'));
+      function dessiner() {
+        if (getComputedStyle(svg).display === 'none') return;
+        var b = svg.getBoundingClientRect(), W = b.width, depart = {}, h = '', i = 0;
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + b.height);
+        comps.forEach(function (c) { depart[c.dataset.c] = c.querySelector('.flux-c-barre').getBoundingClientRect().top - b.top; });
+        projets.forEach(function (p) {
+          var r = p.getBoundingClientRect(), codes = p.dataset.c.split(' '), y1 = r.top - b.top + r.height / 2 - codes.length * T / 2;
+          codes.forEach(function (c, j) {
+            var y0 = depart[c] + T / 2, ya = y1 + j * T + T / 2;
+            depart[c] += T;
+            h += '<path class="lien" data-c="' + c + '" data-p="' + p.getAttribute('href') + '" pathLength="1" style="--i:' + (i++) + '" stroke-width="'
+               + (T - 2) + '" d="M0 ' + y0.toFixed(1) + 'C' + (W / 2).toFixed(1) + ' ' + y0.toFixed(1) + ' ' + (W / 2).toFixed(1) + ' '
+               + ya.toFixed(1) + ' ' + W.toFixed(1) + ' ' + ya.toFixed(1) + '"/>';
+          });
+        });
+        svg.innerHTML = h;
+      }
+      function allumer(c, p) {  // une compétence (c) ou un projet (p), ou rien
+        var liens = svg.querySelectorAll('.lien');
+        flux.classList.toggle('focus', !!(c || p));
+        liens.forEach(function (l) { l.classList.toggle('on', c ? l.dataset.c === c : l.dataset.p === p); });
+        projets.forEach(function (x) { x.classList.toggle('on', c ? x.dataset.c.split(' ').indexOf(c) > -1 : x.getAttribute('href') === p); });
+        var cp = p ? flux.querySelector('.flux-p[href="' + p + '"]').dataset.c.split(' ') : [];
+        comps.forEach(function (x) {
+          x.classList.toggle('on', c ? x.dataset.c === c : cp.indexOf(x.dataset.c) > -1);
+          x.setAttribute('aria-pressed', x.dataset.c === fixe);
+        });
+      }
+      comps.forEach(function (x) {
+        x.addEventListener('mouseenter', function () { allumer(x.dataset.c); });
+        x.addEventListener('mouseleave', function () { allumer(fixe); });
+        x.addEventListener('click', function () { fixe = fixe === x.dataset.c ? null : x.dataset.c; allumer(fixe); });
+      });
+      projets.forEach(function (x) {
+        var p = x.getAttribute('href');
+        x.addEventListener('mouseenter', function () { allumer(null, p); });
+        x.addEventListener('focus', function () { allumer(null, p); });
+        x.addEventListener('mouseleave', function () { allumer(fixe); });
+        x.addEventListener('blur', function () { allumer(fixe); });
+      });
+      var minuterie;
+      window.addEventListener('resize', function () { clearTimeout(minuterie); minuterie = setTimeout(function () { dessiner(); allumer(fixe); }, 150); });
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(dessiner);
+    })();
 
     // Fiches projet : onglets au clavier comme à la souris (flèches, Début, Fin), motif ARIA « tabs ».
     // À l'impression, la feuille de style affiche les quatre volets à la suite.
