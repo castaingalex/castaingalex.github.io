@@ -385,7 +385,6 @@
     .flux-vis-prix text { font-family: var(--f); font-weight: 760; letter-spacing: -1.5px; fill: var(--sand-ink); }
     .flux-txt { display: grid; gap: .15rem; min-width: 0; }
     .flux-t { display: flex; align-items: baseline; gap: .45rem; font-size: .95rem; font-weight: 680; letter-spacing: -.01em; }
-    .flux-t b { font-family: var(--m); font-size: .72rem; font-weight: 500; color: var(--accent); }
     .flux-r { font-size: .85rem; color: var(--ink-2); }
     .flux-r b { font-weight: 720; color: var(--accent); }
     .flux-dots { display: none; gap: 4px; margin-top: .2rem; }
@@ -489,7 +488,6 @@
     .award-link .i { width: .85em; height: .85em; fill: currentColor; stroke: none; }
 
     .case-top { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; font-family: var(--m); font-size: .78rem; color: var(--ink-3); }
-    .case-num { color: var(--accent); font-weight: 500; }
     .case-year { padding: .2rem .6rem; border-radius: 999px; border: 1px solid var(--line); }
     .case-title { margin-top: .9rem; font-size: clamp(1.4rem, 2.3vw, 1.85rem); font-weight: 680; line-height: 1.12;
                   letter-spacing: -.03em; text-wrap: balance; }
@@ -535,21 +533,17 @@
     .tech-k { display: block; margin-bottom: .35rem; font-family: var(--m); font-size: .72rem; letter-spacing: .08em;
               text-transform: uppercase; color: var(--accent); }
     .tech + .tech { margin-top: .6rem; }
-    .outil-k { font-family: var(--m); font-size: .7rem; color: var(--accent); }
-    .frame-bar .outil-k { color: var(--accent); line-height: 1.35; }
-    .frame-bar:has(.outil-k) { height: auto; min-height: 30px; padding-block: 6px; }
-    .outil { display: grid; grid-template-columns: minmax(0, 44%) 1fr; gap: 1rem; align-items: center; padding: .75rem;
-             border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow-1);
-             transition: border-color .2s, box-shadow .2s, transform .2s var(--ease); }
-    .outil:hover, .outil:focus-visible { border-color: var(--accent); box-shadow: var(--shadow-2); transform: translateY(-2px); }
-    .outil img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); }
-    .outil-txt { display: grid; gap: .3rem; }
-    .outil strong { font-size: 1.05rem; font-weight: 660; line-height: 1.2; color: var(--ink); }
-    .outil small { font-size: .85rem; line-height: 1.45; color: var(--ink-2); }
-    .outil-cta { display: inline-flex; align-items: center; gap: .35rem; margin-top: .15rem; font-size: .88rem; font-weight: 620; color: var(--accent); }
-    .relais { margin-block: -2px; font-family: var(--m); font-size: .72rem; line-height: 1.5; color: var(--ink-3); text-align: center; }
+    .etape { display: grid; gap: .5rem; }
+    .etape-tete { display: flex; align-items: center; gap: .6rem; font-size: 1rem; font-weight: 660; color: var(--ink); }
+    .etape-n { padding: .2rem .6rem; border-radius: 999px; background: var(--accent); color: #fff;
+               font-family: var(--m); font-size: .68rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+    .etape-obj { font-size: .9rem; line-height: 1.5; color: var(--ink-2); }
+    .etape-obj b { margin-right: .45rem; font-family: var(--m); font-size: .68rem; font-weight: 500; letter-spacing: .08em;
+                   text-transform: uppercase; color: var(--accent); }
+    .etape .frame { margin-top: .2rem; }
+    .etape .zoom-hint { opacity: 1; transform: none; }
+    .relais { font-family: var(--m); font-size: .72rem; line-height: 1.5; color: var(--ink-3); text-align: center; }
     .relais::before { content: "↓"; margin-right: .5rem; font-size: 1rem; color: var(--accent); }
-    @media (max-width: 480px) { .outil { grid-template-columns: 1fr; } }
     .links { display: grid; gap: .5rem; }
     .link-row {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -837,12 +831,12 @@
           <svg class="flux-svg" id="flux-svg" aria-hidden="true"></svg>
           <div class="flux-col flux-proj">
             <p class="flux-k">Réalisations</p>
-            <a class="flux-p" href="#realisation-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t"><b>04</b>Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
-            <a class="flux-p" href="#realisation-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t"><b>03</b>Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#realisation-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>01</b>Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#realisation-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>02</b>Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
-            <a class="flux-p" href="#realisation-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>06</b>SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
-            <a class="flux-p" href="#realisation-05" data-c="c d"><span class="flux-vis"><img src="assets/img/pile-cartes-pdf.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t"><b>05</b>Cartes de crise</span><span class="flux-r">Une carte PDF en <b>5 secondes</b></span><span class="flux-dots" aria-hidden="true"><i data-c="c"></i><i data-c="d"></i></span></span></a>
+            <a class="flux-p" href="#realisation-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t">Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
+            <a class="flux-p" href="#realisation-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t">Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
+            <a class="flux-p" href="#realisation-05" data-c="c d"><span class="flux-vis"><img src="assets/img/pile-cartes-pdf.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">Cartes de crise</span><span class="flux-r">Une carte PDF en <b>5 secondes</b></span><span class="flux-dots" aria-hidden="true"><i data-c="c"></i><i data-c="d"></i></span></span></a>
           </div>
         </div>
       </div>
@@ -872,7 +866,7 @@
               </button>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">01</span><span class="case-year">2025</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
+              <div class="case-top"><span class="case-year">2025</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t01">Tri à la source des biodéchets : évaluer un déploiement en continu</h3>
               <p class="case-ctx">COBAN · 6 communes · 141 points de collecte</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
@@ -911,27 +905,31 @@
           <!-- 02 -->
           <article class="case rv" id="realisation-02" aria-labelledby="t02">
             <div class="case-media">
-              <a class="outil" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
-                <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
-                     alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
-                <span class="outil-txt">
-                  <span class="outil-k">Étape 1 · Rétrospective 2018 → 2025</span>
-                  <strong>Portrait des finances locales</strong>
-                  <small>Comptes réalisés sur huit exercices, comparés à la médiane de la strate.</small>
-                  <span class="outil-cta">Tester l'outil <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></span>
-                  <span class="sr-only">(nouvel onglet)</span>
-                </span>
-              </a>
-              <p class="relais">La rétrospective éclaire les arbitrages budgétaires</p>
-              <button class="frame" type="button" data-zoom="assets/img/flux-budgetaires-bp2026.webp">
-                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="outil-k">Étape 2 · Budget primitif 2026</span></span>
-                <img src="assets/img/flux-budgetaires-bp2026.webp" width="2000" height="1382" loading="lazy" decoding="async"
-                     alt="Diagramme de Sankey du budget primitif 2026 : recettes, budgets et charges sur les six périmètres"/>
-                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
-              </button>
+              <div class="etape">
+                <p class="etape-tete"><span class="etape-n">Étape 1</span>Rétrospective 2018 → 2025</p>
+                <p class="etape-obj"><b>Objectif</b>Analyser la situation financière sur huit ans et la comparer aux collectivités de même taille.</p>
+                <a class="frame" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
+                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Portrait des finances locales</span></span>
+                  <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
+                       alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
+                  <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-ext"/></svg>Tester l'outil</span>
+                  <span class="sr-only">Tester le portrait des finances locales (nouvel onglet)</span>
+                </a>
+              </div>
+              <p class="relais">La rétrospective éclaire le budget</p>
+              <div class="etape">
+                <p class="etape-tete"><span class="etape-n">Étape 2</span>Budget primitif 2026</p>
+                <p class="etape-obj"><b>Objectif</b>Rendre lisibles, en un seul visuel, les équilibres du budget voté.</p>
+                <button class="frame" type="button" data-zoom="assets/img/flux-budgetaires-bp2026.webp">
+                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Diagramme des flux budgétaires</span></span>
+                  <img src="assets/img/flux-budgetaires-bp2026.webp" width="2000" height="1382" loading="lazy" decoding="async"
+                       alt="Diagramme de Sankey du budget primitif 2026 : recettes, budgets et charges sur les six périmètres"/>
+                  <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
+                </button>
+              </div>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">02</span><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
+              <div class="case-top"><span class="case-year">2026</span><span class="comp-badge" data-c="b">Évaluation</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t02">Visualisation des flux budgétaires — BP 2026</h3>
               <p class="case-ctx">COBAN · 6 budgets consolidés</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
@@ -986,7 +984,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">03</span><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
+              <div class="case-top"><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
               <h3 class="case-title" id="t03">Assistant IA souverain pour l'accueil des usagers</h3>
               <p class="case-ctx">COBAN · 100 % hébergé en interne · Open source intégral</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
@@ -1052,7 +1050,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">04</span><span class="case-year">2006–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="b">Évaluation</span></div>
+              <div class="case-top"><span class="case-year">2006–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="b">Évaluation</span></div>
               <h3 class="case-title" id="t04">Observatoire du commerce et revitalisation du centre-ville</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
@@ -1113,7 +1111,7 @@
               </a>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">05</span><span class="case-year">2026</span><span class="comp-badge" data-c="c">Ingénierie</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
+              <div class="case-top"><span class="case-year">2026</span><span class="comp-badge" data-c="c">Ingénierie</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t05">Des cartes pour la gestion de crise, en quelques secondes</h3>
               <p class="case-ctx">COBAN · Incendies de Gironde, juillet 2026 · Outil support</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
@@ -1158,7 +1156,7 @@
               </button>
             </div>
             <div class="case-body">
-              <div class="case-top"><span class="case-num">06</span><span class="case-year">2002–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
+              <div class="case-top"><span class="case-year">2002–2022</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="d">Conduite de projet</span></div>
               <h3 class="case-title" id="t06">SIG intercommunal : accompagner chaque commune, construire un référentiel commun</h3>
               <p class="case-ctx">Agglo du Beauvaisis · 53 communes · 103 900 hab.</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">

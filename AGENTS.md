@@ -22,8 +22,8 @@ d'agent ou de service interne. Le doute vaut refus.
   (`app_portrait_eco`, `app_retro_financiere`) et `coban_processing` (`tool_carte_pdf`). On corrige
   là-bas, puis on redépose ici.
 
-`carte-pdf` est liée depuis la fiche 05, `portrait-finances` depuis la fiche 02 (sous le Sankey,
-comme prolongement : budget voté puis comptes réalisés). `portrait-eco` est publiée et atteignable
+`carte-pdf` est liée depuis la fiche 05, `portrait-finances` depuis la fiche 02 (étape 1 « Rétrospective », avant le Sankey en étape 2,
+même modèle pour les deux étapes). `portrait-eco` est publiée et atteignable
 par URL directe, sans être exposée : ne pas ajouter de lien vers elle sans demande explicite.
 
 ## Registre
