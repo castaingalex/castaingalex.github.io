@@ -458,21 +458,27 @@
     .video-go:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 0 0 18px 18px; }
 
     /* Lanceur : même pastille sur tout ce qui démarre (vidéo, outils en ligne), avec le halo qui pulse de « Et chez vous ? » */
+    /* Fond plein couleur accent (contraste 7,5:1 avec le blanc), liseré blanc et ombre pour se détacher de toute capture,
+       claire ou sombre ; halo autour de toute la pastille. Le halo s'arrête si l'utilisateur réduit les animations. */
     .frame-lien { cursor: pointer; }
-    .lanceur { position: absolute; left: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: .7rem;
-               max-width: calc(100% - 28px); padding: .4rem 1.05rem .4rem .4rem; border-radius: 999px; text-align: left;
-               background: rgba(255, 255, 255, .96); box-shadow: var(--shadow-2); transition: transform .25s var(--ease); }
-    .lanceur-ic { position: relative; flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
-                  background: var(--accent); color: #fff; transition: background .2s; }
-    .lanceur-ic svg { width: 15px; height: 15px; margin-left: 2px; fill: currentColor; }
-    .lanceur-ic::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent);
-                         animation: lanceur 2.4s var(--ease) infinite; }
-    @keyframes lanceur { 0% { transform: scale(1); opacity: .65; } 70%, 100% { transform: scale(1.85); opacity: 0; } }
-    .lanceur-txt { display: grid; min-width: 0; line-height: 1.25; }
-    .lanceur-txt b { font-size: .95rem; font-weight: 640; color: var(--ink); }
-    .lanceur-txt small { font-family: var(--m); font-size: .72rem; color: var(--ink-3); }
-    .frame:hover .lanceur, .frame:focus-visible .lanceur, .video-go:hover .lanceur, .video-go:focus-visible .lanceur { transform: translateY(-2px); }
-    .frame:hover .lanceur-ic, .video-go:hover .lanceur-ic { background: var(--accent-ink); }
+    .frame-lien:focus-visible, .cover:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .lanceur { position: absolute; left: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: .75rem;
+               max-width: calc(100% - 28px); padding: .35rem 1.15rem .35rem .35rem; border-radius: 999px; text-align: left;
+               background: var(--accent); color: #fff;
+               box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 14px 28px -10px rgba(10, 68, 87, .7);
+               transition: transform .25s var(--ease), background .2s; }
+    .lanceur::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+                       animation: lanceur 2.6s ease-out infinite; }
+    @keyframes lanceur { 0% { box-shadow: 0 0 0 2px rgba(14, 90, 115, .55); } 75%, 100% { box-shadow: 0 0 0 18px rgba(14, 90, 115, 0); } }
+    .lanceur-ic { flex-shrink: 0; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+                  background: #fff; color: var(--accent); }
+    .lanceur-ic svg { width: 14px; height: 14px; margin-left: 2px; fill: currentColor; }
+    .lanceur-txt { display: grid; min-width: 0; line-height: 1.22; }
+    .lanceur-txt b { font-size: .96rem; font-weight: 650; color: #fff; letter-spacing: -.005em; }
+    .lanceur-txt small { font-family: var(--m); font-size: .72rem; color: rgba(255, 255, 255, .84); }
+    .frame:hover .lanceur, .frame:focus-visible .lanceur, .video-go:hover .lanceur, .video-go:focus-visible .lanceur,
+    .cover:hover .lanceur, .cover:focus-visible .lanceur { transform: translateY(-2px); background: var(--accent-ink); }
+    .cover-award { padding-bottom: 5rem; }
 
     .cover-award { background: var(--sand); place-items: center; align-content: center; text-align: center; gap: .9rem; }
     .cover-award::before { opacity: .25; }
@@ -480,11 +486,6 @@
     .laurel text { font-family: var(--f); font-weight: 760; letter-spacing: -1.5px; fill: var(--sand-ink); }
     .award-t { font-size: 1.3rem; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
     .award-s { font-size: .92rem; color: var(--ink-2); margin-top: -.6rem; }
-    .award-link { display: inline-flex; align-items: center; gap: .45rem; margin-top: .2rem;
-                  padding: .55rem 1rem; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-1);
-                  font-size: .9rem; font-weight: 560; color: var(--sand-ink); transition: transform .25s var(--ease); }
-    .cover-award:hover .award-link { transform: translateY(-2px); }
-    .award-link .i { width: .85em; height: .85em; fill: currentColor; stroke: none; }
 
     .case-top { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; font-family: var(--m); font-size: .78rem; color: var(--ink-3); }
     .case-year { padding: .2rem .6rem; border-radius: 999px; border: 1px solid var(--line); }
@@ -1059,7 +1060,8 @@
                 </svg>
                 <span class="award-t">Lauréat Défis Urbains 2019</span>
                 <span class="award-s">Innovapresse · catégorie Stratégie commerciale, remise du prix le 24 juin 2019</span>
-                <span class="award-link"><svg class="i" aria-hidden="true"><use href="#i-play"/></svg>Cérémonie de remise des prix<span class="sr-only"> (YouTube, nouvel onglet)</span></span>
+                <span class="lanceur" aria-hidden="true"><span class="lanceur-ic"><svg><use href="#i-play"/></svg></span><span class="lanceur-txt"><b>Lancer la vidéo</b><small>Remise du prix, YouTube</small></span></span>
+                <span class="sr-only">Voir la vidéo de la remise des prix (YouTube, nouvel onglet)</span>
               </a>
             </div>
             <div class="case-body">
