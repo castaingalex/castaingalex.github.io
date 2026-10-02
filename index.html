@@ -436,7 +436,7 @@
              border-radius: 18px; border: 1px solid var(--line); background: #F3F2EC; cursor: zoom-in; }
     .frame-bar { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-bottom: 1px solid var(--line); }
     .frame-bar i { width: 9px; height: 9px; border-radius: 50%; background: #DAD7CC; }
-    .frame-bar span { margin-left: 8px; font-family: var(--m); font-size: .7rem; color: var(--ink-3); }
+    .frame-bar span { min-width: 0; margin-left: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--m); font-size: .7rem; color: var(--ink-3); }
     .frame img { width: 100%; height: auto; transition: transform .6s var(--ease); }
     .frame:hover img { transform: scale(1.015); }
     .zoom-hint {
@@ -456,6 +456,23 @@
     .frame-video video { display: block; width: 100%; height: auto; background: var(--paper); }
     .video-go { position: absolute; inset: 30px 0 0 0; border: 0; background: transparent; cursor: pointer; }
     .video-go:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 0 0 18px 18px; }
+
+    /* Lanceur : même pastille sur tout ce qui démarre (vidéo, outils en ligne), avec le halo qui pulse de « Et chez vous ? » */
+    .frame-lien { cursor: pointer; }
+    .lanceur { position: absolute; left: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: .7rem;
+               max-width: calc(100% - 28px); padding: .4rem 1.05rem .4rem .4rem; border-radius: 999px; text-align: left;
+               background: rgba(255, 255, 255, .96); box-shadow: var(--shadow-2); transition: transform .25s var(--ease); }
+    .lanceur-ic { position: relative; flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+                  background: var(--accent); color: #fff; transition: background .2s; }
+    .lanceur-ic svg { width: 15px; height: 15px; margin-left: 2px; fill: currentColor; }
+    .lanceur-ic::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent);
+                         animation: lanceur 2.4s var(--ease) infinite; }
+    @keyframes lanceur { 0% { transform: scale(1); opacity: .65; } 70%, 100% { transform: scale(1.85); opacity: 0; } }
+    .lanceur-txt { display: grid; min-width: 0; line-height: 1.25; }
+    .lanceur-txt b { font-size: .95rem; font-weight: 640; color: var(--ink); }
+    .lanceur-txt small { font-family: var(--m); font-size: .72rem; color: var(--ink-3); }
+    .frame:hover .lanceur, .frame:focus-visible .lanceur, .video-go:hover .lanceur, .video-go:focus-visible .lanceur { transform: translateY(-2px); }
+    .frame:hover .lanceur-ic, .video-go:hover .lanceur-ic { background: var(--accent-ink); }
 
     .cover-award { background: var(--sand); place-items: center; align-content: center; text-align: center; gap: .9rem; }
     .cover-award::before { opacity: .25; }
@@ -523,7 +540,6 @@
     .etape-obj b { margin-right: .45rem; font-family: var(--m); font-size: .68rem; font-weight: 500; letter-spacing: .08em;
                    text-transform: uppercase; color: var(--accent); }
     .etape .frame { margin-top: .2rem; }
-    .etape .btn { margin-top: .5rem; }
     .case-duo { grid-template-columns: 1fr; gap: 12px; }
     .duo-tete { padding: clamp(10px, 1.4vw, 18px) clamp(10px, 1.4vw, 18px) 0; }
     .duo-titre { margin-top: .45rem; font-size: clamp(1.2rem, 1.8vw, 1.45rem); font-weight: 680; line-height: 1.2;
@@ -533,7 +549,6 @@
     .etape-1 { border-radius: 24px; background: var(--accent-tint); border: 1px solid var(--accent-soft); }
     .etape-2 { align-items: start; }
     .etape-2 .case-media { order: 2; }
-    .etape-1 .zoom-hint { opacity: 1; transform: none; }
     .relais { font-family: var(--m); font-size: .72rem; line-height: 1.5; color: var(--ink-3); text-align: center; }
     .relais::before { content: "↓"; margin-right: .5rem; font-size: 1rem; color: var(--accent); }
     .links { display: grid; gap: .5rem; }
@@ -692,7 +707,7 @@
     /* ── Impression : un dossier lisible pour un jury ── */
     @media print {
       @page { margin: 14mm; }
-      .gate, .nav, .progress, .skip, .lightbox, .zoom-hint, .contact-actions, .tabs { display: none !important; }
+      .gate, .nav, .progress, .skip, .lightbox, .zoom-hint, .lanceur, .contact-actions, .tabs { display: none !important; }
       [role="tabpanel"][hidden] { display: block !important; }
       .panel { animation: none; }
       .panel::before { content: attr(data-titre); display: block; margin-bottom: .3rem; font-family: var(--m);
@@ -906,13 +921,13 @@
               <div class="etape">
                 <p class="etape-tete"><span class="etape-n">Étape 1</span>Rétrospective 2018 → 2025</p>
                 <p class="etape-obj"><b>Objectif</b>Analyser la situation financière sur les dernières années et la comparer aux collectivités de même taille.</p>
-                <p><a class="btn btn-primary" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">Tester l'outil <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only">(nouvel onglet)</span></a></p>
               </div>
-              <a class="frame" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener" tabindex="-1">
-                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Portrait des finances locales</span></span>
+              <a class="frame frame-lien" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
+                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>castaing.dev/portrait-finances</span></span>
                 <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
                      alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
-                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-ext"/></svg>Ouvrir</span>
+                <span class="lanceur" aria-hidden="true"><span class="lanceur-ic"><svg><use href="#i-play"/></svg></span><span class="lanceur-txt"><b>Lancer l'outil</b><small>En ligne, sans compte</small></span></span>
+                <span class="sr-only">Lancer le portrait des finances locales (nouvel onglet)</span>
               </a>
             </div>
             <p class="relais">La rétrospective éclaire le budget</p>
@@ -970,12 +985,15 @@
           <article class="case rv" id="realisation-03" aria-labelledby="t03">
             <div class="case-media">
               <figure class="frame frame-video">
-                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Démo · 51 s · 5 questions en conditions réelles</span></span>
+                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Démo en conditions réelles</span></span>
                 <video controls preload="none" playsinline width="1920" height="1080" poster="assets/img/assistant-usagers-affiche.webp"
                        aria-label="Démonstration de l'assistant usagers : cinq questions posées en conditions réelles, dont deux refusées par les garde-fous (51 secondes, avec musique)">
                   <source src="assets/video/assistant-usagers.mp4" type="video/mp4"/>
                 </video>
-                <button class="video-go" type="button" hidden><span class="sr-only">Lire la démonstration (51 secondes, avec musique)</span></button>
+                <button class="video-go" type="button" hidden>
+                  <span class="lanceur" aria-hidden="true"><span class="lanceur-ic"><svg><use href="#i-play"/></svg></span><span class="lanceur-txt"><b>Lancer la démo</b><small>Vidéo, 51 s</small></span></span>
+                  <span class="sr-only">Lire la démonstration (51 secondes, avec musique)</span>
+                </button>
               </figure>
             </div>
             <div class="case-body">
@@ -1094,15 +1112,12 @@
           <!-- 05 -->
           <article class="case rv" id="realisation-05" aria-labelledby="t05">
             <div class="case-media">
-              <button class="frame" type="button" data-zoom="assets/img/generateur-cartes-pdf.webp">
+              <a class="frame frame-lien" href="https://castaing.dev/carte-pdf/" target="_blank" rel="noopener">
                 <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>castaing.dev/carte-pdf</span></span>
                 <img src="assets/img/generateur-cartes-pdf.webp" width="1440" height="900" loading="lazy" decoding="async"
                      alt="Générateur de cartes PDF : panneau de réglage (format, orientation, échelle) et cadre d'impression sur la photo aérienne IGN du Bassin d'Arcachon"/>
-                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
-              </button>
-              <a class="link-row" href="https://castaing.dev/carte-pdf/" target="_blank" rel="noopener">
-                <span><small>Directement en ligne, sans installation ni compte</small>Tester le générateur de carte</span>
-                <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only">(nouvel onglet)</span>
+                <span class="lanceur" aria-hidden="true"><span class="lanceur-ic"><svg><use href="#i-play"/></svg></span><span class="lanceur-txt"><b>Lancer l'outil</b><small>En ligne, sans compte</small></span></span>
+                <span class="sr-only">Lancer le générateur de cartes (nouvel onglet)</span>
               </a>
             </div>
             <div class="case-body">
