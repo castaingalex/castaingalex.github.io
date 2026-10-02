@@ -23,7 +23,7 @@ d'agent ou de service interne. Le doute vaut refus.
   là-bas, puis on redépose ici.
 
 `carte-pdf` est liée depuis la fiche 05, `portrait-finances` depuis la fiche 02 (étape 1 « Rétrospective », avant le Sankey en étape 2,
-même modèle pour les deux étapes). `portrait-eco` est publiée et atteignable
+étape 2 et textes de la fiche regroupés sur un fond commun). `portrait-eco` est publiée et atteignable
 par URL directe, sans être exposée : ne pas ajouter de lien vers elle sans demande explicite.
 
 ## Registre

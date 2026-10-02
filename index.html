@@ -541,7 +541,14 @@
     .etape-obj b { margin-right: .45rem; font-family: var(--m); font-size: .68rem; font-weight: 500; letter-spacing: .08em;
                    text-transform: uppercase; color: var(--accent); }
     .etape .frame { margin-top: .2rem; }
-    .etape .zoom-hint { opacity: 1; transform: none; }
+    .etape .btn { margin-top: .5rem; }
+    .case-duo { grid-template-columns: 1fr; gap: 12px; }
+    .etape-1, .etape-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: clamp(22px, 3.6vw, 52px);
+                         align-items: center; padding: clamp(10px, 1.4vw, 18px); }
+    .etape-2 { align-items: start; border-radius: 24px; background: var(--accent-tint); border: 1px solid var(--accent-soft); }
+    .etape-2 .case-media { order: 2; }
+    .etape-2 .metric { background: var(--surface); }
+    .etape-1 .zoom-hint { opacity: 1; transform: none; }
     .relais { font-family: var(--m); font-size: .72rem; line-height: 1.5; color: var(--ink-3); text-align: center; }
     .relais::before { content: "↓"; margin-right: .5rem; font-size: 1rem; color: var(--accent); }
     .links { display: grid; gap: .5rem; }
@@ -646,6 +653,8 @@
       .parcours-grid .map-card { position: static; order: -1; width: 100%; max-width: 560px; }
       .case { grid-template-columns: 1fr; }
       .case:nth-child(even) .case-media { order: 0; }
+      .etape-1, .etape-2 { grid-template-columns: 1fr; }
+      .etape-2 .case-media { order: 0; }
       .case-media { position: static; }
       .principes { grid-template-columns: 1fr; }
       .pr-k { margin-top: 2.4rem; }
@@ -832,7 +841,7 @@
           <div class="flux-col flux-proj">
             <p class="flux-k">Réalisations</p>
             <a class="flux-p" href="#realisation-04" data-c="a b"><span class="flux-vis flux-vis-prix"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#laurier"/><use href="#laurier" transform="translate(200 0) scale(-1 1)"/><text x="100" y="113" text-anchor="middle" font-size="40">2019</text></svg></span><span class="flux-txt"><span class="flux-t">Observatoire du commerce</span><span class="flux-r">Lauréat <b>Défis Urbains 2019</b></span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="b"></i></span></span></a>
-            <a class="flux-p" href="#realisation-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t">Assistant IA souverain</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
+            <a class="flux-p" href="#realisation-03" data-c="a c"><span class="flux-vis flux-vis-chat"><i></i><i></i><i></i></span><span class="flux-txt"><span class="flux-t">IA pour l'accueil des usagers</span><span class="flux-r"><b>100 %</b> hébergé en interne</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="c"></i></span></span></a>
             <a class="flux-p" href="#realisation-01" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-biodechets.webp" width="560" height="262" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">Tri des biodéchets</span><span class="flux-r"><b>40 720</b> dépôts tracés en 2025</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
             <a class="flux-p" href="#realisation-02" data-c="b c"><span class="flux-vis"><img src="assets/img/pile-flux-budgetaires.webp" width="560" height="387" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">Flux budgétaires BP 2026</span><span class="flux-r"><b>6 budgets</b> consolidés en un visuel</span><span class="flux-dots" aria-hidden="true"><i data-c="b"></i><i data-c="c"></i></span></span></a>
             <a class="flux-p" href="#realisation-06" data-c="a d"><span class="flux-vis"><img src="assets/img/pile-carty.webp" width="560" height="350" alt="" loading="lazy"/></span><span class="flux-txt"><span class="flux-t">SIG intercommunal</span><span class="flux-r"><b>17 → 53</b> communes accompagnées</span><span class="flux-dots" aria-hidden="true"><i data-c="a"></i><i data-c="d"></i></span></span></a>
@@ -903,20 +912,23 @@
           </article>
 
           <!-- 02 -->
-          <article class="case rv" id="realisation-02" aria-labelledby="t02">
-            <div class="case-media">
+          <article class="case case-duo rv" id="realisation-02" aria-labelledby="t02">
+            <div class="etape-1">
               <div class="etape">
                 <p class="etape-tete"><span class="etape-n">Étape 1</span>Rétrospective 2018 → 2025</p>
                 <p class="etape-obj"><b>Objectif</b>Analyser la situation financière sur huit ans et la comparer aux collectivités de même taille.</p>
-                <a class="frame" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Portrait des finances locales</span></span>
-                  <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
-                       alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
-                  <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-ext"/></svg>Tester l'outil</span>
-                  <span class="sr-only">Tester le portrait des finances locales (nouvel onglet)</span>
-                </a>
+                <p><a class="btn btn-primary" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener">Tester l'outil <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only">(nouvel onglet)</span></a></p>
               </div>
-              <p class="relais">La rétrospective éclaire le budget</p>
+              <a class="frame" href="https://castaing.dev/portrait-finances/#/synthese?t=243301504&amp;p=consolide" target="_blank" rel="noopener" tabindex="-1">
+                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Portrait des finances locales</span></span>
+                <img src="assets/img/portrait-finances.webp" width="900" height="415" loading="lazy" decoding="async"
+                     alt="Portrait des finances locales : écran de synthèse de la communauté d'agglomération du Bassin d'Arcachon Nord, comptes 2025"/>
+                <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-ext"/></svg>Ouvrir</span>
+              </a>
+            </div>
+            <p class="relais">La rétrospective éclaire le budget</p>
+            <div class="etape-2">
+            <div class="case-media">
               <div class="etape">
                 <p class="etape-tete"><span class="etape-n">Étape 2</span>Budget primitif 2026</p>
                 <p class="etape-obj"><b>Objectif</b>Rendre lisibles, en un seul visuel, les équilibres du budget voté.</p>
@@ -962,6 +974,7 @@
               </dl>
               <ul class="chips"><li class="chip">Transparence</li><li class="chip">Finances publiques</li><li class="chip">Datavisualisation</li></ul>
             </div>
+            </div>
           </article>
 
           <!-- 03 -->
@@ -985,7 +998,7 @@
             </div>
             <div class="case-body">
               <div class="case-top"><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
-              <h3 class="case-title" id="t03">Assistant IA souverain pour l'accueil des usagers</h3>
+              <h3 class="case-title" id="t03">Accueil des usagers : une IA qui aide les agents à trouver la bonne réponse</h3>
               <p class="case-ctx">COBAN · 100 % hébergé en interne · Open source intégral</p>
               <div class="tabs" role="tablist" aria-label="Fiche de la réalisation">
                 <button class="tab" type="button" role="tab" id="tab-03-contexte" aria-controls="pan-03-contexte" aria-selected="true">Contexte</button>
@@ -1011,10 +1024,10 @@
                 <p class="tech"><span class="tech-k">Stack</span>Ollama · Gemma 3 12B · Open WebUI · Docker, le tout déployé sur une machine du réseau interne, sans appel à un service cloud. L'architecture est reproductible en quelques heures sur n'importe quelle infrastructure existante.</p>
               </div>
               <dl class="metrics">
-                <div class="metric"><dt>souverain<br/>aucune donnée externalisée</dt><dd>100 %</dd></div>
+                <div class="metric"><dt>hébergé en interne,<br/>aucune donnée externalisée</dt><dd>100 %</dd></div>
                 <div class="metric"><dt>coût récurrent<br/>ni licence, ni abonnement éditeur</dt><dd>0 €</dd></div>
               </dl>
-              <ul class="chips"><li class="chip">IA générative</li><li class="chip">Souveraineté</li><li class="chip">Gestion relation usagers</li></ul>
+              <ul class="chips"><li class="chip">IA générative</li><li class="chip">Hébergement interne</li><li class="chip">Gestion relation usagers</li></ul>
             </div>
           </article>
 
