@@ -10,7 +10,9 @@ GitHub Pages sert le résultat.
 
 | | Rôle |
 |---|---|
-| `index.html` | le portfolio lui-même, un seul fichier de 2 Mo, CSS et JS embarqués |
+| `index.html` | le portfolio lui-même, CSS et JS embarqués |
+| `assets/` | polices, images, CV en PDF et image de partage du portfolio |
+| `v1/` | ancien portfolio, gardé en archive, non lié |
 | `carte-pdf/` | démo publiée de l'outil de carte PDF, **liée depuis la page d'accueil** |
 | `portrait-eco/` | démo du portrait économique, publiée mais **non liée** |
 | `portrait-finances/` | démo de la rétrospective financière, publiée mais **non liée** |

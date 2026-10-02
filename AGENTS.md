@@ -11,9 +11,12 @@ d'agent ou de service interne. Le doute vaut refus.
 
 ## Où écrire, et où ne pas
 
-- **`index.html`** est le portfolio. Un seul fichier de 2 Mo, CSS dans un `<style>`, une quinzaine
-  de lignes de JS en bas pour l'accordéon des travaux (`aria-expanded`). Polices Google Fonts
-  (`Bricolage Grotesque`, `DM Mono`). Contenu en français. Points de rupture à 680 px et 480 px.
+- **`index.html`** est le portfolio (v2, en ligne depuis le 2026-10-02). CSS dans un `<style>`, JS
+  en bas de page : porte à mot de passe (empreinte PBKDF2, lien direct `#<mot de passe>`), encart
+  « Et chez vous ? » (geo.api.gouv.fr), diagramme compétences → réalisations, onglets des fiches.
+  Ressources locales dans **`assets/`** : polices auto-hébergées (`Bricolage Grotesque`, `DM Mono`),
+  images WebP, CV en PDF, image de partage `og.png`. Contenu en français.
+- **`v1/`** est l'ancien portfolio, gardé en archive et atteignable par URL directe. Ne plus y toucher.
 - **`carte-pdf/`, `portrait-eco/`, `portrait-finances/`** sont des **démos déposées**, pas du code
   source. Ne jamais y corriger quoi que ce soit : la source vit dans `coban_products`
   (`app_portrait_eco`, `app_retro_financiere`) et `coban_processing` (`tool_carte_pdf`). On corrige
