@@ -535,8 +535,17 @@
     .tech-k { display: block; margin-bottom: .35rem; font-family: var(--m); font-size: .72rem; letter-spacing: .08em;
               text-transform: uppercase; color: var(--accent); }
     .suite { padding: 1rem 1.1rem; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); }
-    .suite p { font-size: .92rem; line-height: 1.55; color: var(--ink-2); }
+    .suite p { margin-top: .85rem; font-size: .92rem; line-height: 1.55; color: var(--ink-2); }
+    .suite .suite-note { margin-top: .6rem; font-size: .82rem; color: var(--ink-3); }
     .suite .link-row { margin-top: .85rem; }
+    .frise { display: flex; gap: 4px; margin: .5rem 0 0; padding: 0; list-style: none; }
+    .frise li { flex: 7; min-width: 0; }
+    .frise li + li { flex: 3; min-width: 6.5rem; }
+    .frise li::before { content: ""; display: block; height: 8px; margin-bottom: .5rem; border-radius: 4px; background: var(--accent-soft); }
+    .frise li + li::before { background: var(--accent); }
+    .frise b { display: block; font-family: var(--m); font-size: .7rem; font-weight: 500; color: var(--ink-3); }
+    .frise span { display: block; font-size: .9rem; font-weight: 640; color: var(--ink); }
+    .frise small { display: block; font-size: .78rem; color: var(--ink-2); }
     .links { display: grid; gap: .5rem; }
     .link-row {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -905,10 +914,15 @@
                 <span class="zoom-hint" aria-hidden="true"><svg class="i"><use href="#i-zoom"/></svg>Agrandir</span>
               </button>
               <div class="suite">
-                <span class="tech-k">Après le vote : les comptes réalisés</span>
-                <p>Le budget voté dit ce qui est prévu, les comptes disent ce qui a été fait. Ce second outil reprend les comptes de 2018 à 2025, publiés en données ouvertes par l'Observatoire des finances et de la gestion publique locales (OFGL). Il lit ceux de toutes les communes et intercommunalités de France pour situer chaque collectivité par rapport à celles de même taille, et explique chaque indicateur en clair, sans aucun accès aux systèmes de la collectivité.</p>
-                <a class="link-row" href="https://castaing.dev/portrait-finances/" target="_blank" rel="noopener">
-                  <span><small>Quatre intercommunalités et leurs 82 communes, en ligne, sans compte</small>Tester le portrait des finances locales</span>
+                <span class="tech-k">Du budget voté aux comptes réalisés</span>
+                <ol class="frise">
+                  <li><b>2018 → 2025</b><span>Comptes réalisés</span><small>Portrait des finances locales</small></li>
+                  <li><b>2026</b><span>Budget voté</span><small>Ce diagramme</small></li>
+                </ol>
+                <p>Les deux outils se lisent ensemble, sur la même collectivité. Ce diagramme montre ce que la COBAN prévoit pour 2026. Le portrait montre d'où elle part : ce qu'elle a réellement encaissé et dépensé de 2018 à 2025, et sa position parmi les 158 intercommunalités de même taille en France. Mettre le prévu en regard du réalisé, c'est la première étape d'une évaluation.</p>
+                <p class="suite-note">Le portrait repose sur les comptes publiés en données ouvertes par l'Observatoire des finances et de la gestion publique locales (OFGL), lus pour toutes les communes et intercommunalités de France, sans accès aux systèmes de la collectivité. Les montants ne se comparent pas ligne à ligne : ce diagramme suit les flux bruts de la section de fonctionnement, y compris les transferts entre budgets et les reversements aux communes ; le portrait donne des comptes consolidés, nets de ces flux.</p>
+                <a class="link-row" href="https://castaing.dev/portrait-finances/#/ensemble?t=243301504&amp;p=consolide" target="_blank" rel="noopener">
+                  <span><small>S'ouvre sur la COBAN, comptes 2025, tous budgets comme ce diagramme</small>Tester le portrait des finances locales</span>
                   <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg><span class="sr-only">(nouvel onglet)</span>
                 </a>
               </div>
