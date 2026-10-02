@@ -452,28 +452,10 @@
       aspect-ratio: 8 / 7; min-height: 340px; padding: 1.5rem; border-radius: 18px; border: 1px solid var(--line);
     }
     .cover::before { inset: 0; opacity: .4; }
-    .cover-cap { display: grid; gap: .2rem; }
-    .cover-cap strong { display: flex; align-items: center; gap: .45rem; font-size: 1.05rem; font-weight: 640; color: var(--ink); }
-    .cover-cap span { font-size: .9rem; color: var(--ink-2); line-height: 1.45; }
-    .play {
-      display: grid; place-items: center; flex-shrink: 0;
-      width: 60px; height: 60px; border-radius: 50%;
-      background: var(--accent); color: #fff; box-shadow: 0 10px 24px -8px rgba(14, 90, 115, .6);
-      transition: transform .35s var(--ease);
-    }
-    .play svg { width: 22px; height: 22px; margin-left: 3px; fill: currentColor; }
-    .cover:hover .play { transform: scale(1.08); }
-    .cover-row { display: flex; align-items: center; gap: 1rem; }
-
-    .cover-chat { background: var(--accent-tint); align-content: space-between; }
-    .chat { display: grid; gap: 10px; }
-    .bubble { display: grid; gap: 7px; width: 68%; padding: 14px 16px; border-radius: 16px; background: var(--surface);
-              box-shadow: var(--shadow-1); }
-    .bubble i { display: block; height: 7px; border-radius: 4px; background: #E6E4DC; }
-    .bubble i:last-child { width: 62%; }
-    .bubble-q { justify-self: end; background: var(--accent); border-bottom-right-radius: 5px; width: 54%; }
-    .bubble-q i { background: rgba(255, 255, 255, .45); }
-    .bubble-a { border-bottom-left-radius: 5px; }
+    .frame-video { cursor: auto; }
+    .frame-video video { display: block; width: 100%; height: auto; background: var(--paper); }
+    .video-go { position: absolute; inset: 30px 0 0 0; border: 0; background: transparent; cursor: pointer; }
+    .video-go:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 0 0 18px 18px; }
 
     .cover-award { background: var(--sand); place-items: center; align-content: center; text-align: center; gap: .9rem; }
     .cover-award::before { opacity: .25; }
@@ -710,7 +692,7 @@
     /* ── Impression : un dossier lisible pour un jury ── */
     @media print {
       @page { margin: 14mm; }
-      .gate, .nav, .progress, .skip, .lightbox, .zoom-hint, .play, .contact-actions, .tabs { display: none !important; }
+      .gate, .nav, .progress, .skip, .lightbox, .zoom-hint, .contact-actions, .tabs { display: none !important; }
       [role="tabpanel"][hidden] { display: block !important; }
       .panel { animation: none; }
       .panel::before { content: attr(data-titre); display: block; margin-bottom: .3rem; font-family: var(--m);
@@ -987,21 +969,14 @@
           <!-- 03 -->
           <article class="case rv" id="realisation-03" aria-labelledby="t03">
             <div class="case-media">
-              <a class="cover cover-chat topo" href="https://youtu.be/czXq-mP2ezI" target="_blank" rel="noopener">
-                <span class="chat" aria-hidden="true">
-                  <span class="bubble bubble-q"><i></i><i></i></span>
-                  <span class="bubble bubble-a"><i></i><i></i><i></i></span>
-                  <span class="bubble bubble-q"><i></i></span>
-                </span>
-                <span class="cover-row">
-                  <span class="play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
-                  <span class="cover-cap">
-                    <strong>Voir la démo, 3 min <svg class="i" aria-hidden="true"><use href="#i-ext"/></svg></strong>
-                    <span>Démonstration en conditions réelles, 11 questions posées par un agent fictif</span>
-                    <span class="sr-only">(YouTube, nouvel onglet)</span>
-                  </span>
-                </span>
-              </a>
+              <figure class="frame frame-video">
+                <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>Démo · 51 s · 5 questions en conditions réelles</span></span>
+                <video controls preload="none" playsinline width="1920" height="1080" poster="assets/img/assistant-usagers-affiche.webp"
+                       aria-label="Démonstration de l'assistant usagers : cinq questions posées en conditions réelles, dont deux refusées par les garde-fous (51 secondes, avec musique)">
+                  <source src="assets/video/assistant-usagers.mp4" type="video/mp4"/>
+                </video>
+                <button class="video-go" type="button" hidden><span class="sr-only">Lire la démonstration (51 secondes, avec musique)</span></button>
+              </figure>
             </div>
             <div class="case-body">
               <div class="case-top"><span class="case-year">2026</span><span class="comp-badge" data-c="a">Gouvernance</span><span class="comp-badge" data-c="c">Ingénierie</span></div>
@@ -1489,6 +1464,15 @@
     // Image agrandie
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lightbox-img');
+    // Vidéo de démonstration : affiche nette avant la lecture, contrôles natifs ensuite.
+    // Sans JavaScript, les contrôles natifs restent affichés et la vidéo se lit normalement.
+    document.querySelectorAll('.frame-video').forEach(function (f) {
+      var v = f.querySelector('video'), go = f.querySelector('.video-go');
+      v.controls = false;
+      go.hidden = false;
+      go.addEventListener('click', function () { go.hidden = true; v.controls = true; v.play(); });
+    });
+
     document.querySelectorAll('[data-zoom]').forEach(function (b) {
       b.addEventListener('click', function () {
         var img = b.querySelector('img');

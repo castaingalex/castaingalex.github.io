@@ -15,7 +15,9 @@ d'agent ou de service interne. Le doute vaut refus.
   en bas de page : porte à mot de passe (empreinte PBKDF2, lien direct `#<mot de passe>`), encart
   « Et chez vous ? » (geo.api.gouv.fr), diagramme compétences → réalisations, onglets des fiches.
   Ressources locales dans **`assets/`** : polices auto-hébergées (`Bricolage Grotesque`, `DM Mono`),
-  images WebP, CV en PDF, image de partage `og.png`. Contenu en français.
+  images WebP, CV en PDF, image de partage `og.png`, vidéo de démonstration de l'assistant IA
+  (`assets/video/`, lecteur natif du navigateur, sans YouTube ; sources du montage hors dépôt).
+  Contenu en français.
 - **`v1/`** est l'ancien portfolio, gardé en archive et atteignable par URL directe. Ne plus y toucher.
 - **`carte-pdf/`, `portrait-eco/`, `portrait-finances/`** sont des **démos déposées**, pas du code
   source. Ne jamais y corriger quoi que ce soit : la source vit dans `coban_products`
