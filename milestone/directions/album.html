@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4EFE6">
+<title>Album</title>
+<style>
+@font-face { font-family: "Brico"; src: url("fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; font-stretch: 75% 100%; font-display: swap; }
+:root {
+  --page: #F4EFE6; --ink: #17151A; --ink2: #6A6470; --paper: #FFFFFF; --slot: rgba(23,21,26,.16);
+  --shadow: 0 2px 0 rgba(0,0,0,.06), 0 8px 18px rgba(40,30,20,.18);
+  --lift: 0 4px 0 rgba(0,0,0,.05), 0 26px 40px rgba(40,30,20,.32);
+  --brico: "Brico", ui-rounded, system-ui, sans-serif; --ui: ui-rounded, system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page: #16151A; --ink: #F5F1EA; --ink2: #A9A3AE; --paper: #24222A; --slot: rgba(255,255,255,.2); --shadow: 0 8px 18px rgba(0,0,0,.5); --lift: 0 26px 40px rgba(0,0,0,.6); color-scheme: dark; } }
+:root[data-theme="dark"] { --page: #16151A; --ink: #F5F1EA; --ink2: #A9A3AE; --paper: #24222A; --slot: rgba(255,255,255,.2); --shadow: 0 8px 18px rgba(0,0,0,.5); --lift: 0 26px 40px rgba(0,0,0,.6); color-scheme: dark; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--page); }
+body { margin: 0; color: var(--ink); font-family: var(--ui); -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+
+.top { position: sticky; top: 0; z-index: 20; padding: calc(env(safe-area-inset-top) + 10px) 16px 10px; background: color-mix(in srgb, var(--page) 94%, transparent); display: flex; align-items: center; gap: 10px; }
+.brand { font: 800 26px/1 var(--brico); font-stretch: 75%; letter-spacing: -.01em; text-transform: uppercase; }
+.count { margin-left: auto; display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; }
+.count b { font: 800 22px/1 var(--brico); font-stretch: 75%; display: inline-block; }
+.count .bar { width: 64px; height: 8px; border-radius: 4px; background: var(--slot); overflow: hidden; }
+.count .bar i { display: block; height: 100%; background: var(--ink); border-radius: 4px; transform-origin: left; }
+
+.album { padding: 4px 0 140px; }
+.year { position: relative; padding: 18px 16px 10px; }
+.banner { display: inline-flex; align-items: center; gap: 12px; background: var(--c); color: var(--cink); padding: 6px 16px 8px 14px; border-radius: 6px; transform: rotate(-2deg); box-shadow: 4px 4px 0 var(--ink); }
+.banner .y { font: 800 46px/0.95 var(--brico); font-stretch: 75%; letter-spacing: -.01em; }
+.banner .a { font: 800 15px/1.05 var(--brico); font-stretch: 75%; text-transform: uppercase; border: 2.5px solid currentColor; border-radius: 50%; width: 52px; height: 52px; display: grid; place-items: center; text-align: center; transform: rotate(8deg); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; margin-top: 16px; }
+.fine { margin: 14px 2px 0; font: 600 11px/1.45 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+.fine b { font-weight: 900; color: var(--ink); opacity: .7; }
+
+/* L'autocollant : découpé, bordé de blanc, un peu de travers */
+.st { position: relative; display: block; width: 100%; text-align: left; touch-action: pan-y; will-change: transform; z-index: 1; }
+.st.span { grid-column: 1 / -1; }
+.st .face { position: relative; display: block; background: var(--c); color: var(--cink); border: 5px solid #fff; border-radius: 20px; padding: 12px 12px 12px; min-height: 128px; box-shadow: var(--shadow); overflow: hidden; transition: box-shadow .2s; }
+:root[data-theme="dark"] .st .face { border-color: #F3EEE6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .st .face { border-color: #F3EEE6; } }
+.st .emo { display: block; font-size: 38px; line-height: 1; margin-bottom: 8px; }
+.st .ini { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 3px solid currentColor; font: 800 22px/1 var(--brico); font-stretch: 75%; margin-bottom: 8px; }
+.st .t { display: block; font: 800 21px/0.98 var(--brico); font-stretch: 75%; text-transform: uppercase; letter-spacing: -.005em; overflow-wrap: anywhere; }
+.st .d { display: block; margin-top: 6px; font-weight: 800; font-size: 13px; opacity: .78; }
+.st .span-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 900; font-size: 13px; }
+.st .span-bar i { flex: 1; height: 6px; border-radius: 3px; background: currentColor; opacity: .35; }
+.st.lifted .face { box-shadow: var(--lift); }
+.st.sober .face { background: var(--paper); color: var(--ink); border-color: var(--paper); box-shadow: 0 0 0 1.5px var(--slot), var(--shadow); }
+/* Temps fort : un autocollant brillant, comme les rares de l'album */
+.st.star .face::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.0) 38%, rgba(255,255,255,.55) 45%, rgba(255,240,200,.2) 50%, rgba(160,220,255,.35) 55%, transparent 64%); animation: shine 3.2s ease-in-out infinite; pointer-events: none; mix-blend-mode: soft-light; }
+.st.star .face::before { content: "★"; position: absolute; right: 10px; top: 8px; font-size: 18px; }
+.st.star .face { background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.14) 0 6px, transparent 6px 12px); }
+@keyframes shine { 0%, 15% { transform: translateX(-60%); } 60%, 100% { transform: translateX(60%); } }
+
+/* Les années sans moment : des cases vides, en rang, qui appellent */
+.empties { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px 6px; }
+.slot { width: 66px; height: 66px; border-radius: 14px; border: 2.5px dashed var(--slot); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--ink2); }
+.slot b { font: 800 19px/1 var(--brico); font-stretch: 75%; color: var(--ink); opacity: .55; }
+.slot small { font-weight: 800; font-size: 10px; }
+.slot.ask { width: auto; padding: 0 16px; flex-direction: row; gap: 10px; border-color: var(--c); color: var(--ink); background: color-mix(in srgb, var(--c) 14%, transparent); }
+.slot.ask b { opacity: 1; }
+.slot.ask .plus { width: 30px; height: 30px; border-radius: 50%; background: var(--c); color: var(--cink); display: grid; place-items: center; font: 900 22px/1 var(--ui); }
+.slot:active { transform: scale(.94); }
+
+.birth { margin: 24px 16px 0; padding: 18px; border-radius: 20px; border: 2.5px dashed var(--slot); text-align: center; }
+.birth b { display: block; font: 800 30px/1 var(--brico); font-stretch: 75%; text-transform: uppercase; }
+.birth small { display: block; margin-top: 6px; font-weight: 700; color: var(--ink2); }
+
+/* Le bouton qui colle un souvenir : lui-même un autocollant */
+.add { position: fixed; right: 16px; bottom: calc(env(safe-area-inset-bottom) + 18px); z-index: 30; display: flex; align-items: center; gap: 10px; height: 62px; padding: 0 22px 0 16px; border-radius: 22px; background: var(--ink); color: var(--page); border: 4px solid #fff; transform: rotate(-3deg); box-shadow: 0 12px 26px rgba(0,0,0,.28); font: 800 22px/1 var(--brico); font-stretch: 75%; text-transform: uppercase; white-space: nowrap; }
+.add .plus { font: 900 30px/1 var(--ui); }
+.add:active { transform: rotate(-3deg) scale(.94); }
+
+.scrim { position: fixed; inset: 0; z-index: 40; background: rgba(15,12,10,.45); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+
+/* La planche : le moment s'imprime pendant qu'on tape */
+.sheet { position: fixed; left: 0; right: 0; bottom: var(--kb, 0px); z-index: 45; background: var(--paper); border-radius: 28px 28px 0 0; padding: 12px 18px calc(env(safe-area-inset-bottom) + 18px); transform: translateY(110%); will-change: transform; background-image: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--ink) 4%, transparent) 0 2px, transparent 2px 14px); }
+.grip { width: 40px; height: 5px; border-radius: 3px; background: var(--ink); opacity: .2; margin: 0 auto 6px; }
+.sheet h2 { margin: 6px 0 0; font: 800 15px var(--ui); text-transform: uppercase; letter-spacing: .08em; color: var(--ink2); text-align: center; }
+.press { display: grid; place-items: center; min-height: 236px; padding: 18px 0 6px; touch-action: none; }
+.press .st { width: 220px; transform-origin: 50% 80%; }
+.press .st .face { min-height: 168px; padding: 16px; }
+.press .st .emo { font-size: 54px; }
+.press .st .t { font-size: 28px; }
+.press .st .d { font-size: 15px; }
+.press .st.blank .face { background: transparent; border: 3px dashed var(--slot); box-shadow: none; color: var(--ink2); }
+.press-hint { text-align: center; font-weight: 800; font-size: 13px; color: var(--ink2); min-height: 18px; }
+.press-hint b { color: var(--ink); }
+.emojis { display: flex; gap: 6px; overflow-x: auto; padding: 8px 2px 2px; scrollbar-width: none; justify-content: flex-start; }
+.emojis button { flex: none; width: 44px; height: 44px; border-radius: 12px; background: color-mix(in srgb, var(--ink) 7%, transparent); font-size: 23px; }
+.emojis button[aria-pressed="true"] { background: var(--ink); }
+.field { width: 100%; font: 700 18px var(--ui); color: var(--ink); background: var(--page); border: 2.5px solid var(--ink); border-radius: 16px; padding: 14px 16px; margin-top: 10px; outline: none; -webkit-user-select: text; user-select: text; }
+.go { width: 100%; height: 58px; margin-top: 10px; border-radius: 18px; background: var(--ink); color: var(--page); font: 800 24px/1 var(--brico); font-stretch: 75%; text-transform: uppercase; }
+.go:disabled { opacity: .3; }
+
+/* Le dos de l'autocollant : la fiche */
+.stage { position: fixed; inset: 0; z-index: 50; display: none; perspective: 1400px; }
+.stage.on { display: block; }
+.card { position: absolute; left: 50%; top: 50%; width: min(340px, calc(100vw - 32px)); height: 540px; margin: -270px 0 0 calc(min(340px, calc(100vw - 32px)) / -2); transform-style: preserve-3d; will-change: transform; }
+.card > div { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 26px; border: 6px solid #fff; overflow: hidden; }
+.card .front { background: var(--c); color: var(--cink); padding: 26px 22px; display: flex; flex-direction: column; justify-content: flex-end; }
+.card .front .emo { font-size: 110px; line-height: 1; margin-bottom: auto; }
+.card .front .ini { width: 110px; height: 110px; border: 5px solid currentColor; border-radius: 50%; display: grid; place-items: center; font: 800 64px/1 var(--brico); font-stretch: 75%; margin-bottom: auto; }
+.card .front .t { font: 800 50px/0.92 var(--brico); font-stretch: 75%; text-transform: uppercase; }
+.card .back { transform: rotateY(180deg); background: var(--paper); color: var(--ink); padding: 20px 20px 18px; display: flex; flex-direction: column; background-image: radial-gradient(color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1.5px); background-size: 14px 14px; }
+.back .num { display: flex; justify-content: space-between; align-items: center; font: 800 13px var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); }
+.back .num i { font-style: normal; background: var(--c); color: var(--cink); border-radius: 6px; padding: 3px 8px; }
+.back h3 { margin: 12px 0 0; font: 800 36px/0.95 var(--brico); font-stretch: 75%; text-transform: uppercase; }
+.back .big-age { margin-top: 14px; display: flex; align-items: baseline; gap: 8px; }
+.back .big-age b { font: 800 64px/0.9 var(--brico); font-stretch: 75%; color: var(--c); -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; }
+.back .big-age span { font-weight: 800; font-size: 16px; }
+.back .meta { margin-top: 10px; font-weight: 800; font-size: 15px; line-height: 1.4; }
+.back .meta span { color: var(--ink2); }
+.back .note { margin: 12px 0 0; font: 600 italic 17px/1.35 var(--ui); }
+.back .around { margin-top: auto; padding-top: 12px; border-top: 2px dashed var(--slot); }
+.back .around p { margin: 0 0 6px; font-weight: 900; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); }
+.back .around ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-weight: 700; font-size: 14px; }
+.back .around li.h { color: var(--ink2); font-style: italic; }
+.back .acts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.back .acts button { height: 52px; border-radius: 14px; background: color-mix(in srgb, var(--ink) 7%, transparent); font-weight: 900; font-size: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.back .acts button .ic { font-size: 18px; line-height: 1; }
+.back .acts button.on { background: var(--c); color: var(--cink); }
+.flip-hint { position: fixed; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 26px); z-index: 51; text-align: center; color: #fff; font-weight: 800; font-size: 14px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.flip-hint.on { opacity: .9; }
+.plus1 { position: fixed; z-index: 60; pointer-events: none; font: 800 30px/1 var(--brico); font-stretch: 75%; background: var(--ink); color: var(--page); padding: 6px 12px; border-radius: 10px; }
+@media (prefers-reduced-motion: reduce) { .st.star .face::after { animation: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Ma vie</div>
+  <div class="count"><b class="n">0</b> collés <span class="bar"><i></i></span></div>
+</header>
+<main class="album"></main>
+<button class="add"><span class="plus">+</span>Coller un souvenir</button>
+<div class="scrim"></div>
+<section class="sheet" role="dialog" aria-modal="true"><div class="grip"></div><div class="sheet-body"></div></section>
+<div class="stage"><div class="card"></div></div>
+<div class="flip-hint">Glisse pour feuilleter · touche pour retourner</div>
+
+<script type="module">
+import { demoLife, landmarks, decade, TODAY, BIRTH, parts, ts, fmt, fmtInYear, ageLabel, ageText, ago, weekday, cap, esc, initial, springs, tick, burst, velocityTracker, reduced, wait, parseMoment, decorate, suggestEmoji, EMOJI_CHOICES, neighbors } from './common.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const life = demoLife();
+const LMS = landmarks();
+const BY = parts(BIRTH).y, TY = parts(TODAY).y;
+
+// Un angle et un décalage propres à chaque autocollant, stables d'un rendu à l'autre.
+const hash = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7);
+const tilt = (e) => ((hash(e.id + e.title) % 70) / 10) - 3.5;
+
+function stickerHtml(e, extra = '') {
+  const face = e.emoji ? `<span class="emo">${e.emoji}</span>` : `<span class="ini">${esc(initial(e.title))}</span>`;
+  const d = e.endDate ? '' : e.startPrecision === 'year' ? 'dans l’année' : fmtInYear(e.startDate, e.startPrecision);
+  const span = e.endDate ? `<span class="span-bar">${parts(e.startDate).y}<i></i>${parts(e.endDate).y}</span>` : '';
+  return `<button class="st${e.highlighted ? ' star' : ''}${e.sober ? ' sober' : ''}${e.endDate ? ' span' : ''} ${extra}" data-id="${e.id}" style="--c:${e.color.c};--cink:${e.color.ink};--r:${tilt(e)}deg;transform:rotate(${tilt(e)}deg)">
+    <span class="face">${face}<span class="t">${esc(e.title)}</span>${d ? `<span class="d">${esc(d)}</span>` : ''}${span}</span></button>`;
+}
+
+function render() {
+  const byYear = new Map();
+  for (const e of life) { if (!byYear.has(e.year)) byYear.set(e.year, []); byYear.get(e.year).push(e); }
+  const lmY = new Map();
+  for (const l of LMS) { const y = parts(l.date).y; if (!lmY.has(y)) lmY.set(y, []); lmY.get(y).push(l); }
+  let html = '';
+  let run = [];
+  const flush = () => {
+    if (!run.length) return;
+    // Une suite d'années vides : la plus récente demande, les autres attendent en rang.
+    html += `<div class="empties">${run.map((y, i) => i === 0
+      ? `<button class="slot ask" data-year="${y}" style="--c:${decade(y).c};--cink:${decade(y).ink}"><span class="plus">+</span><b>Et en ${y} ?</b></button>`
+      : `<button class="slot" data-year="${y}" aria-label="Ajouter un souvenir en ${y}"><b>${y}</b><small>${ageLabel(y - BY)}</small></button>`).join('')}</div>`;
+    run = [];
+  };
+  for (let y = TY; y >= BY; y--) {
+    const evs = byYear.get(y) ?? [];
+    if (!evs.length && y !== TY) { run.push(y); continue; }
+    flush();
+    const d = decade(y);
+    const lms = (lmY.get(y) ?? []).slice(0, 2);
+    html += `<section class="year" data-y="${y}" style="--c:${d.c};--cink:${d.ink}">
+      <div class="banner"><span class="y">${y}</span><span class="a">${y === BY ? 'nais-<br>sance' : esc(ageLabel(y - BY)).replace(' ', '<br>')}</span></div>
+      <div class="grid">${evs.map((e) => stickerHtml(e)).join('')}${!evs.length ? `<button class="slot ask" data-year="${y}" style="--c:${d.c};--cink:${d.ink};height:128px"><span class="plus">+</span><b>Et cette année ?</b></button>` : ''}</div>
+      ${lms.length ? `<p class="fine"><b>Cette année-là ·</b> ${lms.map((l) => esc(l.title)).join(' · ')}</p>` : ''}
+    </section>`;
+  }
+  flush();
+  html += `<div class="birth"><b>Naissance</b><small>${cap(weekday(BIRTH))} ${fmt(BIRTH)} · la première page</small></div>`;
+  $('.album').innerHTML = html;
+  count(false);
+}
+
+function count(bump) {
+  const n = life.length;
+  const years = new Set(life.map((e) => e.year)).size;
+  $('.count .n').textContent = n;
+  $('.count .bar i').style.transform = `scaleX(${years / (TY - BY + 1)})`;
+  if (bump) springs({ s: 1.6 }, (v) => { $('.count .n').style.transform = `scale(${v.s})`; }, { k: 380, c: 12 }).to({ s: 1 });
+}
+
+/* ---------- Attraper un autocollant : il se soulève, suit le doigt, revient ---------- */
+let grab = null;
+document.addEventListener('pointerdown', (ev) => {
+  const st = ev.target.closest('.album .st');
+  if (!st || stageOn) return;
+  const r = tilt(life.find((e) => e.id === st.dataset.id));
+  grab = { st, x0: ev.clientX, y0: ev.clientY, moved: false, held: false, vt: velocityTracker(), r, id: ev.pointerId };
+  grab.vt.add(ev.clientX, ev.clientY);
+  grab.timer = setTimeout(() => { if (grab && !grab.moved) liftUp(grab); }, 220);
+});
+function liftUp(g) {
+  g.held = true;
+  g.st.classList.add('lifted');
+  g.st.style.zIndex = 5;
+  g.st.setPointerCapture?.(g.id);
+  g.st.style.touchAction = 'none';
+  tick();
+  g.s = springs({ x: 0, y: 0, r: g.r, s: 1 }, (v) => { g.st.style.transform = `translate(${v.x}px,${v.y}px) rotate(${v.r}deg) scale(${v.s})`; }, { k: 500, c: 26 });
+  g.s.to({ s: 1.08 });
+}
+document.addEventListener('pointermove', (ev) => {
+  if (!grab) return;
+  const dx = ev.clientX - grab.x0, dy = ev.clientY - grab.y0;
+  grab.vt.add(ev.clientX, ev.clientY);
+  if (!grab.held) {
+    if (Math.hypot(dx, dy) > 8) { grab.moved = true; clearTimeout(grab.timer); grab = null; }
+    return;
+  }
+  ev.preventDefault();
+  const v = grab.vt.get();
+  grab.s.to({ x: dx, y: dy, r: grab.r + Math.max(-18, Math.min(18, v.x / 60)), s: 1.08 }, { k: 900, c: 40 });
+});
+document.addEventListener('pointerup', (ev) => {
+  if (!grab) return;
+  const g = grab;
+  grab = null;
+  clearTimeout(g.timer);
+  if (g.held) {
+    // Relâché : il revient à sa place avec son élan, et se recolle d'un tic.
+    const v = g.vt.get();
+    g.st.classList.remove('lifted');
+    g.s.to({ x: 0, y: 0, r: g.r, s: 1 }, { k: 260, c: 14, v: { x: v.x, y: v.y }, done: () => { g.st.style.zIndex = ''; g.st.style.touchAction = ''; } });
+    setTimeout(tick, 180);
+    return;
+  }
+  if (!g.moved) openCard(g.st.dataset.id);
+});
+document.addEventListener('pointercancel', () => { if (grab?.s) grab.s.to({ x: 0, y: 0, r: grab.r, s: 1 }); grab = null; });
+
+document.addEventListener('click', (ev) => {
+  const slot = ev.target.closest('.slot[data-year]');
+  if (slot) { tick(); openPress({ year: Number(slot.dataset.year) }); }
+});
+$('.add').addEventListener('click', () => { tick(); openPress(); });
+
+/* ---------- La planche : on écrit, l'autocollant s'imprime ---------- */
+const sheet = $('.sheet'), scrim = $('.scrim'), sbody = $('.sheet-body');
+const sheetS = springs({ y: 1 }, (v) => { sheet.style.transform = `translateY(${v.y * 110}%)`; }, { k: 300, c: 30 });
+let sheetOn = false;
+function closeSheet() { sheetOn = false; scrim.classList.remove('on'); document.activeElement?.blur?.(); sheetS.to({ y: 1 }); }
+scrim.addEventListener('click', () => { if (sheetOn) closeSheet(); });
+
+const DAY = 86400000;
+function shift(date, precision, n) {
+  const p = parts(date);
+  if (precision === 'year') return String(p.y + n);
+  if (precision === 'month') { const m = p.y * 12 + p.m + n; return `${Math.floor(m / 12)}-${String((m % 12) + 1).padStart(2, '0')}`; }
+  return new Date(Date.UTC(p.y, p.m, p.d) + n * DAY).toISOString().slice(0, 10);
+}
+
+function openPress({ year } = {}) {
+  const st = { text: '', override: year ? { startDate: String(year), startPrecision: 'year', endDate: null, endPrecision: null } : null, overrideFor: undefined, emoji: undefined };
+  sbody.innerHTML = `
+    <h2>Nouvel autocollant</h2>
+    <div class="press"></div>
+    <p class="press-hint"></p>
+    <div class="emojis"></div>
+    <input class="field" placeholder="Raconte : mon bac en juillet 1998" enterkeyhint="done" autocomplete="off" autocapitalize="sentences">
+    <button class="go" disabled>Coller dans l’album</button>`;
+  sheetOn = true;
+  scrim.classList.add('on');
+  sheetS.to({ y: 0 }, { k: 320, c: 27 });
+  const press = $('.press', sbody), hint = $('.press-hint', sbody), input = $('.field', sbody), go = $('.go', sbody), emojis = $('.emojis', sbody);
+  let stS = null, lastFace = null;
+  const eff = () => {
+    const p = parseMoment(st.text, { today: TODAY, birth: BIRTH });
+    if (!p) return st.override ? decorate({ title: '', ...st.override }) : null;
+    const dated = st.override && (p.guessed || st.overrideFor === p.startDate) ? { ...p, ...st.override, guessed: false } : p;
+    return decorate({ ...dated, id: 'press', emoji: st.emoji !== undefined ? st.emoji : suggestEmoji(dated.title) });
+  };
+  function paint() {
+    const e = eff();
+    go.disabled = !e?.title;
+    if (!e?.title) {
+      press.innerHTML = `<button class="st blank"><span class="face"><span class="emo">＋</span><span class="t">${year ? `En ${year}…` : 'Ton souvenir'}</span><span class="d">${year ? esc(ageText(String(year), 'year')) : 'la date se lit dans ta phrase'}</span></span></button>`;
+      hint.innerHTML = '';
+      emojis.innerHTML = '';
+      lastFace = null;
+      return;
+    }
+    const face = `${e.emoji}|${e.color.c}`;
+    const when = e.guessed ? 'aujourd’hui ?' : e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : fmt(e.startDate, e.startPrecision);
+    press.innerHTML = stickerHtml({ ...e, id: 'press' }).replace(/<span class="d">.*?<\/span>/, '') .replace('</span></button>', `<span class="d">${esc(when)}${e.guessed ? '' : ` · ${esc(ageText(e.startDate, e.startPrecision))}`}</span></span></button>`);
+    const el = $('.st', press);
+    stS = springs({ x: 0, r: -2, s: 1 }, (v) => { el.style.transform = `translateX(${v.x}px) rotate(${v.r}deg) scale(${v.s})`; }, { k: 420, c: 15 });
+    if (face !== lastFace && lastFace !== null) stS.set({ s: 0.82, r: 6 }).to({ s: 1, r: -2 });
+    lastFace = face;
+    hint.innerHTML = e.endDate ? '' : '<b>‹ glisse ›</b> l’autocollant pour changer la date';
+    const sugg = suggestEmoji(e.title);
+    emojis.innerHTML = [`<button data-emo="" aria-pressed="${e.emoji == null}" style="font:800 18px var(--brico);font-stretch:75%">${esc(initial(e.title))}</button>`, ...[...new Set([sugg, ...EMOJI_CHOICES].filter(Boolean))].map((x) => `<button data-emo="${x}" aria-pressed="${x === e.emoji}">${x}</button>`)].join('');
+  }
+  input.addEventListener('input', () => { st.text = input.value; paint(); });
+  input.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); go.click(); } });
+  emojis.addEventListener('click', (ev) => { const b = ev.target.closest('[data-emo]'); if (!b) return; st.emoji = b.dataset.emo || null; tick(); paint(); });
+  // Glisser l'autocollant de côté : la date recule ou avance d'un cran.
+  let sx = null, acc = 0;
+  press.addEventListener('pointerdown', (ev) => { if (!eff()?.title || eff().endDate) return; sx = ev.clientX; acc = 0; press.setPointerCapture(ev.pointerId); });
+  press.addEventListener('pointermove', (ev) => {
+    if (sx == null) return;
+    const dx = ev.clientX - sx;
+    stS?.to({ x: dx * 0.5, r: -2 + dx / 30 }, { k: 900, c: 40 });
+    const stepPx = 34;
+    while (Math.abs(dx - acc) >= stepPx) {
+      const dir = dx - acc > 0 ? 1 : -1;
+      acc += dir * stepPx;
+      const e = eff();
+      const next = shift(e.startDate, e.startPrecision, dir);
+      if (next > TODAY.slice(0, next.length) || next < BIRTH.slice(0, next.length)) continue;
+      st.override = { startDate: next, startPrecision: e.startPrecision, endDate: null, endPrecision: null };
+      st.overrideFor = parseMoment(st.text, { today: TODAY, birth: BIRTH })?.startDate;
+      tick();
+      const keep = stS?.val.x ?? 0;
+      paint();
+      stS?.set({ x: keep, r: -2 + dx / 30 });
+    }
+  });
+  press.addEventListener('pointerup', () => { sx = null; stS?.to({ x: 0, r: -2 }, { k: 300, c: 14 }); });
+  go.addEventListener('click', () => { const e = eff(); if (e?.title) stick(e, $('.st', press)); });
+  paint();
+  input.focus({ preventScroll: true });
+}
+
+/** Attend que le défilement doux soit arrivé (aucun mouvement pendant 3 images). */
+function scrolled() {
+  return new Promise((res) => {
+    let last = scrollY, still = 0;
+    const check = () => {
+      still = Math.abs(scrollY - last) < 0.5 ? still + 1 : 0;
+      last = scrollY;
+      if (still >= 3) res();
+      else requestAnimationFrame(check);
+    };
+    requestAnimationFrame(check);
+  });
+}
+
+/* ---------- Coller : on décolle de la planche, l'album file à la page, ça claque ---------- */
+async function stick(e, from) {
+  const r = from.getBoundingClientRect();
+  const flyer = from.cloneNode(true);
+  flyer.style.cssText += `;position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;margin:0;z-index:70;transform-origin:50% 50%;pointer-events:none`;
+  flyer.classList.add('lifted');
+  document.body.append(flyer);
+  from.style.visibility = 'hidden';
+  tick();
+  // Décollage : le coin se soulève, l'autocollant monte.
+  if (!reduced()) await flyer.animate([{ transform: 'perspective(600px) rotateX(0) rotate(-2deg) scale(1)' }, { transform: 'perspective(600px) rotateX(24deg) translateY(-24px) rotate(4deg) scale(1.1)' }], { duration: 260, easing: 'cubic-bezier(.3,1.4,.6,1)' }).finished;
+  flyer.style.transform = 'translateY(-24px) rotate(4deg) scale(1.1)';
+  closeSheet();
+  e.id = `new${Date.now()}`;
+  life.push(e);
+  life.sort((a, b) => ts(b.startDate) - ts(a.startDate));
+  render();
+  const home = $(`.album .st[data-id="${e.id}"]`);
+  home.style.visibility = 'hidden';
+  const sec = home.closest('.year');
+  const targetTop = sec.getBoundingClientRect().top + scrollY - 70;
+  scrollTo({ top: targetTop, behavior: reduced() ? 'auto' : 'smooth' });
+  await scrolled();
+  const hr = home.getBoundingClientRect();
+  const k = hr.width / r.width;
+  const fl = springs({ x: 0, y: -24, s: 1.1, r: 4 }, (v) => { flyer.style.transform = `translate(${v.x}px,${v.y}px) rotate(${v.r}deg) scale(${v.s})`; }, { k: 160, c: 18 });
+  const dx = hr.left + hr.width / 2 - (r.left + r.width / 2), dy = hr.top + hr.height / 2 - (r.top + r.height / 2);
+  await new Promise((res) => fl.to({ x: dx, y: dy, s: k * 1.25, r: tilt(e) + 8 }, { done: res, k: 120, c: 16 }));
+  flyer.remove();
+  home.style.visibility = '';
+  // Le claquement : l'autocollant s'écrase un peu, la page tressaille.
+  const hs = springs({ s: 1.25, r: tilt(e) + 8 }, (v) => { home.style.transform = `rotate(${v.r}deg) scale(${v.s})`; }, { k: e.sober ? 300 : 520, c: e.sober ? 30 : 13 });
+  hs.to({ s: 1, r: tilt(e) });
+  tick(true);
+  if (!e.sober) {
+    sec.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: reduced() ? 1 : 320 });
+    burst(hr.left + hr.width / 2, hr.top + hr.height / 2, e.color.c, { n: 10, spread: 110 });
+    burst(hr.left + hr.width / 2, hr.top + hr.height / 2, '#ffffff', { n: 8, spread: 90 });
+  }
+  count(true);
+  const p1 = document.createElement('div');
+  p1.className = 'plus1';
+  p1.textContent = e.sober ? 'Collé.' : '+1 souvenir';
+  document.body.append(p1);
+  p1.animate([{ transform: `translate(${hr.left + 10}px,${hr.top - 10}px) rotate(-6deg) scale(.5)`, opacity: 0 }, { transform: `translate(${hr.left + 10}px,${hr.top - 40}px) rotate(-6deg) scale(1.08)`, opacity: 1, offset: 0.2 }, { transform: `translate(${hr.left + 10}px,${hr.top - 44}px) rotate(-6deg) scale(1)`, opacity: 1, offset: 0.8 }, { transform: `translate(${hr.left + 10}px,${hr.top - 60}px) rotate(-6deg)`, opacity: 0 }], { duration: reduced() ? 1400 : 1800 }).onfinish = () => p1.remove();
+}
+
+/* ---------- La fiche : l'autocollant vient à soi et se retourne ---------- */
+const stage = $('.stage'), card = $('.card'), hintEl = $('.flip-hint');
+let stageOn = false, cur = null, cardS = null, origin = null;
+function cardHtml(e) {
+  const age = ageText(e.startDate, e.startPrecision);
+  const ageN = age.match(/\d+/)?.[0];
+  const { groups } = neighbors(e, life, LMS);
+  const near = groups.flatMap((g) => g.items.map((it) => ({ ...it, g: g.label }))).slice(0, 4);
+  const when = e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : e.startPrecision === 'day' ? `${weekday(e.startDate)} ${fmt(e.startDate)}` : fmt(e.startDate, e.startPrecision);
+  return `<div class="front" style="--c:${e.color.c};--cink:${e.color.ink};${e.sober ? 'background:var(--paper);color:var(--ink)' : ''}">${e.emoji ? `<span class="emo">${e.emoji}</span>` : `<span class="ini">${esc(initial(e.title))}</span>`}<span class="t">${esc(e.title)}</span></div>
+  <div class="back" style="--c:${e.color.c};--cink:${e.color.ink}">
+    <div class="num"><span>N° ${esc(e.startDate.replace(/-/g, '·'))}</span><i>${e.year}</i></div>
+    <h3>${esc(e.title)}</h3>
+    ${ageN ? `<div class="big-age"><b>${ageN}</b><span>${age.startsWith('tu avais') ? 'ans, ' + esc(ago(e.startDate, TODAY)) : esc(age.replace(ageN + ' ans', '').trim())}</span></div>` : ''}
+    <div class="meta">${esc(cap(when))}${e.place ? `<br><span>📍 ${esc(e.place)}</span>` : ''}</div>
+    ${e.note ? `<p class="note">« ${esc(e.note)} »</p>` : ''}
+    ${near.length ? `<div class="around"><p>Autour</p><ul>${near.map((it) => `<li class="${it.kind === 'event' ? '' : 'h'}">${it.kind === 'event' ? (it.event.emoji ?? '•') : '·'} ${esc(it.title)}</li>`).join('')}</ul></div>` : '<div class="around" style="border:0"></div>'}
+    <div class="acts"><button data-a="star" class="${e.highlighted ? 'on' : ''}"><span class="ic">★</span>Brillant</button><button data-a="send"><span class="ic">↗</span>Envoyer</button><button data-a="edit"><span class="ic">✎</span>Modifier</button></div>
+  </div>`;
+}
+async function openCard(id) {
+  const e = life.find((x) => x.id === id);
+  const el = $(`.album .st[data-id="${id}"]`);
+  const r = el.getBoundingClientRect();
+  cur = e; origin = el;
+  stageOn = true;
+  card.innerHTML = cardHtml(e);
+  stage.classList.add('on');
+  scrim.classList.add('on');
+  el.style.visibility = 'hidden';
+  tick();
+  const cw = card.offsetWidth, ch = card.offsetHeight;
+  const sx = r.width / cw;
+  const dx = r.left + r.width / 2 - innerWidth / 2, dy = r.top + r.height / 2 - innerHeight / 2;
+  cardS = springs({ x: dx, y: dy, s: sx, ry: 0, r: tilt(e), sy: r.height / ch / sx }, (v) => { card.style.transform = `translate(${v.x}px,${v.y}px) scale(${v.s}) rotate(${v.r}deg) rotateY(${v.ry}deg) scaleY(${v.sy})`; }, { k: 210, c: 22 });
+  cardS.to({ x: 0, y: 0, s: 1, r: 0, sy: 1 });
+  await wait(260);
+  cardS.to({ ry: 180 }, { k: 160, c: 18 });
+  hintEl.classList.add('on');
+}
+function closeCard() {
+  if (!stageOn) return;
+  const el = origin;
+  const r = el.getBoundingClientRect();
+  const cw = card.offsetWidth, ch = card.offsetHeight;
+  const sx = r.width / cw;
+  hintEl.classList.remove('on');
+  scrim.classList.remove('on');
+  cardS.to({ ry: 0, x: r.left + r.width / 2 - innerWidth / 2, y: r.top + r.height / 2 - innerHeight / 2, s: sx, r: tilt(cur), sy: r.height / ch / sx }, { k: 220, c: 24, done: () => { stage.classList.remove('on'); el.style.visibility = ''; stageOn = false; } });
+  tick();
+}
+// Sur la fiche : toucher retourne, glisser feuillette, l'étoile rend brillant.
+{
+  let x0 = null, vt = velocityTracker(), moved = false;
+  stage.addEventListener('pointerdown', (ev) => { x0 = ev.clientX; moved = false; vt.reset(); vt.add(ev.clientX, 0); });
+  stage.addEventListener('pointermove', (ev) => {
+    if (x0 == null) return;
+    const dx = ev.clientX - x0;
+    vt.add(ev.clientX, 0);
+    if (Math.abs(dx) > 8) moved = true;
+    if (moved) cardS.to({ x: dx, r: dx / 25 }, { k: 900, c: 45 });
+  });
+  stage.addEventListener('pointerup', (ev) => {
+    if (x0 == null) return;
+    const dx = ev.clientX - x0;
+    x0 = null;
+    const a = ev.target.closest('[data-a]');
+    if (!moved && a) return action(a);
+    if (!moved) {
+      if (!ev.target.closest('.card')) return closeCard();
+      const back = cardS.val.ry > 90;
+      cardS.to({ ry: back ? 0 : 180 }, { k: 160, c: 18 });
+      return tick();
+    }
+    const v = vt.get().x;
+    const i = life.indexOf(cur);
+    const next = dx + v * 0.2 < -90 ? life[i + 1] : dx + v * 0.2 > 90 ? life[i - 1] : null;
+    if (!next) return cardS.to({ x: 0, r: 0 }, { k: 260, c: 16 });
+    // Feuilleter : la carte part, la suivante arrive déjà retournée.
+    tick();
+    const dir = dx < 0 ? -1 : 1;
+    cardS.to({ x: dir * innerWidth * 1.1, r: dir * 14 }, { k: 260, c: 30, done: () => {
+      $(`.album .st[data-id="${cur.id}"]`).style.visibility = '';
+      cur = next;
+      origin = $(`.album .st[data-id="${next.id}"]`);
+      origin.style.visibility = 'hidden';
+      card.innerHTML = cardHtml(next);
+      cardS.set({ x: -dir * innerWidth * 1.1, r: -dir * 14, ry: 180 }).to({ x: 0, r: 0 }, { k: 220, c: 22 });
+    } });
+  });
+}
+function action(a) {
+  const e = cur;
+  if (a.dataset.a === 'star') {
+    e.highlighted = !e.highlighted;
+    a.classList.toggle('on', e.highlighted);
+    origin.classList.toggle('star', e.highlighted);
+    tick(e.highlighted);
+    if (e.highlighted) {
+      const r = a.getBoundingClientRect();
+      if (!e.sober) burst(r.left + r.width / 2, r.top + r.height / 2, '#FFD84D', { n: 14, spread: 80 });
+      // Un passage de lumière sur toute la carte : il devient brillant.
+      const shine = document.createElement('div');
+      shine.style.cssText = 'position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.7) 50%,transparent 65%);pointer-events:none;border-radius:20px';
+      $('.back', card).append(shine);
+      shine.animate([{ transform: 'translateX(-100%)' }, { transform: 'translateX(100%)' }], { duration: reduced() ? 1 : 700, easing: 'ease-in-out' }).onfinish = () => shine.remove();
+    }
+  }
+}
+document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') { closeCard(); closeSheet(); } });
+
+render();
+window.__album = { openPress, openCard: (i) => openCard(life[i].id), life };
+</script>
+</body>
+</html>

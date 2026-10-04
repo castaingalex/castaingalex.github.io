@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fil vivant</title>
+<style>
+@font-face { font-family: "Unb"; src: url("fonts/Unbounded-latin.woff2") format("woff2"); font-weight: 200 900; font-display: swap; }
+:root { --bg: #3366FF; --ink: #FFFFFF; --unb: "Unb", ui-rounded, system-ui, sans-serif; --ui: ui-rounded, system-ui, sans-serif; color-scheme: light; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--bg); transition: background-color .5s; }
+body { margin: 0; color: var(--ink); font-family: var(--ui); transition: color .35s; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+/* En sombre, la couleur du temps reste, assourdie, sur un fond profond. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --dim: 1; } }
+:root[data-theme="dark"] { --dim: 1; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+svg.thread { position: fixed; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+svg.thread path { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; opacity: .9; transition: stroke .35s; }
+
+.head { position: relative; z-index: 2; padding: calc(env(safe-area-inset-top) + 18px) 20px 10px 92px; }
+.head .k { font: 800 13px var(--ui); letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.head h1 { margin: 4px 0 0; font: 900 34px/1 var(--unb); letter-spacing: -.02em; }
+.echo { margin: 16px 0 0; display: flex; align-items: center; gap: 12px; text-align: left; }
+.echo .ring { width: 60px; height: 60px; border-radius: 50%; padding: 3px; background: conic-gradient(var(--ink) 0 100%); flex: none; animation: spin 6s linear infinite; }
+.echo .ring span { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--bg); font-size: 28px; border: 3px solid var(--bg); transition: background-color .5s, border-color .5s; }
+.echo b { display: block; font: 800 15px/1.15 var(--unb); }
+.echo small { display: block; font-weight: 800; font-size: 13px; opacity: .8; margin-top: 3px; }
+@keyframes spin { to { filter: hue-rotate(0); } }
+
+main { position: relative; z-index: 1; padding-bottom: 160px; }
+.year { position: relative; padding: 26px 18px 6px 92px; }
+.year .num { display: flex; align-items: baseline; gap: 8px 10px; margin-left: -4px; flex-wrap: wrap; }
+.year .num b { font: 900 62px/0.9 var(--unb); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+.year .num span { font: 800 17px/1 var(--unb); text-transform: uppercase; }
+.year .hist { margin: 8px 0 0; font: italic 700 12px/1.4 var(--ui); opacity: .62; letter-spacing: .02em; }
+.m { position: relative; display: block; width: 100%; text-align: left; padding: 14px 0 12px; min-height: 64px; }
+.m .charm { position: absolute; left: -36px; top: 8px; width: 52px; height: 52px; margin-left: -26px; border-radius: 50%; background: #fff; color: #141414; display: grid; place-items: center; font-size: 27px; box-shadow: 0 0 0 4px var(--ink), 0 8px 16px rgba(0,0,0,.18); will-change: transform; transition: box-shadow .35s; }
+.m .charm .ini { font: 900 21px var(--unb); }
+.m.star .charm { width: 68px; height: 68px; margin-left: -34px; top: 2px; font-size: 36px; }
+.m.star .charm::after { content: "★"; position: absolute; right: -6px; top: -6px; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 13px; display: grid; place-items: center; transition: background-color .35s, color .35s; }
+.m.sober .charm { background: rgba(255,255,255,.85); box-shadow: 0 0 0 2px var(--ink); }
+.m .t { display: block; font: 700 21px/1.12 var(--unb); letter-spacing: -.015em; }
+.m.star .t { font-size: 27px; font-weight: 800; }
+.m .d { display: block; margin-top: 5px; font-weight: 800; font-size: 14px; opacity: .78; }
+.m .pbar { display: block; height: 6px; border-radius: 3px; background: currentColor; opacity: .3; margin-top: 8px; width: var(--w); }
+.empties { position: relative; padding: 14px 18px 8px 92px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.empties .knot { position: absolute; left: 56px; top: 34px; width: 14px; height: 14px; margin: -7px; border-radius: 50%; background: var(--ink); will-change: transform; }
+.empties button { height: 34px; padding: 0 12px; border-radius: 17px; border: 2px solid color-mix(in srgb, var(--ink) 45%, transparent); font: 800 13px var(--unb); }
+.empties button.ask { background: var(--ink); color: var(--bg); border-color: var(--ink); font-size: 14px; height: 40px; padding: 0 16px; border-radius: 20px; transition: background-color .35s, color .35s; }
+.foot { padding: 40px 18px 0 92px; }
+.foot b { display: block; font: 900 30px/1 var(--unb); }
+.foot small { font-weight: 800; opacity: .8; }
+
+.add { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 18px); z-index: 10; width: 76px; height: 76px; margin-left: -38px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; box-shadow: 0 12px 28px rgba(0,0,0,.25); transition: background-color .35s, color .35s; }
+.add svg { width: 34px; height: 34px; stroke: currentColor; stroke-width: 4; stroke-linecap: round; fill: none; }
+.add:active { transform: scale(.92); }
+
+/* Raconter : tout l'écran prend la couleur du moment */
+.reveal { position: fixed; z-index: 30; left: 50%; top: 0; width: 200vmax; height: 200vmax; margin-left: -100vmax; border-radius: 50%; background: var(--rc); transform: scale(0); pointer-events: none; will-change: transform; transition: background-color .4s; }
+.comp { position: fixed; inset: 0 0 var(--kb, 0) 0; z-index: 31; display: none; flex-direction: column; padding: calc(env(safe-area-inset-top) + 14px) 22px max(18px, calc(env(safe-area-inset-bottom) + 18px - var(--kb, 0px))); color: var(--rink); transition: color .35s; }
+.comp.on { display: flex; }
+.comp .x { align-self: flex-end; width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--rink) 15%, transparent); font-size: 22px; font-weight: 900; }
+.comp .charm-big { align-self: center; margin-top: 8px; width: 112px; height: 112px; border-radius: 50%; background: #fff; color: #141414; display: grid; place-items: center; font-size: 58px; box-shadow: 0 0 0 6px var(--rink), 0 16px 34px rgba(0,0,0,.2); will-change: transform; }
+.comp .charm-big .ini { font: 900 44px var(--unb); }
+.comp .charm-big.empty { background: transparent; box-shadow: 0 0 0 4px color-mix(in srgb, var(--rink) 35%, transparent); color: var(--rink); }
+.comp textarea { margin-top: 22px; width: 100%; border: 0; outline: none; resize: none; background: transparent; color: inherit; font: 800 34px/1.08 var(--unb); letter-spacing: -.02em; text-align: center; -webkit-user-select: text; user-select: text; min-height: 44px; }
+.comp textarea::placeholder { color: inherit; opacity: .45; }
+.comp .when { margin-top: 18px; align-self: center; text-align: center; touch-action: none; padding: 10px 18px; border-radius: 22px; cursor: ew-resize; }
+.comp .when b { display: block; font: 900 30px/1 var(--unb); text-transform: uppercase; letter-spacing: -.01em; }
+.comp .when span { display: block; margin-top: 6px; font-weight: 800; font-size: 15px; opacity: .85; }
+.comp .when small { display: block; margin-top: 8px; font-weight: 800; font-size: 12px; opacity: .6; letter-spacing: .06em; text-transform: uppercase; }
+.comp .emojis { margin-top: auto; display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: none; }
+.comp .emojis button { flex: none; width: 46px; height: 46px; border-radius: 50%; background: color-mix(in srgb, var(--rink) 14%, transparent); font-size: 24px; }
+.comp .emojis button[aria-pressed="true"] { background: #fff; box-shadow: 0 0 0 3px var(--rink); }
+.comp .go { height: 62px; border-radius: 31px; background: var(--rink); color: var(--rc); font: 900 20px var(--unb); transition: background-color .35s, color .35s; }
+.comp .go:disabled { opacity: .35; }
+.drop { position: fixed; left: 0; top: 0; z-index: 40; pointer-events: none; will-change: transform; }
+.drop .charm-big { width: 52px; height: 52px; margin: -26px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-size: 27px; box-shadow: 0 0 0 4px var(--ink), 0 8px 16px rgba(0,0,0,.2); }
+.shout { position: fixed; left: 0; top: 0; z-index: 41; pointer-events: none; font: 900 26px/1 var(--unb); text-transform: uppercase; color: var(--bg); background: var(--ink); padding: 12px 16px; border-radius: 16px; white-space: nowrap; }
+.shout small { display: block; font: 800 13px var(--ui); text-transform: none; margin-top: 4px; opacity: .85; }
+
+/* La fiche en plein écran, à la façon d'une story */
+.story { position: fixed; inset: 0; z-index: 50; display: none; background: var(--sc); color: var(--sink); padding: calc(env(safe-area-inset-top) + 10px) 22px calc(env(safe-area-inset-bottom) + 18px); flex-direction: column; will-change: transform; touch-action: none; overflow: hidden; }
+.story.on { display: flex; }
+.bars { display: flex; gap: 4px; }
+.bars i { flex: 1; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--sink) 30%, transparent); overflow: hidden; }
+.bars i b { display: block; height: 100%; background: var(--sink); transform-origin: left; transform: scaleX(0); }
+.bars i.done b { transform: none; }
+.story .top { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; font: 800 13px var(--ui); letter-spacing: .08em; text-transform: uppercase; }
+.story .top button { width: 40px; height: 40px; border-radius: 50%; font-size: 20px; background: color-mix(in srgb, var(--sink) 15%, transparent); }
+.story .emo { margin-top: 26px; font-size: 104px; line-height: 1; will-change: transform; }
+.story .ini { margin-top: 26px; width: 104px; height: 104px; border-radius: 50%; border: 5px solid currentColor; display: grid; place-items: center; font: 900 52px var(--unb); }
+.story h2 { margin: 20px 0 0; font: 900 42px/0.98 var(--unb); letter-spacing: -.03em; }
+.story .age { margin-top: 18px; font: 900 64px/0.9 var(--unb); letter-spacing: -.04em; }
+.story .age small { display: block; font: 800 15px var(--ui); letter-spacing: 0; margin-bottom: 4px; opacity: .8; }
+.story .meta { margin-top: 14px; font-weight: 800; font-size: 16px; line-height: 1.45; opacity: .9; }
+.story .note { margin: 14px 0 0; font: 700 19px/1.35 var(--ui); }
+.story .disc { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--sink); color: var(--sc); font-weight: 800; font-size: 15px; line-height: 1.3; }
+.story .disc b { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.story .acts { margin-top: auto; display: flex; justify-content: center; gap: 18px; }
+.story .acts button { width: 64px; height: 64px; border-radius: 50%; background: color-mix(in srgb, var(--sink) 16%, transparent); font-size: 24px; display: grid; place-items: center; }
+.story .acts button.on { background: var(--sink); color: var(--sc); }
+.story .acts small { display: block; text-align: center; font-weight: 800; font-size: 11px; margin-top: 6px; }
+.story .tapzones { position: absolute; inset: 120px 0 120px 0; display: flex; }
+.story .tapzones i { flex: 1; }
+@media (prefers-reduced-motion: reduce) { .echo .ring { animation: none; } }
+</style>
+</head>
+<body>
+<svg class="thread" aria-hidden="true"><path d=""/></svg>
+<header class="head"></header>
+<main></main>
+<button class="add" aria-label="Raconter un moment"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+<div class="reveal"></div>
+<section class="comp" role="dialog" aria-modal="true"></section>
+<section class="story" role="dialog" aria-modal="true"></section>
+
+<script type="module">
+import { demoLife, landmarks, decade, mix, TODAY, BIRTH, parts, ts, fmt, fmtInYear, ageLabel, ageText, ago, weekday, cap, esc, initial, springs, tick, burst, velocityTracker, reduced, wait, parseMoment, decorate, suggestEmoji, EMOJI_CHOICES, neighbors, echoOf } from './common.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const life = demoLife();
+const LMS = landmarks();
+const BY = parts(BIRTH).y, TY = parts(TODAY).y;
+const dark = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+// En sombre, la couleur est assourdie et l'encre devient claire.
+const tone = (d) => (dark() ? { c: mix('#0D0D12', d.c, 0.42), ink: '#FFFFFF' } : d);
+const THREAD_X = 56;
+
+/* ---------- Rendu ---------- */
+function render() {
+  const echo = echoOf(life.map((e) => ({ ...e, status: 'confirmed' })), TODAY);
+  $('.head').innerHTML = `<div class="k">${cap(weekday(TODAY))} ${fmt(TODAY)}</div><h1>Aujourd’hui<br>${esc(ageText(TODAY, 'day').replace('tu avais', 'tu as'))}</h1>
+    ${echo ? `<button class="echo" data-echo="${echo.event.id}"><span class="ring"><span>${echo.event.emoji ?? '✦'}</span></span><span><b>Il y a ${echo.years} ans, jour pour jour</b><small>${esc(echo.event.title)}</small></span></button>` : ''}`;
+  const byYear = new Map();
+  for (const e of life) { if (!byYear.has(e.year)) byYear.set(e.year, []); byYear.get(e.year).push(e); }
+  let html = '', run = [];
+  const flush = () => {
+    if (!run.length) return;
+    html += `<div class="empties" data-y="${run[0]}"><span class="knot"></span>${run.map((y, i) => i === 0 ? `<button class="ask" data-year="${y}">+ Et en ${y} ?</button>` : `<button data-year="${y}">${y}</button>`).join('')}</div>`;
+    run = [];
+  };
+  for (let y = TY; y >= BY; y--) {
+    const evs = byYear.get(y) ?? [];
+    if (!evs.length) { run.push(y); continue; }
+    flush();
+    const lms = LMS.filter((l) => parts(l.date).y === y).slice(0, 2);
+    html += `<section class="year" data-y="${y}"><div class="num"><b>${y}</b><span>${y === BY ? 'naissance' : esc(ageLabel(y - BY))}</span></div>
+      ${lms.length ? `<p class="hist">${lms.map((l) => esc(l.title)).join(' · ')}</p>` : ''}
+      ${evs.map((e) => momentHtml(e)).join('')}</section>`;
+  }
+  flush();
+  html += `<div class="foot" data-y="${BY}"><b>Le début du fil</b><small>${cap(weekday(BIRTH))} ${fmt(BIRTH)}</small></div>`;
+  $('main').innerHTML = html;
+  measure();
+  recolor();
+}
+function momentHtml(e) {
+  const d = e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : e.startPrecision === 'year' ? 'dans l’année' : fmtInYear(e.startDate, e.startPrecision);
+  const w = e.endDate ? Math.min(100, (parts(e.endDate).y - parts(e.startDate).y + 1) * 14) : 0;
+  return `<button class="m${e.highlighted ? ' star' : ''}${e.sober ? ' sober' : ''}" data-id="${e.id}"><span class="charm">${e.emoji ?? `<span class="ini">${esc(initial(e.title))}</span>`}</span><span class="t">${esc(e.title)}</span><span class="d">${esc(d)}${e.place ? ` · ${esc(e.place)}` : ''}</span>${w ? `<span class="pbar" style="--w:${w}%"></span>` : ''}</button>`;
+}
+
+/* ---------- La couleur du temps : le fond suit la décennie au centre de l'écran ---------- */
+let marks = [];
+function measure() { marks = $$('[data-y]', $('main')).map((el) => ({ el, y: Number(el.dataset.y), top: el.offsetTop + $('main').offsetTop })); }
+let curInk = null;
+function recolor() {
+  const mid = scrollY + innerHeight * 0.45;
+  let i = marks.findIndex((m) => m.top > mid);
+  if (i === -1) i = marks.length;
+  const a = marks[Math.max(0, i - 1)], b = marks[i];
+  let year = a ? a.y : TY;
+  let color = tone(decade(year)).c, ink = tone(decade(year)).ink;
+  if (a && b && Math.floor(a.y / 10) !== Math.floor(b.y / 10)) {
+    // Entre deux décennies, la couleur glisse de l'une à l'autre.
+    const f = Math.min(1, Math.max(0, (mid - a.top) / (b.top - a.top)));
+    const fe = f * f * (3 - 2 * f);
+    color = mix(tone(decade(a.y)).c, tone(decade(b.y)).c, fe);
+    ink = fe < 0.5 ? tone(decade(a.y)).ink : tone(decade(b.y)).ink;
+  }
+  const root = document.documentElement.style;
+  root.setProperty('--bg', color);
+  if (ink !== curInk) { root.setProperty('--ink', ink); curInk = ink; }
+}
+
+/* ---------- Le fil : élastique, il ploie avec la vitesse et revient en oscillant ---------- */
+const path = $('svg.thread path');
+let dent = { y: 0 };
+let bendS = null;
+function threadX(y) {
+  const H = innerHeight;
+  if (!bendS) return THREAD_X;
+  const bow = bendS.val.b * Math.sin(Math.PI * Math.min(1, Math.max(0, y / H)));
+  const dentX = bendS.val.d * Math.exp(-(((y - dent.y) / 70) ** 2));
+  return THREAD_X + bow + dentX;
+}
+function drawThread() {
+  const H = innerHeight;
+  const firstTop = (marks[0]?.top ?? 0) - scrollY - 30;
+  const lastTop = (marks.at(-1)?.top ?? 0) - scrollY + 10;
+  const y0 = Math.max(-10, firstTop), y1 = Math.min(H + 10, lastTop);
+  let d = '';
+  for (let y = y0; y <= y1; y += 8) d += `${d ? 'L' : 'M'}${threadX(y).toFixed(1)},${y.toFixed(1)}`;
+  path.setAttribute('d', d);
+  // Les breloques et les nœuds suivent le fil là où ils sont.
+  for (const c of $$('.m .charm, .empties .knot')) {
+    const r = c.parentElement.getBoundingClientRect();
+    if (r.bottom < -80 || r.top > H + 80) continue;
+    const cy = r.top + 34;
+    const dx = threadX(cy) - THREAD_X;
+    c.style.transform = `translateX(${dx.toFixed(1)}px) rotate(${(-bendS.val.b * 0.4).toFixed(1)}deg)`;
+  }
+}
+bendS = springs({ b: 0, d: 0 }, () => drawThread(), { k: 90, c: 7 });
+let lastY = scrollY, lastT = performance.now(), idle = 0;
+addEventListener('scroll', () => {
+  const now = performance.now();
+  const v = (scrollY - lastY) / Math.max(1, now - lastT) * 1000;
+  lastY = scrollY; lastT = now;
+  recolor();
+  if (!reduced()) bendS.to({ b: Math.max(-46, Math.min(46, -v * 0.018)) }, { k: 160, c: 18 });
+  drawThread();
+  clearTimeout(idle);
+  idle = setTimeout(() => bendS.to({ b: 0 }, { k: 90, c: 6 }), 70);
+}, { passive: true });
+addEventListener('resize', () => { measure(); recolor(); drawThread(); });
+
+/* ---------- Raconter : l'écran se teint, le moment se forme, on l'accroche ---------- */
+const reveal = $('.reveal'), comp = $('.comp');
+const revS = springs({ s: 0 }, (v) => { reveal.style.transform = `scale(${v.s})`; }, { k: 140, c: 22 });
+const DAY = 86400000;
+function shift(date, precision, n) {
+  const p = parts(date);
+  if (precision === 'year') return String(p.y + n);
+  if (precision === 'month') { const m = p.y * 12 + p.m + n; return `${Math.floor(m / 12)}-${String((m % 12) + 1).padStart(2, '0')}`; }
+  return new Date(Date.UTC(p.y, p.m, p.d) + n * DAY).toISOString().slice(0, 10);
+}
+function openComposer({ year } = {}) {
+  const st = { text: '', override: year ? { startDate: String(year), startPrecision: 'year', endDate: null, endPrecision: null } : null, overrideFor: undefined, emoji: undefined };
+  const addR = $('.add').getBoundingClientRect();
+  reveal.style.top = `${addR.top + addR.height / 2}px`;
+  reveal.style.marginTop = '-100vmax';
+  const setTint = (d) => { const t = tone(d); reveal.style.setProperty('--rc', t.c); comp.style.setProperty('--rc', t.c); comp.style.setProperty('--rink', t.ink); };
+  setTint(decade(year ?? TY));
+  revS.set({ s: 0 }).to({ s: 1 });
+  comp.innerHTML = `<button class="x" aria-label="Fermer">×</button>
+    <div class="charm-big empty"></div>
+    <textarea rows="1" placeholder="Raconte-le comme tu le dirais" enterkeyhint="done" autocapitalize="sentences"></textarea>
+    <div class="when"></div>
+    <div class="emojis"></div>
+    <button class="go" disabled>Accrocher à mon fil</button>`;
+  comp.classList.add('on');
+  const ta = $('textarea', comp), charm = $('.charm-big', comp), when = $('.when', comp), go = $('.go', comp), emojis = $('.emojis', comp);
+  const chS = springs({ s: 1, r: 0 }, (v) => { charm.style.transform = `scale(${v.s}) rotate(${v.r}deg)`; }, { k: 400, c: 13 });
+  chS.set({ s: 0.3 }).to({ s: 1 });
+  let lastFace = null;
+  const eff = () => {
+    const p = parseMoment(st.text, { today: TODAY, birth: BIRTH });
+    if (!p) return null;
+    const dated = st.override && (p.guessed || st.overrideFor === p.startDate) ? { ...p, ...st.override, guessed: false } : p;
+    return decorate({ ...dated, emoji: st.emoji !== undefined ? st.emoji : suggestEmoji(dated.title) });
+  };
+  function paint() {
+    const e = eff();
+    go.disabled = !e?.title;
+    ta.style.fontSize = `${Math.max(22, 34 - Math.max(0, st.text.length - 18) * 0.5)}px`;
+    ta.style.height = 'auto';
+    ta.style.height = `${ta.scrollHeight}px`;
+    if (!e?.title) {
+      charm.className = 'charm-big empty';
+      charm.innerHTML = '';
+      when.innerHTML = year ? `<b>${year}</b><span>${esc(ageText(String(year), 'year'))}</span>` : '<span>La date se lit dans ta phrase</span>';
+      emojis.innerHTML = '';
+      lastFace = null;
+      return;
+    }
+    setTint(e.sober ? { c: '#8E8A85', ink: '#FFFFFF' } : decade(e.year));
+    const face = e.emoji ?? `<span class="ini">${esc(initial(e.title))}</span>`;
+    if (face !== lastFace) { charm.className = 'charm-big'; charm.innerHTML = face; chS.set({ s: 0.55, r: -16 }).to({ s: 1, r: 0 }); lastFace = face; }
+    const w = e.guessed ? 'Aujourd’hui ?' : e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : fmt(e.startDate, e.startPrecision);
+    when.innerHTML = `<b>${esc(w)}</b>${e.guessed ? '' : `<span>${esc(ageText(e.startDate, e.startPrecision))}</span>`}${e.endDate ? '' : '<small>‹ glisse pour changer ›</small>'}`;
+    const sugg = suggestEmoji(e.title);
+    emojis.innerHTML = [`<button data-emo="" aria-pressed="${e.emoji == null}" style="font:900 17px var(--unb)">${esc(initial(e.title))}</button>`, ...[...new Set([sugg, ...EMOJI_CHOICES].filter(Boolean))].map((x) => `<button data-emo="${x}" aria-pressed="${x === e.emoji}">${x}</button>`)].join('');
+  }
+  ta.addEventListener('input', () => { st.text = ta.value.replace(/\n/g, ' '); paint(); });
+  ta.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); go.click(); } });
+  emojis.addEventListener('click', (ev) => { const b = ev.target.closest('[data-emo]'); if (!b) return; st.emoji = b.dataset.emo || null; tick(); paint(); });
+  let sx = null, acc = 0;
+  when.addEventListener('pointerdown', (ev) => { const e = eff(); if (!e?.title || e.endDate) return; sx = ev.clientX; acc = 0; when.setPointerCapture(ev.pointerId); });
+  when.addEventListener('pointermove', (ev) => {
+    if (sx == null) return;
+    const dx = ev.clientX - sx;
+    when.style.transform = `translateX(${dx * 0.3}px)`;
+    while (Math.abs(dx - acc) >= 30) {
+      const dir = dx - acc > 0 ? 1 : -1;
+      acc += dir * 30;
+      const e = eff();
+      const next = shift(e.startDate, e.startPrecision, dir);
+      if (next > TODAY.slice(0, next.length) || next < BIRTH.slice(0, next.length)) continue;
+      st.override = { startDate: next, startPrecision: e.startPrecision, endDate: null, endPrecision: null };
+      st.overrideFor = parseMoment(st.text, { today: TODAY, birth: BIRTH })?.startDate;
+      tick();
+      paint();
+    }
+  });
+  when.addEventListener('pointerup', () => { sx = null; when.animate([{ transform: when.style.transform }, { transform: 'none' }], { duration: 250, easing: 'cubic-bezier(.3,1.6,.5,1)' }); when.style.transform = ''; });
+  $('.x', comp).addEventListener('click', () => closeComposer());
+  go.addEventListener('click', () => { const e = eff(); if (e?.title) hang(e, charm); });
+  paint();
+  ta.focus({ preventScroll: true });
+}
+function closeComposer() {
+  comp.classList.remove('on');
+  document.activeElement?.blur?.();
+  revS.to({ s: 0 }, { k: 200, c: 26 });
+}
+
+async function hang(e, charm) {
+  const r = charm.getBoundingClientRect();
+  tick();
+  closeComposer();
+  e.id = `new${Date.now()}`;
+  life.push(e);
+  life.sort((a, b) => ts(b.startDate) - ts(a.startDate));
+  render();
+  const el = $(`.m[data-id="${e.id}"]`);
+  const c = $('.charm', el);
+  c.style.visibility = 'hidden';
+  const top = el.getBoundingClientRect().top + scrollY - innerHeight * 0.42;
+  scrollTo({ top, behavior: 'auto' });
+  recolor();
+  await wait(120);
+  // La breloque tombe du haut de l'écran, le fil encaisse, puis elle se balance.
+  const cr = c.getBoundingClientRect();
+  const drop = document.createElement('div');
+  drop.className = 'drop';
+  drop.innerHTML = `<div class="charm-big">${e.emoji ?? `<span style="font:900 21px var(--unb)">${esc(initial(e.title))}</span>`}</div>`;
+  document.body.append(drop);
+  const tx = cr.left + cr.width / 2, ty = cr.top + cr.height / 2;
+  const dS = springs({ x: tx, y: -60, s: 1.6 }, (v) => { drop.style.transform = `translate(${v.x}px,${v.y}px) scale(${v.s})`; }, { k: 170, c: 13 });
+  await new Promise((res) => { dS.to({ y: ty, s: 1 }); setTimeout(res, reduced() ? 0 : 260); });
+  dent.y = ty;
+  tick(true);
+  bendS.set({ d: 0 }).to({ d: 0 }, { v: { d: e.sober ? 120 : 420 } });
+  if (!e.sober) burst(tx, ty, '#FFFFFF', { n: 12, spread: 80 });
+  await wait(500);
+  drop.remove();
+  c.style.visibility = '';
+  const sh = document.createElement('div');
+  sh.className = 'shout';
+  sh.innerHTML = `${e.sober ? 'Accroché.' : 'Accroché !'}<small>${esc(cap(fmt(e.startDate, e.startPrecision)))} · ${esc(ageText(e.startDate, e.startPrecision))}</small>`;
+  document.body.append(sh);
+  sh.animate([{ transform: `translate(${tx + 36}px,${ty - 70}px) rotate(-5deg) scale(.4)`, opacity: 0 }, { transform: `translate(${tx + 36}px,${ty - 84}px) rotate(-4deg) scale(1.06)`, opacity: 1, offset: 0.15 }, { transform: `translate(${tx + 36}px,${ty - 84}px) rotate(-4deg) scale(1)`, opacity: 1, offset: 0.85 }, { transform: `translate(${tx + 36}px,${ty - 96}px) rotate(-4deg)`, opacity: 0 }], { duration: reduced() ? 1500 : 2100 }).onfinish = () => sh.remove();
+}
+
+/* ---------- La fiche : une story, toucher à droite pour la suite ---------- */
+const story = $('.story');
+let sIndex = 0, sList = [], sTimer = 0, sMode = 'moment';
+const stS = springs({ y: 0, s: 1 }, (v) => { story.style.transform = `translateY(${v.y}px) scale(${v.s})`; story.style.borderRadius = `${Math.min(40, v.y / 4)}px`; }, { k: 300, c: 28 });
+function openStory(list, i, mode = 'moment') {
+  sList = list; sIndex = i; sMode = mode;
+  story.classList.add('on');
+  stS.set({ y: innerHeight * 0.15, s: 0.9 }).to({ y: 0, s: 1 });
+  showStory();
+}
+function showStory() {
+  const e = sList[sIndex];
+  const t = e.sober ? { c: '#5E5A57', ink: '#FFFFFF' } : tone(e.color);
+  story.style.setProperty('--sc', t.c);
+  story.style.setProperty('--sink', t.ink);
+  const age = ageText(e.startDate, e.startPrecision);
+  const n = age.match(/\d+/)?.[0];
+  const { discovery } = neighbors(e, life, LMS);
+  const kicker = sMode === 'echo' ? 'Il y a 10 ans, jour pour jour' : `${e.year} · ${ageLabel(e.year - BY)}`;
+  const when = e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : e.startPrecision === 'day' ? `${weekday(e.startDate)} ${fmt(e.startDate)}` : fmt(e.startDate, e.startPrecision);
+  story.innerHTML = `<div class="bars">${sList.map((_, j) => `<i class="${j < sIndex ? 'done' : ''}"><b></b></i>`).join('')}</div>
+    <div class="top"><span>${esc(kicker)}</span><button data-s="close" aria-label="Fermer">×</button></div>
+    ${e.emoji ? `<div class="emo">${e.emoji}</div>` : `<div class="ini">${esc(initial(e.title))}</div>`}
+    <h2>${esc(e.title)}</h2>
+    ${n ? `<div class="age"><small>${age.startsWith('tu avais') ? 'tu avais' : 'l’année de tes'}</small>${n} ans</div>` : ''}
+    <div class="meta">${esc(cap(when))} · ${esc(ago(e.startDate, TODAY))}${e.place ? `<br>📍 ${esc(e.place)}` : ''}</div>
+    ${e.note ? `<p class="note">${esc(e.note)}</p>` : ''}
+    ${discovery ? `<div class="disc"><b>Découverte</b>${discovery.closeness === 'day' ? 'Le même jour' : 'La même semaine'} : ${esc(discovery.title)}</div>` : ''}
+    <div class="tapzones"><i data-s="prev"></i><i data-s="next"></i></div>
+    <div class="acts"><div><button data-s="star" class="${e.highlighted ? 'on' : ''}" aria-label="Temps fort">★</button><small>Temps fort</small></div><div><button data-s="send" aria-label="Envoyer">↗</button><small>Envoyer</small></div><div><button data-s="edit" aria-label="Modifier">✎</button><small>Modifier</small></div></div>`;
+  const emo = $('.emo, .ini', story);
+  springs({ s: 0.3, r: -25 }, (v) => { emo.style.transform = `scale(${v.s}) rotate(${v.r}deg)`; }, { k: 300, c: 12 }).to({ s: 1, r: 0 });
+  const bar = $$('.bars i', story)[sIndex]?.firstChild;
+  clearTimeout(sTimer);
+  if (bar) {
+    const dur = sMode === 'echo' ? 6000 : 7000;
+    bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: dur, fill: 'forwards' });
+    sTimer = setTimeout(() => step(1), dur);
+  }
+}
+function step(dir) {
+  const j = sIndex + dir;
+  if (j < 0) return;
+  if (j >= sList.length) return closeStory();
+  sIndex = j;
+  tick();
+  showStory();
+}
+function closeStory() {
+  clearTimeout(sTimer);
+  stS.to({ y: innerHeight, s: 0.85 }, { k: 220, c: 26, done: () => { story.classList.remove('on'); story.style.transform = ''; } });
+}
+{
+  let y0 = null, x0 = 0, moved = false, vt = velocityTracker();
+  story.addEventListener('pointerdown', (ev) => { y0 = ev.clientY; x0 = ev.clientX; moved = false; vt.reset(); vt.add(0, ev.clientY); });
+  story.addEventListener('pointermove', (ev) => {
+    if (y0 == null) return;
+    const dy = ev.clientY - y0;
+    vt.add(0, ev.clientY);
+    if (Math.abs(dy) > 10) moved = true;
+    if (moved) { clearTimeout(sTimer); stS.set({ y: Math.max(0, dy), s: 1 - Math.max(0, dy) / innerHeight * 0.25 }); }
+  });
+  story.addEventListener('pointerup', (ev) => {
+    if (y0 == null) return;
+    const dy = ev.clientY - y0;
+    y0 = null;
+    if (moved) {
+      if (dy > 140 || vt.get().y > 800) closeStory();
+      else { stS.to({ y: 0, s: 1 }, { k: 320, c: 22 }); showStory(); }
+      return;
+    }
+    const a = ev.target.closest('[data-s]');
+    if (!a) return;
+    const e = sList[sIndex];
+    if (a.dataset.s === 'close') return closeStory();
+    if (a.dataset.s === 'next') return step(1);
+    if (a.dataset.s === 'prev') return step(-1);
+    if (a.dataset.s === 'star') {
+      e.highlighted = !e.highlighted;
+      a.classList.toggle('on', e.highlighted);
+      tick(e.highlighted);
+      $(`.m[data-id="${e.id}"]`)?.classList.toggle('star', e.highlighted);
+      if (e.highlighted && !e.sober) {
+        const r = a.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + r.height / 2, getComputedStyle(story).getPropertyValue('--sink'), { n: 18, spread: 110 });
+        story.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.025)' }, { transform: 'scale(1)' }], { duration: reduced() ? 1 : 300 });
+      }
+    }
+  });
+}
+
+document.addEventListener('click', (ev) => {
+  const m = ev.target.closest('.m');
+  if (m) {
+    tick();
+    const e = life.find((x) => x.id === m.dataset.id);
+    const sameYear = life.filter((x) => x.year === e.year).sort((a, b) => ts(a.startDate) - ts(b.startDate));
+    return openStory(sameYear, sameYear.indexOf(e));
+  }
+  const echo = ev.target.closest('[data-echo]');
+  if (echo) { tick(); return openStory([life.find((x) => x.id === echo.dataset.echo)], 0, 'echo'); }
+  const y = ev.target.closest('[data-year]');
+  if (y) { tick(); return openComposer({ year: Number(y.dataset.year) }); }
+});
+$('.add').addEventListener('click', () => { tick(); openComposer(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { curInk = null; recolor(); });
+
+render();
+drawThread();
+const params = new URLSearchParams(location.search);
+// À l'ouverture, l'écho du jour s'ouvre en plein écran, comme une story.
+const echoE = echoOf(life.map((e) => ({ ...e, status: 'confirmed' })), TODAY);
+if (echoE && !params.has('noecho')) setTimeout(() => openStory([echoE.event], 0, 'echo'), 350);
+window.__fil = { openComposer, life, openStory: (i) => { const e = life[i]; const s = life.filter((x) => x.year === e.year).sort((a, b) => ts(a.startDate) - ts(b.startDate)); openStory(s, s.indexOf(e)); }, bendS, drawThread };
+</script>
+</body>
+</html>

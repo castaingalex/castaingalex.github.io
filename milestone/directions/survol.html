@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#F6F4EF">
+<title>Survol</title>
+<style>
+:root {
+  --bg: #F6F4EF; --ink: #15141A; --ink2: #5E5B66; --card: #FFFFFF; --line: rgba(21,20,26,.08);
+  --shadow: 0 6px 18px rgba(21,20,26,.16), 0 1px 3px rgba(21,20,26,.12);
+  --font: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #101117; --ink: #F4F2EE; --ink2: #A6A3AE; --card: #1D1E26; --line: rgba(255,255,255,.08); --shadow: 0 6px 18px rgba(0,0,0,.5); color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #101117; --ink: #F4F2EE; --ink2: #A6A3AE; --card: #1D1E26; --line: rgba(255,255,255,.08); --shadow: 0 6px 18px rgba(0,0,0,.5); color-scheme: dark; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--font); overscroll-behavior: none; -webkit-user-select: none; user-select: none; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+#map { position: fixed; inset: 0; touch-action: none; }
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#pins { position: absolute; inset: 0; pointer-events: none; }
+
+/* Les moments : des pastilles autocollantes posées sur la route */
+.pin { position: absolute; left: 0; top: 0; pointer-events: auto; will-change: transform; }
+.disc { position: absolute; left: -24px; top: -24px; width: 48px; height: 48px; border-radius: 50%; background: var(--card); display: grid; place-items: center; font-size: 25px; line-height: 1; box-shadow: 0 0 0 3.5px var(--c), var(--shadow); will-change: transform; }
+.disc .ini { font-weight: 900; font-size: 20px; color: var(--c); }
+.pin.star .disc::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; background: var(--c); opacity: .28; animation: halo 2.4s ease-in-out infinite; z-index: -1; }
+@keyframes halo { 50% { transform: scale(1.18); opacity: .12; } }
+.pin.sober .disc { box-shadow: 0 0 0 2px var(--c), var(--shadow); }
+.lbl { position: absolute; left: 30px; top: -19px; white-space: nowrap; background: var(--card); border-radius: 13px; padding: 5px 11px 5px 11px; box-shadow: var(--shadow); opacity: 0; transform: translateX(-8px) scale(.9); transform-origin: left center; transition: opacity .18s, transform .32s cubic-bezier(.3,1.5,.5,1); pointer-events: none; }
+.lbl b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.01em; max-width: 190px; overflow: hidden; text-overflow: ellipsis; }
+.lbl small { display: block; font-size: 12px; font-weight: 700; color: var(--ink2); margin-top: 1px; }
+.pin.show-lbl .lbl { opacity: 1; transform: none; }
+.ghost { position: absolute; left: 0; top: 0; pointer-events: auto; display: none; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; margin: -20px 0 0 -20px; border-radius: 20px; border: 2px dashed color-mix(in srgb, var(--c) 70%, transparent); color: var(--ink); font-weight: 800; font-size: 15px; background: color-mix(in srgb, var(--bg) 70%, transparent); opacity: 0; transition: opacity .2s; }
+.ghost i { width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: var(--cink); display: grid; place-items: center; font-style: normal; font-size: 18px; font-weight: 900; }
+.ghost.on { display: flex; }
+.ghost.vis { opacity: 1; }
+.me { position: absolute; left: 0; top: 0; pointer-events: none; }
+.me .dot { position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px var(--card), var(--shadow); }
+.me .dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 3px solid var(--c); animation: ping 2s cubic-bezier(.2,.6,.3,1) infinite; }
+@keyframes ping { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
+.me .tag { position: absolute; left: 22px; top: -16px; white-space: nowrap; font-weight: 900; font-size: 14px; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 7px 10px; transform: rotate(-3deg); }
+
+/* Tête : où l'on est dans sa vie */
+.hud { position: fixed; top: calc(env(safe-area-inset-top) + 10px); left: 12px; right: 12px; display: flex; align-items: center; gap: 8px; pointer-events: none; }
+.where { pointer-events: auto; display: flex; align-items: baseline; gap: 8px; background: var(--card); border-radius: 22px; padding: 8px 16px 9px; box-shadow: var(--shadow); }
+.where b { font-size: 26px; font-weight: 900; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.where span { font-size: 15px; font-weight: 800; color: var(--c, var(--ink2)); }
+.hud .sp { flex: 1; }
+.round { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; background: var(--card); box-shadow: var(--shadow); display: grid; place-items: center; font-size: 19px; }
+.round svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+
+/* Zoom au bord : un doigt qui glisse sur le bord droit */
+.edge { position: fixed; right: 0; top: 18%; bottom: 22%; width: 34px; touch-action: none; }
+.edge::before { content: ""; position: absolute; right: 5px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--ink); opacity: .12; }
+.glue { position: fixed; right: -40px; top: 0; width: 80px; height: 130px; margin-top: -65px; border-radius: 50%; background: var(--ink); transform: scaleX(0); transform-origin: right center; pointer-events: none; will-change: transform; }
+.zoomname { position: fixed; right: 54px; top: 0; margin-top: -18px; height: 36px; padding: 0 14px; border-radius: 18px; display: flex; align-items: center; font-weight: 900; font-size: 15px; background: var(--ink); color: var(--bg); opacity: 0; transform: translateX(10px) scale(.9); transition: opacity .15s, transform .25s cubic-bezier(.3,1.6,.5,1); pointer-events: none; white-space: nowrap; }
+.zoomname.on { opacity: 1; transform: none; }
+
+/* Poser un moment */
+.add { white-space: nowrap; position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 18px); height: 60px; padding: 0 26px 0 20px; transform: translateX(-50%); border-radius: 30px; background: var(--c); color: var(--cink); font-weight: 900; font-size: 19px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 24px color-mix(in srgb, var(--c) 45%, transparent), var(--shadow); transition: background-color .4s, color .4s; }
+.add .plus { width: 32px; height: 32px; border-radius: 50%; background: var(--cink); color: var(--c); display: grid; place-items: center; font-size: 26px; line-height: 1; transition: background-color .4s, color .4s; }
+.add:active { transform: translateX(-50%) scale(.94); }
+
+.scrim { position: fixed; inset: 0; background: rgba(10,10,14,.32); opacity: 0; pointer-events: none; transition: opacity .25s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.sheet { position: fixed; left: 0; right: 0; bottom: var(--kb, 0px); background: var(--card); border-radius: 30px 30px 0 0; padding: 12px 20px calc(env(safe-area-inset-bottom) + 20px); box-shadow: 0 -10px 40px rgba(0,0,0,.18); transform: translateY(110%); will-change: transform; max-height: 88vh; overflow: hidden auto; touch-action: pan-y; }
+.grip { width: 40px; height: 5px; border-radius: 3px; background: var(--ink); opacity: .18; margin: 0 auto 10px; }
+
+.cap-stage { display: flex; flex-direction: column; align-items: center; padding: 10px 0 4px; min-height: 196px; }
+.big-sticker { width: 104px; height: 104px; border-radius: 50%; background: var(--card); box-shadow: 0 0 0 6px var(--c), 0 14px 30px color-mix(in srgb, var(--c) 40%, transparent); display: grid; place-items: center; font-size: 56px; line-height: 1; will-change: transform; transition: box-shadow .35s; }
+.big-sticker .ini { font-weight: 900; font-size: 46px; color: var(--c); transition: color .35s; }
+.big-sticker.empty { box-shadow: 0 0 0 4px var(--line), none; }
+.cap-title { margin: 16px 0 6px; font-size: 25px; font-weight: 900; letter-spacing: -.02em; text-align: center; min-height: 30px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cap-title .ph { color: var(--ink2); opacity: .5; }
+.when-row { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; min-height: 40px; }
+.chip { height: 38px; padding: 0 14px; border-radius: 19px; display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 16px; background: color-mix(in srgb, var(--c) 18%, var(--card)); color: var(--ink); }
+.chip.scrub { background: var(--c); color: var(--cink); touch-action: none; cursor: ew-resize; }
+.chip.scrub::before { content: "‹"; opacity: .6; font-size: 20px; margin-right: 2px; }
+.chip.scrub::after { content: "›"; opacity: .6; font-size: 20px; margin-left: 2px; }
+.chip.ghosty { background: transparent; box-shadow: inset 0 0 0 2px var(--line); color: var(--ink2); }
+.emojis { display: flex; gap: 6px; overflow-x: auto; padding: 10px 2px 4px; scrollbar-width: none; }
+.emojis[hidden] { display: none; }
+.emojis button { flex: none; width: 46px; height: 46px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 6%, transparent); font-size: 24px; }
+.emojis button[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--c); background: var(--card); }
+.field { width: 100%; font: 800 19px var(--font); color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); border: 0; border-radius: 18px; padding: 16px 18px; margin-top: 14px; outline: none; -webkit-user-select: text; user-select: text; }
+.field::placeholder { color: var(--ink2); opacity: .7; }
+.go { width: 100%; height: 58px; margin-top: 12px; border-radius: 29px; background: var(--c); color: var(--cink); font-weight: 900; font-size: 19px; transition: background-color .35s, color .35s, opacity .2s, transform .15s; }
+.go:disabled { opacity: .35; }
+.go:active { transform: scale(.97); }
+.flyer { position: fixed; left: 0; top: 0; z-index: 50; pointer-events: none; will-change: transform; }
+.flyer .big-sticker { margin: -52px 0 0 -52px; }
+.ripple { position: fixed; left: 0; top: 0; width: 60px; height: 60px; margin: -30px; border-radius: 50%; border: 4px solid var(--c); pointer-events: none; z-index: 40; }
+.posed { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; white-space: nowrap; background: var(--ink); color: var(--bg); font-weight: 900; font-size: 17px; padding: 10px 14px; border-radius: 14px; }
+.posed small { display: block; font-size: 13px; opacity: .75; font-weight: 800; }
+
+/* La fiche d'un moment */
+.d-head { display: flex; gap: 16px; align-items: center; margin-top: 4px; }
+.d-head .big-sticker { width: 84px; height: 84px; font-size: 46px; flex: none; box-shadow: 0 0 0 5px var(--c), 0 10px 24px color-mix(in srgb, var(--c) 35%, transparent); }
+.d-kicker { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: var(--ink2); }
+.d-title { margin: 4px 0 0; font-size: 28px; line-height: 1.08; font-weight: 900; letter-spacing: -.025em; }
+.d-chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 4px; }
+.d-chips .chip.age { background: var(--c); color: var(--cink); }
+.d-note { margin: 14px 0 4px; font-size: 18px; font-weight: 700; line-height: 1.35; padding-left: 14px; border-left: 4px solid var(--c); }
+.d-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0 6px; }
+.act { height: 66px; border-radius: 20px; background: color-mix(in srgb, var(--ink) 6%, transparent); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-weight: 800; font-size: 13px; }
+.act .ic { font-size: 22px; line-height: 1; }
+.act.on { background: var(--c); color: var(--cink); }
+.act:active { transform: scale(.95); }
+.disc-ribbon { margin: 14px 0 0; padding: 12px 14px; border-radius: 16px; background: var(--ink); color: var(--bg); font-weight: 800; font-size: 15px; line-height: 1.3; transform: rotate(-1deg); }
+.disc-ribbon b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; opacity: .7; }
+.around-h { margin: 22px 0 8px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: var(--ink2); }
+.around { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: none; }
+.nb { flex: none; width: 112px; padding: 12px 10px; border-radius: 18px; background: color-mix(in srgb, var(--nc) 16%, var(--card)); text-align: left; }
+.nb .e { width: 40px; height: 40px; border-radius: 50%; background: var(--card); box-shadow: 0 0 0 2.5px var(--nc); display: grid; place-items: center; font-size: 21px; margin-bottom: 8px; }
+.nb .e .ini { font-weight: 900; color: var(--nc); }
+.nb b { display: block; font-size: 14px; font-weight: 800; line-height: 1.15; }
+.nb small { display: block; font-size: 12px; font-weight: 700; color: var(--ink2); margin-top: 3px; }
+.nb.hist { background: transparent; box-shadow: inset 0 0 0 2px var(--line); }
+.nb.hist b { font-weight: 700; font-style: italic; color: var(--ink2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pin.star .disc::before, .me .dot::after { animation: none; }
+}
+</style>
+</head>
+<body>
+<div id="map"><canvas></canvas><div id="pins"></div></div>
+<div class="hud">
+  <div class="where"><b class="y">1980</b><span class="a"></span></div>
+  <div class="sp"></div>
+  <button class="round" aria-label="Chercher"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
+  <button class="round" aria-label="Réglages"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+</div>
+<div class="edge" aria-label="Zoomer : glisse le doigt le long du bord"></div>
+<div class="glue"></div>
+<div class="zoomname"></div>
+<button class="add" aria-label="Poser un moment"><span class="plus">+</span>Un moment</button>
+<div class="scrim"></div>
+<section class="sheet" role="dialog" aria-modal="true"><div class="grip"></div><div class="sheet-body"></div></section>
+
+<script type="module">
+import { demoLife, landmarks, decade, SOBER, TODAY, BIRTH, parts, ts, fmt, fmtInYear, ageLabel, ageText, ago, weekday, cap, esc, initial, springs, tick, burst, velocityTracker, reduced, wait, parseMoment, decorate, suggestEmoji, EMOJI_CHOICES, neighbors, mix } from './common.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const life = demoLife();
+const LMS = landmarks();
+
+/* ---------- Le temps en coordonnées : t en années décimales ---------- */
+const tOf = (iso) => { const p = parts(iso); return p.y + (p.m + (p.d - 1) / 31) / 12; };
+const T_TODAY = tOf(TODAY);
+const T_BIRTH = tOf(BIRTH);
+const ageAtYear = (y) => y - parts(BIRTH).y;
+const momentT = (e) => tOf(e.startDate) + (e.startPrecision === 'year' ? 0.5 : e.startPrecision === 'month' ? 0.5 / 12 : 0);
+
+const canvas = $('canvas');
+const ctx = canvas.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+const cam = { ct: (T_TODAY + T_BIRTH) / 2, z: 15 };
+const Z_MAX = 1600;
+const zFit = () => (H - 210) / (T_TODAY - T_BIRTH + 1.2);
+const roadX = (t) => W * 0.34 + Math.sin(t * 0.72) * 34 + Math.sin(t * 0.21) * 16;
+const Y = (t) => H / 2 + (cam.ct - t) * cam.z;
+const T = (y) => cam.ct + (H / 2 - y) / cam.z;
+const dark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+
+function resize() {
+  DPR = Math.min(3, devicePixelRatio || 1);
+  W = innerWidth; H = innerHeight;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  draw();
+}
+
+/* ---------- Le fond : territoires des décennies, route, noms en filigrane ---------- */
+function bandColor(d) {
+  const c = decade(d).c;
+  return dark() ? mix('#101117', c, 0.26) : mix('#FFFFFF', c, 0.27);
+}
+function draw() {
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#F6F4EF';
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+  const tTop = T(0), tBot = T(H);
+  const z = cam.z;
+  const ink = dark() ? '244,242,238' : '21,20,26';
+
+  // Territoires : une bande par décennie, entre la naissance et aujourd'hui.
+  for (let d = Math.floor(T_BIRTH / 10) * 10; d <= T_TODAY; d += 10) {
+    const a = Math.max(d, T_BIRTH - 0.6), b = Math.min(d + 10, T_TODAY + 0.6);
+    if (b < tBot || a > tTop) continue;
+    ctx.fillStyle = bandColor(d);
+    ctx.fillRect(0, Y(b), W, Y(a) - Y(b));
+  }
+  // Grand nom de la décennie, collé dans le haut visible de son territoire.
+  for (let d = Math.floor(T_BIRTH / 10) * 10; d <= T_TODAY; d += 10) {
+    const a = Math.max(d, T_BIRTH - 0.6), b = Math.min(d + 10, T_TODAY + 0.6);
+    const yTop = Y(b), yBot = Y(a);
+    if (yBot < 0 || yTop > H) continue;
+    const size = Math.max(70, Math.min(150, (yBot - yTop) * 0.8));
+    const y = Math.min(Math.max(yTop + size * 0.9, 110 + size * 0.75), yBot - 12);
+    if (y < yTop + size * 0.6) continue;
+    ctx.save();
+    ctx.globalAlpha = dark() ? 0.55 : 0.45;
+    ctx.fillStyle = decade(d).c;
+    ctx.font = `900 ${size}px ui-rounded, system-ui`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`${String(d).slice(2)}`, W - 30, y);
+    ctx.font = `900 ${Math.round(size * 0.13)}px ui-rounded, system-ui`;
+    ctx.fillText('ANNÉES', W - 34, y - size * 0.74);
+    ctx.restore();
+  }
+
+  // Les repères publics : des noms de lieux en filigrane.
+  if (z > 26 && z < 1200) {
+    const alpha = Math.min(1, (z - 26) / 30) * Math.min(1, (1200 - z) / 300);
+    ctx.save();
+    ctx.globalAlpha = alpha * (dark() ? 0.5 : 0.42);
+    ctx.fillStyle = `rgb(${ink})`;
+    ctx.font = 'italic 700 11px ui-rounded, system-ui';
+    ctx.textAlign = 'left';
+    let lastY = -1e9;
+    const shown = LMS.filter((l) => { const t = tOf(l.date); return t < tTop + 0.5 && t > tBot - 0.5; }).sort((a, b) => ts(b.date) - ts(a.date));
+    for (const l of shown) {
+      const y = Y(tOf(l.date) + 0.04);
+      if (Math.abs(y - lastY) < 24) continue;
+      lastY = y;
+      const txt = l.title.toUpperCase().split('').join(String.fromCharCode(8202));
+      ctx.fillText(txt.length > 70 ? txt.slice(0, 68) + '…' : txt, roadX(tOf(l.date)) + 34, y + 30);
+    }
+    ctx.restore();
+  }
+
+  // La route du temps : un liseré clair et un cœur coloré qui change de décennie en décennie.
+  const y0 = Math.max(-20, Y(T_TODAY)), y1 = Math.min(H + 20, Y(T_BIRTH));
+  if (y1 > y0) {
+    const path = new Path2D();
+    for (let y = y0; y <= y1; y += 4) { const x = roadX(T(y)); y === y0 ? path.moveTo(x, y) : path.lineTo(x, y); }
+    path.lineTo(roadX(T(y1)), y1);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = dark() ? '#2A2B35' : '#FFFFFF';
+    ctx.lineWidth = 17;
+    ctx.stroke(path);
+    const g = ctx.createLinearGradient(0, Y(T_TODAY), 0, Y(T_BIRTH));
+    const span = T_TODAY - T_BIRTH;
+    for (let d = Math.floor(T_BIRTH / 10) * 10; d <= T_TODAY + 10; d += 10) {
+      const off = (T_TODAY - d) / span;
+      const blend = 0.7 / span;
+      if (off - blend >= 0 && off - blend <= 1) g.addColorStop(off - blend, decade(d).c);
+      if (off + blend >= 0 && off + blend <= 1) g.addColorStop(off + blend, decade(d - 10).c);
+    }
+    ctx.strokeStyle = g;
+    ctx.lineWidth = 8;
+    ctx.stroke(path);
+  }
+
+  // Les périodes : une voie parallèle à la route, de leur début à leur fin.
+  for (const e of life) {
+    if (!e.endDate) continue;
+    const a = tOf(e.startDate), b = tOf(e.endDate) + 1 / 12;
+    const ya = Y(a), yb = Y(b);
+    if (ya < 0 && yb < 0 || ya > H && yb > H) continue;
+    const p = new Path2D();
+    for (let y = Math.max(yb, -10); y <= Math.min(ya, H + 10); y += 4) { const x = roadX(T(y)) - 17; y <= Math.max(yb, -10) ? p.moveTo(x, y) : p.lineTo(x, y); }
+    ctx.strokeStyle = e.color.c;
+    ctx.globalAlpha = 0.7;
+    ctx.lineWidth = 6;
+    ctx.stroke(p);
+    ctx.globalAlpha = 1;
+  }
+
+  // Années et âges le long de la route.
+  const yearStep = z > 34 ? 1 : z > 12 ? 5 : 10;
+  for (let y = Math.ceil(tBot); y <= Math.min(tTop, T_TODAY); y++) {
+    if (y < Math.ceil(T_BIRTH) || y % yearStep) continue;
+    const yy = Y(y), x = roadX(y);
+    ctx.fillStyle = dark() ? '#101117' : '#FFFFFF';
+    ctx.beginPath(); ctx.arc(x, yy, 2.6, 0, 7); ctx.fill();
+    if (z < 34 && y % 10) continue;
+    ctx.fillStyle = `rgba(${ink},.85)`;
+    ctx.textAlign = 'right';
+    ctx.font = `900 ${z > 90 ? 17 : 13}px ui-rounded, system-ui`;
+    ctx.fillText(String(y), x - 18, yy + 5);
+    if (z > 70) {
+      ctx.fillStyle = `rgba(${ink},.5)`;
+      ctx.font = '800 12px ui-rounded, system-ui';
+      ctx.fillText(ageLabel(ageAtYear(y)), x - 18, yy + 20);
+    }
+  }
+}
+
+/* ---------- Les pastilles des moments, en DOM pour la netteté et le toucher ---------- */
+const pinsLayer = $('#pins');
+const discHtml = (e) => (e.emoji ? e.emoji : `<span class="ini">${esc(initial(e.title))}</span>`);
+const subOf = (e) => (e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : e.startPrecision === 'year' ? String(e.year) : fmt(e.startDate, e.startPrecision));
+function makePin(e) {
+  const el = document.createElement('button');
+  el.className = `pin${e.highlighted ? ' star' : ''}${e.sober ? ' sober' : ''}`;
+  el.dataset.id = e.id;
+  el.style.setProperty('--c', e.color.c);
+  el.setAttribute('aria-label', `${e.title}, ${subOf(e)}`);
+  el.innerHTML = `<span class="disc">${discHtml(e)}</span><span class="lbl"><b>${esc(e.title)}</b><small>${esc(subOf(e))}</small></span>`;
+  pinsLayer.append(el);
+  e.el = el;
+  e.disc = el.firstChild;
+}
+life.forEach(makePin);
+
+// Les années sans moment : une invitation discrète, visible de près.
+const filled = new Set(life.map((e) => e.year));
+const ghosts = [];
+for (let y = parts(BIRTH).y + 1; y < parts(TODAY).y; y++) {
+  if (filled.has(y)) continue;
+  const el = document.createElement('button');
+  el.className = 'ghost';
+  el.style.setProperty('--c', decade(y).c);
+  el.style.setProperty('--cink', decade(y).ink);
+  el.innerHTML = `<i>+</i>Et en ${y} ?`;
+  el.dataset.year = y;
+  pinsLayer.append(el);
+  ghosts.push({ y, el });
+}
+const me = document.createElement('div');
+me.className = 'me';
+me.style.setProperty('--c', decade(2020).c);
+me.innerHTML = `<span class="dot"></span><span class="tag">Toi, ${esc(ageText(TODAY, 'day').replace('tu avais ', ''))}</span>`;
+pinsLayer.append(me);
+
+function layout() {
+  const z = cam.z;
+  const s = Math.max(0.34, Math.min(1, (Math.log(z) - Math.log(14)) / (Math.log(120) - Math.log(14)) * 0.66 + 0.34));
+  const placed = [];
+  const order = [...life].sort((a, b) => (b.highlighted - a.highlighted) || (ts(b.startDate) - ts(a.startDate)));
+  for (const e of order) {
+    const t = momentT(e);
+    const y = Y(t), x = roadX(t);
+    const vis = y > -60 && y < H + 60;
+    e.el.style.visibility = vis ? '' : 'hidden';
+    if (!vis) continue;
+    e.sx = x; e.sy = y;
+    e.el.style.transform = `translate3d(${x}px,${y}px,0)`;
+    const k = e.highlighted ? Math.min(1.25, s * 1.25 + 0.1) : s;
+    e.disc.style.transform = `scale(${e._pop ?? k})`;
+    let show = z > 110 || (e.highlighted && z > 40);
+    if (show && placed.some((p) => Math.abs(p - y) < 40)) show = false;
+    if (show) placed.push(y);
+    e.el.classList.toggle('show-lbl', show);
+    e.el.style.zIndex = show ? 3 : e.highlighted ? 2 : 1;
+  }
+  for (const g of ghosts) {
+    const t = g.y + 0.5;
+    const y = Y(t);
+    const on = z > 170 && y > 40 && y < H - 40;
+    g.el.classList.toggle('on', on);
+    if (on) {
+      g.el.style.transform = `translate3d(${roadX(t)}px,${y}px,0)`;
+      requestAnimationFrame(() => g.el.classList.add('vis'));
+    } else g.el.classList.remove('vis');
+  }
+  me.style.transform = `translate3d(${roadX(T_TODAY)}px,${Y(T_TODAY)}px,0)`;
+  hud();
+}
+
+/* ---------- La tête : l'année au centre de l'écran, son âge, sa couleur ---------- */
+let lastHudYear = null;
+function hud() {
+  const t = Math.min(T_TODAY, Math.max(T_BIRTH, T(H * 0.45)));
+  const y = Math.floor(t);
+  const whole = cam.z <= zFit() * 1.15;
+  $('.where .y').textContent = whole ? `${parts(BIRTH).y} → ${parts(TODAY).y}` : y;
+  $('.where .a').textContent = whole ? 'ta vie' : ageLabel(ageAtYear(y));
+  const d = decade(whole ? 2020 : y);
+  $('.where').style.setProperty('--c', d.c);
+  const add = $('.add');
+  add.style.setProperty('--c', d.c);
+  add.style.setProperty('--cink', d.ink);
+  if (lastHudYear !== null && y !== lastHudYear && gesture.active && !whole) {
+    if (cam.z > 60 || Math.floor(y / 10) !== Math.floor(lastHudYear / 10)) tick();
+  }
+  lastHudYear = y;
+}
+
+function render() {
+  draw();
+  layout();
+}
+
+/* ---------- La caméra : glisser, lancer, pincer, rebondir aux bouts ---------- */
+function bounds() {
+  const half = (H / 2) / cam.z;
+  const pad = 130 / cam.z;
+  let min = T_BIRTH + half - pad - 60 / cam.z, max = T_TODAY - half + pad;
+  if (min > max) min = max = (T_BIRTH + T_TODAY) / 2 + 20 / cam.z;
+  return { min, max };
+}
+const clampZ = (z) => Math.min(Z_MAX, Math.max(zFit(), z));
+let camAnim = null;
+let momentum = 0;
+function stopAnims() {
+  camAnim?.stop();
+  camAnim = null;
+  cancelAnimationFrame(momentum);
+  momentum = 0;
+}
+function flyTo(next, opts = {}) {
+  stopAnims();
+  return new Promise((resolve) => {
+    const from = { ct: cam.ct, lz: Math.log(cam.z) };
+    camAnim = springs(from, (v) => { cam.ct = v.ct; cam.z = Math.exp(v.lz); render(); }, { k: opts.k ?? 120, c: opts.c ?? 22 });
+    camAnim.to({ ct: next.ct ?? cam.ct, lz: Math.log(clampZ(next.z ?? cam.z)) }, { done: resolve });
+  });
+}
+function settle() {
+  const { min, max } = bounds();
+  if (cam.ct < min || cam.ct > max) flyTo({ ct: Math.min(max, Math.max(min, cam.ct)) }, { k: 180, c: 26 });
+}
+function fling(v) {
+  stopAnims();
+  let last = performance.now();
+  const step = (now) => {
+    const dt = Math.min(0.032, (now - last) / 1000);
+    last = now;
+    const { min, max } = bounds();
+    cam.ct += v * dt;
+    v *= Math.exp(-2.2 * dt);
+    if (cam.ct < min || cam.ct > max) v *= Math.exp(-18 * dt);
+    render();
+    if (Math.abs(v * cam.z) > 12) momentum = requestAnimationFrame(step);
+    else { momentum = 0; settle(); }
+  };
+  momentum = requestAnimationFrame(step);
+}
+
+const map = $('#map');
+const gesture = { active: false, pts: new Map(), vt: velocityTracker(), moved: 0, startDist: 0, startZ: 0, startMid: 0, tMid: 0 };
+map.addEventListener('pointerdown', (e) => {
+  if (sheetOpen) return;
+  stopAnims();
+  map.setPointerCapture(e.pointerId);
+  gesture.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  gesture.active = true;
+  gesture.moved = 0;
+  gesture.vt.reset();
+  gesture.vt.add(0, e.clientY);
+  gesture.target = e.target.closest('.pin, .ghost');
+  if (gesture.pts.size === 2) {
+    const [a, b] = [...gesture.pts.values()];
+    gesture.startDist = Math.hypot(a.x - b.x, a.y - b.y);
+    gesture.startZ = cam.z;
+    gesture.startMid = (a.y + b.y) / 2;
+    gesture.tMid = T(gesture.startMid);
+    gesture.target = null;
+  }
+});
+map.addEventListener('pointermove', (e) => {
+  const p = gesture.pts.get(e.pointerId);
+  if (!p) return;
+  const dy = e.clientY - p.y;
+  p.x = e.clientX; p.y = e.clientY;
+  gesture.moved += Math.abs(dy);
+  if (gesture.pts.size === 2) {
+    const [a, b] = [...gesture.pts.values()];
+    const dist = Math.hypot(a.x - b.x, a.y - b.y);
+    const mid = (a.y + b.y) / 2;
+    cam.z = Math.min(Z_MAX * 1.3, Math.max(zFit() * 0.7, gesture.startZ * (dist / gesture.startDist)));
+    cam.ct = gesture.tMid - (H / 2 - mid) / cam.z;
+  } else {
+    const { min, max } = bounds();
+    const out = cam.ct < min || cam.ct > max;
+    cam.ct += (out ? dy * 0.35 : dy) / cam.z;
+    gesture.vt.add(0, e.clientY);
+  }
+  render();
+});
+function endPointer(e) {
+  if (!gesture.pts.has(e.pointerId)) return;
+  const wasPinch = gesture.pts.size === 2;
+  gesture.pts.delete(e.pointerId);
+  if (gesture.pts.size === 1) {
+    gesture.vt.reset();
+    return;
+  }
+  gesture.active = false;
+  if (wasPinch) {
+    const z = clampZ(cam.z);
+    if (z !== cam.z) flyTo({ z, ct: gesture.tMid - (H / 2 - gesture.startMid) / z }, { k: 200, c: 24 }).then(settle);
+    else settle();
+    return;
+  }
+  if (gesture.moved < 8) return tap(e, gesture.target);
+  const v = gesture.vt.get().y / cam.z;
+  fling(v);
+}
+map.addEventListener('pointerup', endPointer);
+map.addEventListener('pointercancel', endPointer);
+
+function tap(e, target) {
+  if (target?.classList.contains('pin')) return openDetail(life.find((x) => x.id === target.dataset.id));
+  if (target?.classList.contains('ghost')) { tick(); return openCapture({ year: Number(target.dataset.year) }); }
+  // Toucher la carte plonge vers ce point, comme sur une carte.
+  if (cam.z < Z_MAX * 0.4) {
+    tick();
+    const t = T(e.clientY);
+    const z = clampZ(cam.z * 3.2);
+    flyTo({ z, ct: t - (H / 2 - e.clientY) / z * 0.4 }, { k: 140, c: 22 }).then(settle);
+  }
+}
+
+/* ---------- Le zoom au bord : un doigt, des crans, une goutte qui suit ---------- */
+const edge = $('.edge'), glue = $('.glue'), zname = $('.zoomname');
+const glueS = springs({ s: 0, y: H / 2 }, (v) => { glue.style.transform = `translateY(${v.y}px) scaleX(${v.s})`; glue.style.top = '0px'; }, { k: 400, c: 26 });
+const zoomName = (z) => (z <= zFit() * 1.2 ? 'Ta vie entière' : z < 60 ? 'Les décennies' : z < 260 ? 'Les années' : 'Les mois');
+let edgeY = 0, edgeNotch = 0;
+edge.addEventListener('pointerdown', (e) => {
+  if (sheetOpen) return;
+  e.stopPropagation();
+  stopAnims();
+  edge.setPointerCapture(e.pointerId);
+  edgeY = e.clientY;
+  edgeNotch = Math.round(Math.log(cam.z) / 0.16);
+  glueS.set({ y: e.clientY }).to({ s: 0.55 });
+  zname.textContent = zoomName(cam.z);
+  zname.style.top = `${e.clientY}px`;
+  zname.classList.add('on');
+  gesture.active = true;
+  tick();
+});
+edge.addEventListener('pointermove', (e) => {
+  if (!edge.hasPointerCapture(e.pointerId)) return;
+  const dy = e.clientY - edgeY;
+  edgeY = e.clientY;
+  cam.z = clampZ(cam.z * Math.exp(-dy * 0.014));
+  const n = Math.round(Math.log(cam.z) / 0.16);
+  if (n !== edgeNotch) { edgeNotch = n; tick(); }
+  glueS.to({ y: e.clientY, s: 0.55 + Math.min(0.45, Math.abs(dy) * 0.04) });
+  zname.textContent = zoomName(cam.z);
+  zname.style.top = `${e.clientY}px`;
+  const { min, max } = bounds();
+  cam.ct = Math.min(max, Math.max(min, cam.ct));
+  render();
+});
+const edgeEnd = () => { glueS.to({ s: 0 }); zname.classList.remove('on'); gesture.active = false; settle(); };
+edge.addEventListener('pointerup', edgeEnd);
+edge.addEventListener('pointercancel', edgeEnd);
+
+/* ---------- La feuille du bas, avec son ressort et son glisser pour fermer ---------- */
+const sheet = $('.sheet'), body = $('.sheet-body'), scrim = $('.scrim');
+let sheetOpen = false;
+const sheetS = springs({ y: 1 }, (v) => { sheet.style.transform = `translateY(${v.y * 110}%)`; }, { k: 300, c: 30 });
+function openSheet(html, mount) {
+  body.innerHTML = html;
+  sheet.scrollTop = 0;
+  sheetOpen = true;
+  scrim.classList.add('on');
+  sheetS.to({ y: 0 }, { k: 320, c: 28 });
+  mount?.(body);
+}
+function closeSheet() {
+  if (!sheetOpen) return;
+  sheetOpen = false;
+  scrim.classList.remove('on');
+  document.activeElement?.blur?.();
+  sheetS.to({ y: 1 }, { k: 260, c: 30 });
+}
+scrim.addEventListener('click', closeSheet);
+{
+  let y0 = null, vt = velocityTracker(), dragging = false;
+  sheet.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('input, .chip.scrub, .around, .emojis') || sheet.scrollTop > 0) return;
+    y0 = e.clientY; vt.reset(); dragging = false;
+  });
+  sheet.addEventListener('pointermove', (e) => {
+    if (y0 == null) return;
+    const dy = e.clientY - y0;
+    if (!dragging && dy > 8) { dragging = true; sheetS.stop(); }
+    if (!dragging) return;
+    vt.add(0, e.clientY);
+    const h = sheet.offsetHeight;
+    sheetS.set({ y: Math.max(-0.02, dy / h) / 1.1 });
+  });
+  const up = () => {
+    if (y0 == null) return;
+    y0 = null;
+    if (!dragging) return;
+    const v = vt.get().y;
+    if (sheetS.val.y > 0.25 || v > 700) closeSheet();
+    else sheetS.to({ y: 0 }, { k: 320, c: 26 });
+  };
+  sheet.addEventListener('pointerup', up);
+  sheet.addEventListener('pointercancel', up);
+}
+
+/* ---------- Poser un moment : il se forme pendant qu'on tape, puis s'envole ---------- */
+const DAY = 86400000;
+function shift(date, precision, n) {
+  const p = parts(date);
+  if (precision === 'year') return String(p.y + n);
+  if (precision === 'month') { const m = p.y * 12 + p.m + n; return `${Math.floor(m / 12)}-${String((m % 12) + 1).padStart(2, '0')}`; }
+  const d = new Date(Date.UTC(p.y, p.m, p.d) + n * DAY);
+  return d.toISOString().slice(0, 10);
+}
+function openCapture({ year } = {}) {
+  const st = { text: '', override: year ? { startDate: String(year), startPrecision: 'year' } : null, emoji: undefined, pickOpen: false };
+  const html = `
+    <div class="cap-stage">
+      <div class="big-sticker empty" data-sticker><span class="ini"></span></div>
+      <div class="cap-title"><span class="ph">Ton moment</span></div>
+      <div class="when-row"></div>
+    </div>
+    <div class="emojis" hidden></div>
+    <input class="field" placeholder="Raconte : Japon avec Camille avril 2010" enterkeyhint="done" autocomplete="off" autocapitalize="sentences">
+    <button class="go" disabled>Poser sur ma vie</button>`;
+  openSheet(html, (b) => {
+    const input = $('.field', b), sticker = $('[data-sticker]', b), title = $('.cap-title', b), row = $('.when-row', b), go = $('.go', b), picker = $('.emojis', b);
+    const stS = springs({ s: 1, r: 0 }, (v) => { sticker.style.transform = `scale(${v.s}) rotate(${v.r}deg)`; }, { k: 420, c: 16 });
+    let lastEmoji = null, lastColor = null;
+    const eff = () => {
+      const p = parseMoment(st.text, { today: TODAY, birth: BIRTH });
+      if (!p && !st.override) return null;
+      const base = p ?? { title: '', guessed: true, startDate: TODAY, startPrecision: 'day' };
+      const dated = st.override && (base.guessed || st.overrideFor === base.startDate) ? { ...base, ...st.override, guessed: false } : base;
+      return decorate({ ...dated, emoji: st.emoji !== undefined ? st.emoji : suggestEmoji(dated.title) });
+    };
+    function paint() {
+      const e = eff();
+      const c = e ? e.color : decade(year ?? 2020);
+      b.style.setProperty('--c', c.c);
+      b.style.setProperty('--cink', c.ink);
+      go.disabled = !e || !e.title;
+      if (!e || !e.title) {
+        title.innerHTML = '<span class="ph">Ton moment</span>';
+        sticker.classList.add('empty');
+        sticker.innerHTML = '<span class="ini"></span>';
+        row.innerHTML = year ? `<span class="chip scrub" data-scrub>${year}</span><span class="chip">${esc(ageText(String(year), 'year'))}</span>` : '<span class="chip ghosty">La date se lit dans ta phrase</span>';
+        lastEmoji = null;
+        return;
+      }
+      sticker.classList.remove('empty');
+      title.textContent = e.title;
+      const face = e.emoji ?? `<span class="ini">${esc(initial(e.title))}</span>`;
+      if (face !== lastEmoji) {
+        sticker.innerHTML = face;
+        if (lastEmoji !== null || e.emoji) stS.set({ s: 0.6, r: -12 }).to({ s: 1, r: 0 });
+        lastEmoji = face;
+      }
+      if (lastColor && lastColor !== e.color.c) stS.set({ s: 1.12 }).to({ s: 1 });
+      lastColor = e.color.c;
+      const whenTxt = e.guessed ? 'Aujourd’hui ?' : e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : fmt(e.startDate, e.startPrecision);
+      const age = ageText(e.startDate, e.startPrecision);
+      row.innerHTML = `<span class="chip scrub" data-scrub aria-label="Glisse pour changer la date">${esc(whenTxt)}</span>${age && !e.guessed ? `<span class="chip">${esc(age)}</span>` : ''}`;
+      if (st.pickOpen) {
+        const sugg = suggestEmoji(e.title);
+        const list = [...new Set([sugg, ...EMOJI_CHOICES].filter(Boolean))];
+        picker.innerHTML = `<button data-emo="" aria-label="Sans émoji" aria-pressed="${e.emoji == null}"><span style="font-weight:900;font-size:19px">${esc(initial(e.title))}</span></button>${list.map((x) => `<button data-emo="${x}" aria-pressed="${x === e.emoji}">${x}</button>`).join('')}`;
+      }
+    }
+    input.addEventListener('input', () => { st.text = input.value; paint(); });
+    input.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); if (!go.disabled) go.click(); } });
+    sticker.addEventListener('click', () => {
+      if (sticker.classList.contains('empty')) return;
+      st.pickOpen = !st.pickOpen;
+      picker.hidden = !st.pickOpen;
+      tick();
+      stS.set({ s: 0.85 }).to({ s: 1 });
+      paint();
+    });
+    picker.addEventListener('click', (ev) => {
+      const t = ev.target.closest('[data-emo]');
+      if (!t) return;
+      st.emoji = t.dataset.emo || null;
+      paint();
+    });
+    // La date se corrige au doigt : glisser la pastille d'un cran par cran.
+    let sx = null, acc = 0;
+    row.addEventListener('pointerdown', (ev) => {
+      if (!ev.target.closest('[data-scrub]')) return;
+      const e = eff();
+      if (!e && !year) return;
+      sx = ev.clientX; acc = 0;
+      ev.target.setPointerCapture(ev.pointerId);
+    });
+    row.addEventListener('pointermove', (ev) => {
+      if (sx == null) return;
+      acc += ev.clientX - sx; sx = ev.clientX;
+      const stepPx = 26;
+      while (Math.abs(acc) >= stepPx) {
+        const dir = acc > 0 ? 1 : -1;
+        acc -= dir * stepPx;
+        const e = eff() ?? { startDate: String(year), startPrecision: 'year' };
+        const next = shift(e.startDate, e.startPrecision, dir);
+        if (next > TODAY.slice(0, next.length) || next < BIRTH.slice(0, next.length)) continue;
+        const p = parseMoment(st.text, { today: TODAY, birth: BIRTH });
+        st.override = { startDate: next, startPrecision: e.startPrecision, endDate: null, endPrecision: null };
+        st.overrideFor = p?.startDate;
+        tick();
+        paint();
+      }
+    });
+    row.addEventListener('pointerup', () => { sx = null; });
+    go.addEventListener('click', () => {
+      const e = eff();
+      if (!e?.title) return;
+      place(e, sticker);
+    });
+    paint();
+    input.focus({ preventScroll: true });
+  });
+}
+
+async function place(e, sticker) {
+  const r = sticker.getBoundingClientRect();
+  const flyer = document.createElement('div');
+  flyer.className = 'flyer';
+  flyer.style.setProperty('--c', e.color.c);
+  flyer.innerHTML = `<div class="big-sticker">${e.emoji ?? `<span class="ini">${esc(initial(e.title))}</span>`}</div>`;
+  document.body.append(flyer);
+  const start = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  const fl = springs({ x: start.x, y: start.y, s: 1, r: 0 }, (v) => { flyer.style.transform = `translate3d(${v.x}px,${v.y}px,0) scale(${v.s}) rotate(${v.r}deg)`; }, { k: 140, c: 18 });
+  sticker.style.visibility = 'hidden';
+  tick();
+  closeSheet();
+  fl.to({ y: H * 0.42, x: W / 2, s: 0.8, r: -8 });
+  // Le moment rejoint la vie : la carte prend de la hauteur, survole, puis plonge.
+  e.id = `new${Date.now()}`;
+  life.push(e);
+  makePin(e);
+  e._pop = 0;
+  const t = momentT(e);
+  await flyTo({ z: zFit() * 1.05, ct: (T_BIRTH + T_TODAY) / 2 }, { k: 90, c: 20 });
+  await wait(60);
+  const zt = 300;
+  await flyTo({ z: zt, ct: t - (H / 2 - H * 0.42) / zt }, { k: 70, c: 17 });
+  const target = { x: roadX(t), y: Y(t) };
+  await new Promise((res) => fl.to({ x: target.x, y: target.y, s: 0.48, r: 0 }, { k: 200, c: 22, done: res }));
+  flyer.remove();
+  // Atterrissage : un rebond, une onde, un tic. Sobre si le moment l'appelle.
+  const popS = springs({ s: 0.48 }, (v) => { e._pop = v.s; e.disc.style.transform = `scale(${v.s})`; }, { k: e.sober ? 300 : 380, c: e.sober ? 30 : 11 });
+  popS.set({ s: e.sober ? 0.8 : 1.35 }).to({ s: 1, done: () => { e._pop = undefined; layout(); } });
+  tick(true);
+  const ring = document.createElement('div');
+  ring.className = 'ripple';
+  ring.style.setProperty('--c', e.color.c);
+  document.body.append(ring);
+  ring.animate([{ transform: `translate(${target.x}px,${target.y}px) scale(.6)`, opacity: 1 }, { transform: `translate(${target.x}px,${target.y}px) scale(3.4)`, opacity: 0 }], { duration: reduced() ? 1 : 700, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => ring.remove();
+  if (!e.sober) burst(target.x, target.y, e.color.c, { n: 12, spread: 70 });
+  const tag = document.createElement('div');
+  tag.className = 'posed';
+  const age = ageText(e.startDate, e.startPrecision);
+  tag.innerHTML = `${e.sober ? 'Posé.' : 'Posé !'}<small>${esc(cap(fmt(e.startDate, e.startPrecision)))}${age ? ` · ${esc(age)}` : ''}</small>`;
+  document.body.append(tag);
+  tag.animate([
+    { transform: `translate(${target.x - 20}px,${target.y - 110}px) rotate(-6deg) scale(.6)`, opacity: 0 },
+    { transform: `translate(${target.x - 20}px,${target.y - 96}px) rotate(-3deg) scale(1.05)`, opacity: 1, offset: 0.15 },
+    { transform: `translate(${target.x - 20}px,${target.y - 96}px) rotate(-3deg) scale(1)`, opacity: 1, offset: 0.85 },
+    { transform: `translate(${target.x - 20}px,${target.y - 104}px) rotate(-3deg) scale(.95)`, opacity: 0 },
+  ], { duration: reduced() ? 1600 : 2200, easing: 'ease-out' }).onfinish = () => tag.remove();
+  layout();
+}
+
+/* ---------- La fiche : la carte plonge sur le moment, la fiche monte ---------- */
+async function openDetail(e) {
+  tick();
+  const t = momentT(e);
+  const z = Math.max(cam.z, 420);
+  flyTo({ z, ct: t - (H / 2 - H * 0.2) / z }, { k: 160, c: 24 });
+  const age = ageText(e.startDate, e.startPrecision);
+  const kicker = e.endDate ? `${fmt(e.startDate, e.startPrecision)} → ${fmt(e.endDate, e.endPrecision)}` : e.startPrecision === 'day' ? `${weekday(e.startDate)} ${fmt(e.startDate)}` : fmt(e.startDate, e.startPrecision);
+  const { groups, discovery } = neighbors(e, life, LMS);
+  const items = groups.flatMap((g) => g.items.map((it) => ({ ...it, label: g.label }))).slice(0, 10);
+  const html = `
+    <div class="d-head">
+      <div class="big-sticker" style="--c:${e.color.c}">${e.emoji ?? `<span class="ini">${esc(initial(e.title))}</span>`}</div>
+      <div><div class="d-kicker">${esc(kicker)}</div><h2 class="d-title">${esc(e.title)}</h2></div>
+    </div>
+    <div class="d-chips">
+      <span class="chip">${esc(e.endDate ? 'période' : ago(e.startDate, TODAY))}</span>
+      ${age ? `<span class="chip age">${esc(age)}</span>` : ''}
+      ${e.place ? `<span class="chip">📍 ${esc(e.place)}</span>` : ''}
+    </div>
+    ${e.note ? `<p class="d-note">${esc(e.note)}</p>` : ''}
+    <div class="d-actions">
+      <button class="act${e.highlighted ? ' on' : ''}" data-d="star"><span class="ic">★</span>Temps fort</button>
+      <button class="act" data-d="send"><span class="ic">↗</span>Envoyer</button>
+      <button class="act" data-d="edit"><span class="ic">✎</span>Modifier</button>
+    </div>
+    ${discovery ? `<div class="disc-ribbon"><b>Découverte</b>${discovery.closeness === 'day' ? 'Le même jour' : 'La même semaine'} : ${esc(discovery.title)}</div>` : ''}
+    ${items.length ? `<div class="around-h">Autour de ce moment</div><div class="around">${items.map((it) => it.kind === 'event'
+      ? `<button class="nb" style="--nc:${it.event.color.c}" data-open="${it.event.id}"><span class="e">${it.event.emoji ?? `<span class="ini">${esc(initial(it.title))}</span>`}</span><b>${esc(it.title)}</b><small>${esc(it.label.toLowerCase())}</small></button>`
+      : `<div class="nb hist"><b>${esc(it.title)}</b><small>${esc(it.label.toLowerCase())}</small></div>`).join('')}</div>` : ''}`;
+  openSheet(html, (b) => {
+    b.style.setProperty('--c', e.color.c);
+    b.style.setProperty('--cink', e.color.ink);
+    const big = $('.big-sticker', b);
+    springs({ s: 0.4, r: -20 }, (v) => { big.style.transform = `scale(${v.s}) rotate(${v.r}deg)`; }, { k: 300, c: 14 }).to({ s: 1, r: 0 });
+    b.addEventListener('click', (ev) => {
+      const o = ev.target.closest('[data-open]');
+      if (o) return openDetail(life.find((x) => x.id === o.dataset.open));
+      const a = ev.target.closest('[data-d]');
+      if (a?.dataset.d === 'star') {
+        e.highlighted = !e.highlighted;
+        a.classList.toggle('on', e.highlighted);
+        e.el.classList.toggle('star', e.highlighted);
+        tick(e.highlighted);
+        if (e.highlighted) {
+          const r = a.getBoundingClientRect();
+          if (!e.sober) burst(r.left + r.width / 2, r.top + r.height / 2, e.color.c, { n: 16, spread: 80 });
+          springs({ s: 1.3 }, (v) => { a.style.transform = `scale(${v.s})`; }, { k: 400, c: 12 }).to({ s: 1 });
+        }
+        layout();
+      }
+    });
+  });
+}
+
+/* ---------- Démarrage : on part d'aujourd'hui, puis la vie entière se dévoile ---------- */
+addEventListener('resize', () => { resize(); layout(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+$('.add').addEventListener('click', () => { tick(); openCapture(); });
+resize();
+cam.z = 520;
+cam.ct = T_TODAY - (H / 2 - H * 0.3) / 520;
+render();
+const params = new URLSearchParams(location.search);
+if (params.get('z')) {
+  // Pour les captures : un niveau de zoom et une année donnés.
+  cam.z = Number(params.get('z'));
+  cam.ct = Number(params.get('t') ?? (T_TODAY + T_BIRTH) / 2);
+  render();
+} else {
+  setTimeout(() => flyTo({ z: zFit(), ct: (T_BIRTH + T_TODAY) / 2 + 20 / zFit() }, { k: 60, c: 15 }), 500);
+}
+window.__survol = { openCapture, openDetail: (i) => openDetail(life[i]), life, cam, render, flyTo };
+</script>
+</body>
+</html>
