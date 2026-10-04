@@ -1,0 +1,17 @@
+{
+  "name": "Milestone",
+  "short_name": "Milestone",
+  "description": "Ta vie sur un fil, à côté de l’Histoire.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F3EDE3",
+  "theme_color": "#F3EDE3",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

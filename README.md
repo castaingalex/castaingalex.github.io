@@ -16,15 +16,16 @@ GitHub Pages sert le résultat.
 | `carte-pdf/` | démo publiée de l'outil de carte PDF, **liée depuis la page d'accueil** |
 | `portrait-eco/` | démo du portrait économique, publiée mais **non liée** |
 | `portrait-finances/` | démo de la rétrospective financière, **liée depuis la fiche 02** |
+| `milestone/` | Milestone, frise de vie personnelle en app web, publiée mais **non liée** |
 
-La démo non liée est atteignable par URL directe. Elle est publiée volontairement,
-sans être exposée depuis l'accueil.
+Les démos non liées sont atteignables par URL directe. Elles sont publiées volontairement,
+sans être exposées depuis l'accueil.
 
 ## D'où viennent les démos
 
 Elles sont **construites ailleurs** et déposées ici pour publication. Leur source vit dans
-`coban_products` (`app_portrait_eco`, `app_retro_financiere`) et `coban_processing`
-(`tool_carte_pdf`). Ne jamais corriger une démo ici : la correction se fait dans son sous-projet
+`coban_products` (`app_portrait_eco`, `app_retro_financiere`), `coban_processing`
+(`tool_carte_pdf`) et `experiments` (`milestone`). Ne jamais corriger une démo ici : la correction se fait dans son sous-projet
 d'origine, puis on redépose.
 
 ## Avant de pousser

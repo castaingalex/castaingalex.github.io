@@ -1,0 +1,107 @@
+// Catalogue des repères publics, de 1960 à aujourd'hui : la béquille de mémoire.
+// On ne retient pas les dates de sa vie, on retient les liens (« l'année de la
+// Coupe du monde »). Ces repères servent à situer et retrouver ses propres
+// moments, jamais à remplir la frise : ils restent en marge, en gris.
+//
+// `pack` décide de l'affichage : `main` est toujours actif, les autres
+// s'activent selon les goûts. Règle d'entrée dans `main` : « où étais-tu ce
+// jour-là ? », pour un événement universel ou national français. En cas de
+// doute, un repère va dans un pack. Date : 'AAAA-MM-JJ', 'AAAA-MM' ou 'AAAA'.
+
+export const PACKS = [
+  { id: 'main', label: 'Grands repères', description: 'Ceux que tout le monde a en tête. Toujours affichés.', defaultOn: true, locked: true },
+  { id: 'actu', label: 'Actu et politique', description: 'Élections, disparitions, grands moments de l’actualité.', defaultOn: true },
+  { id: 'sport', label: 'Sport', description: 'Coupes du monde, Jeux olympiques, moments cultes.', defaultOn: false },
+  { id: 'tech', label: 'Tech', description: 'Les lancements qui ont changé le quotidien.', defaultOn: false },
+  { id: 'culture', label: 'Culture', description: 'Cinéma, musique, disparitions marquantes.', defaultOn: false },
+];
+
+export const LANDMARKS = [
+  // main
+  { id: 'lune-1969', title: "Premier pas de l'Homme sur la Lune", date: '1969-07-21', pack: 'main' },
+  { id: 'de-gaulle-1970', title: 'Mort du général de Gaulle', date: '1970-11-09', pack: 'main' },
+  { id: 'choc-petrolier-1973', title: 'Premier choc pétrolier', date: '1973-10', pack: 'main' },
+  { id: 'loi-veil-1975', title: "Loi Veil (légalisation de l'IVG)", date: '1975-01-17', pack: 'main' },
+  { id: 'mitterrand-1981', title: 'Élection de François Mitterrand', date: '1981-05-10', pack: 'main' },
+  { id: 'abolition-peine-mort-1981', title: 'Abolition de la peine de mort', date: '1981-10-09', pack: 'main' },
+  { id: 'tchernobyl-1986', title: 'Catastrophe nucléaire de Tchernobyl', date: '1986-04-26', pack: 'main' },
+  { id: 'coluche-1986', title: 'Mort de Coluche', date: '1986-06-19', pack: 'main' },
+  { id: 'mur-berlin-1989', title: 'Chute du mur de Berlin', date: '1989-11-09', pack: 'main' },
+  { id: 'guerre-golfe-1991', title: 'Guerre du Golfe', date: '1991-01-17', pack: 'main' },
+  { id: 'attentats-rer-1995', title: 'Vague d’attentats du RER à Paris', date: '1995-07-25', pack: 'main' },
+  { id: 'mort-mitterrand-1996', title: 'Mort de François Mitterrand', date: '1996-01-08', pack: 'main' },
+  { id: '11-septembre-2001', title: 'Attentats du 11-Septembre', date: '2001-09-11', pack: 'main' },
+  { id: 'euro-2002', title: "Passage à l'euro (pièces et billets)", date: '2002-01-01', pack: 'main' },
+  { id: 'canicule-2003', title: 'Canicule de 2003', date: '2003-08', pack: 'main' },
+  { id: 'tsunami-2004', title: "Tsunami de l'océan Indien", date: '2004-12-26', pack: 'main' },
+  { id: 'fukushima-2011', title: 'Catastrophe nucléaire de Fukushima', date: '2011-03-11', pack: 'main' },
+  { id: 'charlie-hebdo-2015', title: 'Attentat contre Charlie Hebdo', date: '2015-01-07', pack: 'main' },
+  { id: 'paris-13-novembre-2015', title: 'Attentats du 13-Novembre à Paris', date: '2015-11-13', pack: 'main' },
+  { id: 'nice-2016', title: 'Attentat de Nice', date: '2016-07-14', pack: 'main' },
+  { id: 'gilets-jaunes-2018', title: 'Début du mouvement des Gilets jaunes', date: '2018-11-17', pack: 'main' },
+  { id: 'notre-dame-2019', title: 'Incendie de Notre-Dame de Paris', date: '2019-04-15', pack: 'main' },
+  { id: 'confinement-2020', title: 'Premier confinement en France (Covid-19)', date: '2020-03-17', pack: 'main' },
+  { id: 'ukraine-2022', title: "Invasion de l'Ukraine par la Russie", date: '2022-02-24', pack: 'main' },
+  // actu
+  { id: 'mai-68', title: 'Mai 68', date: '1968-05', pack: 'actu' },
+  { id: 'mitterrand-1988', title: 'Réélection de François Mitterrand', date: '1988-05-08', pack: 'actu' },
+  { id: 'urss-1991', title: "Dissolution de l'URSS", date: '1991-12-26', pack: 'actu' },
+  { id: 'chirac-1995', title: 'Élection de Jacques Chirac', date: '1995-05-07', pack: 'actu' },
+  { id: 'diana-1997', title: 'Mort de Lady Diana', date: '1997-08-31', pack: 'actu' },
+  { id: '21-avril-2002', title: 'Jean-Marie Le Pen au second tour (21 avril)', date: '2002-04-21', pack: 'actu' },
+  { id: 'guerre-irak-2003', title: 'Guerre en Irak (invasion)', date: '2003-03-20', pack: 'actu' },
+  { id: 'attentats-madrid-2004', title: 'Attentats de Madrid', date: '2004-03-11', pack: 'actu' },
+  { id: 'jean-paul-ii-2005', title: 'Mort du pape Jean-Paul II', date: '2005-04-02', pack: 'actu' },
+  { id: 'referendum-ue-2005', title: '« Non » au référendum sur la Constitution européenne', date: '2005-05-29', pack: 'actu' },
+  { id: 'attentats-londres-2005', title: 'Attentats de Londres', date: '2005-07-07', pack: 'actu' },
+  { id: 'sarkozy-2007', title: 'Élection de Nicolas Sarkozy', date: '2007-05-06', pack: 'actu' },
+  { id: 'crise-2008', title: 'Crise financière (faillite de Lehman Brothers)', date: '2008-09-15', pack: 'actu' },
+  { id: 'obama-2008', title: 'Élection de Barack Obama', date: '2008-11-04', pack: 'actu' },
+  { id: 'seisme-haiti-2010', title: 'Séisme en Haïti', date: '2010-01-12', pack: 'actu' },
+  { id: 'printemps-arabe-2011', title: 'Printemps arabe', date: '2011', pack: 'actu' },
+  { id: 'ben-laden-2011', title: 'Mort de Ben Laden', date: '2011-05-02', pack: 'actu' },
+  { id: 'hollande-2012', title: 'Élection de François Hollande', date: '2012-05-06', pack: 'actu' },
+  { id: 'cop21-2015', title: 'Accord de Paris sur le climat (COP21)', date: '2015-12-12', pack: 'actu' },
+  { id: 'brexit-2016', title: 'Référendum sur le Brexit', date: '2016-06-23', pack: 'actu' },
+  { id: 'trump-2016', title: 'Élection de Donald Trump', date: '2016-11-08', pack: 'actu' },
+  { id: 'macron-2017', title: "Élection d'Emmanuel Macron", date: '2017-05-07', pack: 'actu' },
+  { id: 'capitole-2021', title: 'Assaut du Capitole', date: '2021-01-06', pack: 'actu' },
+  { id: 'kaboul-2021', title: 'Chute de Kaboul (retour des talibans)', date: '2021-08-15', pack: 'actu' },
+  { id: 'macron-2022', title: "Réélection d'Emmanuel Macron", date: '2022-04-24', pack: 'actu' },
+  { id: 'elizabeth-ii-2022', title: 'Mort de la reine Elizabeth II', date: '2022-09-08', pack: 'actu' },
+  { id: 'seisme-turquie-2023', title: 'Séisme en Turquie et en Syrie', date: '2023-02-06', pack: 'actu' },
+  { id: 'israel-hamas-2023', title: 'Guerre Israël-Hamas (7-Octobre)', date: '2023-10-07', pack: 'actu' },
+  { id: 'trump-2024', title: 'Réélection de Donald Trump', date: '2024-11-05', pack: 'actu' },
+  { id: 'pape-francois-2025', title: 'Mort du pape François', date: '2025-04-21', pack: 'actu' },
+  // sport
+  { id: 'cdm-1986', title: 'Coupe du monde de football 1986 (Maradona)', date: '1986-06-29', pack: 'sport' },
+  { id: 'jo-barcelone-1992', title: 'Jeux Olympiques de Barcelone', date: '1992-07-25', pack: 'sport' },
+  { id: 'cdm-1998', title: 'La France championne du monde de football', date: '1998-07-12', pack: 'sport' },
+  { id: 'zidane-2006', title: 'Coup de boule de Zidane en finale de la Coupe du monde', date: '2006-07-09', pack: 'sport' },
+  { id: 'rugby-2007', title: 'Coupe du monde de rugby en France', date: '2007-09-07', pack: 'sport' },
+  { id: 'cdm-2018', title: 'La France de nouveau championne du monde de football', date: '2018-07-15', pack: 'sport' },
+  { id: 'cdm-2022', title: 'Coupe du monde de football 2022 (Argentine, Messi)', date: '2022-12-18', pack: 'sport' },
+  { id: 'rugby-2023', title: 'Coupe du monde de rugby en France', date: '2023-09-08', pack: 'sport' },
+  { id: 'jo-paris-2024', title: 'Jeux Olympiques de Paris', date: '2024-07-26', pack: 'sport' },
+  // tech
+  { id: 'windows-95', title: 'Sortie de Windows 95', date: '1995-08-24', pack: 'tech' },
+  { id: 'google-1998', title: 'Fondation de Google', date: '1998-09-04', pack: 'tech' },
+  { id: 'wikipedia-2001', title: 'Lancement de Wikipédia', date: '2001-01-15', pack: 'tech' },
+  { id: 'facebook-2004', title: 'Création de Facebook', date: '2004-02-04', pack: 'tech' },
+  { id: 'youtube-2005', title: 'Lancement de YouTube', date: '2005-02', pack: 'tech' },
+  { id: 'iphone-2007', title: 'Sortie du premier iPhone', date: '2007-06-29', pack: 'tech' },
+  { id: 'bitcoin-2009', title: 'Premier bloc de Bitcoin', date: '2009-01-03', pack: 'tech' },
+  { id: 'ipad-2010', title: "Sortie de l'iPad", date: '2010-04-03', pack: 'tech' },
+  { id: 'chatgpt-2022', title: 'Lancement de ChatGPT', date: '2022-11-30', pack: 'tech' },
+  // culture
+  { id: 'woodstock-1969', title: 'Festival de Woodstock', date: '1969-08-15', pack: 'culture' },
+  { id: 'star-wars-1977', title: 'Sortie de Star Wars', date: '1977-05-25', pack: 'culture' },
+  { id: 'elvis-1977', title: "Mort d'Elvis Presley", date: '1977-08-16', pack: 'culture' },
+  { id: 'lennon-1980', title: 'Mort de John Lennon', date: '1980-12-08', pack: 'culture' },
+  { id: 'titanic-1997', title: 'Sortie du film Titanic', date: '1997-12', pack: 'culture' },
+  { id: 'michael-jackson-2009', title: 'Mort de Michael Jackson', date: '2009-06-25', pack: 'culture' },
+  { id: 'william-kate-2011', title: 'Mariage du prince William et de Kate Middleton', date: '2011-04-29', pack: 'culture' },
+  { id: 'bowie-2016', title: 'Mort de David Bowie', date: '2016-01-10', pack: 'culture' },
+  { id: 'prince-2016', title: 'Mort de Prince', date: '2016-04-21', pack: 'culture' },
+  { id: 'johnny-2017', title: 'Mort de Johnny Hallyday', date: '2017-12-05', pack: 'culture' },
+];

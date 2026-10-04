@@ -19,14 +19,16 @@ d'agent ou de service interne. Le doute vaut refus.
   (`assets/video/`, lecteur natif du navigateur, sans YouTube ; sources du montage hors dépôt).
   Contenu en français.
 - **`v1/`** est l'ancien portfolio, gardé en archive et atteignable par URL directe. Ne plus y toucher.
-- **`carte-pdf/`, `portrait-eco/`, `portrait-finances/`** sont des **démos déposées**, pas du code
-  source. Ne jamais y corriger quoi que ce soit : la source vit dans `coban_products`
-  (`app_portrait_eco`, `app_retro_financiere`) et `coban_processing` (`tool_carte_pdf`). On corrige
-  là-bas, puis on redépose ici.
+- **`carte-pdf/`, `portrait-eco/`, `portrait-finances/`, `milestone/`** sont des **démos déposées**,
+  pas du code source. Ne jamais y corriger quoi que ce soit : la source vit dans `coban_products`
+  (`app_portrait_eco`, `app_retro_financiere`), `coban_processing` (`tool_carte_pdf`) et
+  `experiments` (`milestone`, commande de dépôt dans son README). On corrige là-bas, puis on
+  redépose ici.
 
 `carte-pdf` est liée depuis la fiche 05, `portrait-finances` depuis la fiche 02 (étape 1 « Rétrospective », avant le Sankey en étape 2,
-étape 2 et textes de la fiche regroupés sur un fond commun). `portrait-eco` est publiée et atteignable
-par URL directe, sans être exposée : ne pas ajouter de lien vers elle sans demande explicite.
+étape 2 et textes de la fiche regroupés sur un fond commun). `portrait-eco` et `milestone` sont
+publiées et atteignables par URL directe, sans être exposées : ne pas ajouter de lien vers elles
+sans demande explicite. `milestone` porte en plus `noindex`.
 
 ## Registre
 
