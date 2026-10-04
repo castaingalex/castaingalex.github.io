@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="description" content="Trois pistes de design pour Milestone, une frise de vie. Chacune se joue au doigt.">
+<meta name="description" content="Trois pistes de design pour Milestone, une app pour poser sa vie sur un fil. Laquelle vous préférez ?">
 <meta property="og:title" content="Milestone, trois pistes de design">
-<meta property="og:description" content="Laquelle te donne envie ? Chaque maquette se joue au doigt.">
+<meta property="og:description" content="Laquelle vous préférez ? Chacune s’essaie au doigt.">
 <meta property="og:image" content="https://castaing.dev/milestone/directions/img/og.jpg">
 <meta property="og:url" content="https://castaing.dev/milestone/directions/">
 <meta property="og:type" content="website">
@@ -15,198 +15,158 @@
 <style>
 @font-face { font-family: "Brico"; src: url("fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; font-stretch: 75% 100%; font-display: swap; }
 @font-face { font-family: "Unb"; src: url("fonts/Unbounded-latin.woff2") format("woff2"); font-weight: 200 900; font-display: swap; }
-/* Un tableau de choix : chaque direction a sa section, son téléphone jouable, sa bande du geste. */
+/* Trois pistes numérotées, chacune avec son téléphone à essayer ; la question à la fin. */
 :root {
-  --bg: #ECEEF2; --fg: #111318; --muted: #5B606C; --card: #FFFFFF; --line: rgba(17,19,24,.11); --chip: rgba(17,19,24,.06);
+  --bg: #ECEEF2; --fg: #111318; --muted: #5B606C; --card: #FFFFFF; --line: rgba(17,19,24,.11);
   --round: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
   --brico: "Brico", "Arial Narrow", system-ui, sans-serif;
   --unb: "Unb", "Arial Black", system-ui, sans-serif;
   --body: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #101217; --fg: #F2F3F6; --muted: #A3A8B4; --card: #1B1E25; --line: rgba(255,255,255,.1); --chip: rgba(255,255,255,.07); color-scheme: dark; } }
-:root[data-theme="dark"] { --bg: #101217; --fg: #F2F3F6; --muted: #A3A8B4; --card: #1B1E25; --line: rgba(255,255,255,.1); --chip: rgba(255,255,255,.07); color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #101217; --fg: #F2F3F6; --muted: #A3A8B4; --card: #1B1E25; --line: rgba(255,255,255,.1); color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #101217; --fg: #F2F3F6; --muted: #A3A8B4; --card: #1B1E25; --line: rgba(255,255,255,.1); color-scheme: dark; }
 * { box-sizing: border-box; }
 html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); background: var(--bg); }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 var(--body); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.5 var(--body); }
 img { max-width: 100%; }
-.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; }
-header .k { font: 800 12px var(--round); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-header h1 { margin: 6px 0 10px; font: 900 clamp(34px, 7vw, 56px)/1 var(--round); letter-spacing: -.03em; text-wrap: balance; }
-header p { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
-.before { margin-top: 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.before span { font: 800 13px var(--round); color: var(--muted); margin-right: 4px; }
-.before img { width: 64px; border-radius: 10px; border: 1px solid var(--line); }
+.wrap { max-width: 1000px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 64px; }
 
-section.dir { margin-top: 40px; padding-top: 28px; border-top: 2px solid var(--line); }
-.dir-head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; }
-.dir-head h2 { margin: 0; font-size: clamp(40px, 9vw, 64px); line-height: .95; letter-spacing: -.02em; }
-.dir-head .tag { font: 800 13px var(--round); padding: 6px 12px; border-radius: 999px; background: var(--acc); color: var(--acc-ink); }
+header .k { font: 800 13px var(--round); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+header h1 { margin: 6px 0 14px; font: 900 clamp(38px, 8vw, 60px)/1 var(--round); letter-spacing: -.03em; text-wrap: balance; }
+header p { margin: 0 0 10px; max-width: 60ch; font-size: 18px; }
+header p.soft { color: var(--muted); font-size: 16px; }
+.before { margin-top: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.before span { font: 800 14px var(--round); color: var(--muted); margin-right: 4px; }
+.before img { width: 58px; border-radius: 10px; border: 1px solid var(--line); }
+
+section.dir { margin-top: 44px; padding-top: 30px; border-top: 2px solid var(--line); }
+.dir-head { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.num { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--acc); color: var(--acc-ink); font: 900 26px var(--round); }
+.dir-head h2 { margin: 0; font-size: clamp(40px, 9vw, 62px); line-height: .95; letter-spacing: -.02em; }
 #survol h2 { font-family: var(--round); font-weight: 900; }
 #album h2 { font-family: var(--brico); font-stretch: 75%; font-weight: 800; text-transform: uppercase; }
 #fil h2 { font-family: var(--unb); font-weight: 900; letter-spacing: -.04em; }
-.pitch { margin: 12px 0 0; max-width: 60ch; font-size: 19px; line-height: 1.4; font-weight: 600; text-wrap: pretty; }
+.tag { margin: 8px 0 0; font: 800 20px var(--round); color: var(--muted); }
 
-.dir-body { margin-top: 20px; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 28px; align-items: start; }
-@media (max-width: 760px) { .dir-body { grid-template-columns: minmax(0, 1fr); } }
-.phone { position: relative; width: 100%; max-width: 300px; aspect-ratio: 390 / 844; border-radius: 34px; overflow: hidden; background: #000; box-shadow: 0 0 0 8px #0B0C0F, 0 24px 50px rgba(0,0,0,.25); margin: 8px auto 0; }
-.phone img, .phone iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
-.phone iframe { width: 390px; height: 844px; transform-origin: 0 0; }
-.play { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border: 0; border-radius: 26px; background: var(--fg); color: var(--bg); font: 800 17px var(--round); cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.3); white-space: nowrap; }
-.play:focus-visible, .full:focus-visible, .close:focus-visible { outline: 3px solid var(--acc); outline-offset: 3px; }
-.phone-actions { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
-.full { display: inline-flex; align-items: center; text-decoration: none; height: 40px; padding: 0 16px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--card); color: var(--fg); font: 700 14px var(--round); cursor: pointer; }
-
-.facts { display: grid; gap: 12px; margin: 0; }
-.fact { background: var(--card); border-radius: 18px; padding: 14px 16px; min-width: 0; }
-.fact dt { font: 800 12px var(--round); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.fact dd { margin: 4px 0 0; font-size: 16px; line-height: 1.45; }
-.fact.risk dt { color: var(--fg); }
-.label { margin: 22px 0 8px; font: 800 12px var(--round); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.shots { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.dir-body { margin-top: 22px; display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 760px) { .dir-body { grid-template-columns: minmax(0, 1fr); gap: 22px; } }
+.pitch { margin: 0; max-width: 54ch; font-size: 20px; line-height: 1.45; font-weight: 600; text-wrap: pretty; }
+.try { margin: 16px 0 0; padding: 14px 16px; border-radius: 16px; background: var(--card); max-width: 54ch; font-size: 16px; }
+.try b { font-family: var(--round); }
+.shots { margin-top: 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .shots figure { margin: 0; min-width: 0; }
 .shots img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; }
-.shots figcaption { margin-top: 5px; font: 700 12px/1.3 var(--round); color: var(--muted); }
-@media (max-width: 560px) { .shots { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 8px; border-radius: 16px; background: var(--chip); }
-.strip img { width: 100%; border-radius: 8px; display: block; }
-.strip-cap { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+.shots figcaption { margin-top: 6px; font: 700 13px/1.3 var(--round); color: var(--muted); }
 
-.bump { margin-top: 44px; padding: 22px 20px; border-radius: 22px; background: var(--card); }
-.bump h2 { margin: 0 0 4px; font: 900 26px var(--round); letter-spacing: -.02em; }
-.bump > p { margin: 0 0 12px; color: var(--muted); max-width: 64ch; }
-.bump ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; max-width: 78ch; }
-.bump li::marker { font-weight: 800; color: var(--muted); }
-.bump .unv { margin-top: 14px; padding-top: 12px; border-top: 1.5px dashed var(--line); font-size: 15px; color: var(--muted); max-width: 78ch; }
-.bump .src { margin-top: 10px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
-.bump .src a { color: inherit; }
+.phone { position: relative; width: 100%; max-width: 290px; aspect-ratio: 390 / 844; border-radius: 34px; overflow: hidden; background: #000; box-shadow: 0 0 0 8px #0B0C0F, 0 24px 50px rgba(0,0,0,.25); margin: 8px auto 0; }
+.phone img, .phone iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.phone iframe { width: 390px; height: 844px; transform-origin: 0 0; }
+.play { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); height: 54px; padding: 0 26px; border: 0; border-radius: 27px; background: var(--fg); color: var(--bg); font: 800 18px var(--round); cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.3); white-space: nowrap; }
+.phone-actions { display: flex; justify-content: center; margin-top: 18px; }
+.full { display: inline-flex; align-items: center; text-decoration: none; height: 42px; padding: 0 18px; border-radius: 21px; border: 1.5px solid var(--line); background: var(--card); color: var(--fg); font: 700 15px var(--round); cursor: pointer; }
+.play:focus-visible, .full:focus-visible, .close:focus-visible { outline: 3px solid var(--acc, #3366FF); outline-offset: 3px; }
 
-.ask { margin-top: 44px; padding: 26px 22px; border-radius: 22px; background: var(--fg); color: var(--bg); }
-.ask h2 { margin: 0; font: 900 clamp(26px, 5vw, 36px)/1.1 var(--round); letter-spacing: -.02em; text-wrap: balance; }
-.ask p { margin: 8px 0 0; opacity: .8; max-width: 60ch; }
-.common { margin-top: 18px; font-size: 15px; color: var(--muted); max-width: 72ch; }
+.ask { margin-top: 48px; padding: 28px 22px; border-radius: 24px; background: var(--fg); color: var(--bg); }
+.ask h2 { margin: 0; font: 900 clamp(30px, 6vw, 42px)/1.05 var(--round); letter-spacing: -.02em; text-wrap: balance; }
+.ask p { margin: 10px 0 0; max-width: 56ch; font-size: 18px; opacity: .85; }
+.ask .keys { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+.ask .keys span { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 20px; background: color-mix(in srgb, var(--bg) 12%, transparent); font: 800 16px var(--round); }
+.ask .keys i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; background: var(--k); color: var(--kink); }
+.fine { margin-top: 18px; font-size: 14px; color: var(--muted); }
 
 .overlay { position: fixed; inset: 0; z-index: 10; background: rgba(5,6,8,.86); display: grid; place-items: center; padding: 12px; }
 .overlay .phone { max-width: none; width: min(390px, calc(100vw - 24px), calc((100vh - 90px) * 390 / 844)); margin: 0; }
 .close { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 12px); right: 12px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #111; font: 900 22px var(--round); cursor: pointer; }
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <header>
     <div class="k">Milestone · nouveau design</div>
-    <h1>Trois pistes</h1>
-    <p>Milestone, c’est une petite app que je fabrique : ta vie sur un fil, à côté de l’Histoire. On y pose un souvenir en une phrase (« road trip en Espagne l’été 2003 ») et il se range tout seul à sa date. La version actuelle marche, mais elle est fade. Voici trois pistes pour lui donner du caractère, avec une vie d’exemple inventée. Chacune se joue au doigt : touche « Jouer », ou ouvre-la en plein écran depuis ton téléphone.</p>
-    <div class="before"><span>La version actuelle :</span><img src="img/actuel-light-2-frise-haut.jpg" alt="Frise actuelle : fond beige, fil rouge, années en serif"><img src="img/actuel-light-5-raconter.jpg" alt="Capture actuelle : champ, flèches, segments jour mois année"><img src="img/actuel-light-6-fiche.jpg" alt="Fiche actuelle"></div>
+    <h1>Laquelle vous préférez ?</h1>
+    <p>Je fabrique Milestone, une petite app pour poser sa vie sur un fil. On écrit un souvenir en une phrase, « road trip en Espagne l’été 2003 », et il se range tout seul à sa date, à côté des grands événements de l’époque.</p>
+    <p>Elle marche, mais elle manque de caractère. Voici trois pistes de design, sur une vie inventée. Chacune s’essaie au doigt, idéalement sur téléphone.</p>
+    <div class="before"><span>Aujourd’hui, elle ressemble à ça :</span><img src="img/actuel-light-2-frise-haut.jpg" alt="La version actuelle : fond beige, fil rouge"><img src="img/actuel-light-5-raconter.jpg" alt="La version actuelle : écrire un souvenir"><img src="img/actuel-light-6-fiche.jpg" alt="La version actuelle : un souvenir ouvert"></div>
   </header>
 
   <section class="dir" id="survol" style="--acc:#3366FF;--acc-ink:#fff">
-    <div class="dir-head"><h2>Survol</h2><span class="tag">ta vie vue d’avion</span></div>
-    <p class="pitch">La frise devient une carte : ta vie entière tient dans l’écran, colorée décennie par décennie, et l’on plonge au pincement jusqu’à l’année puis au moment.</p>
+    <div class="dir-head"><span class="num">1</span><h2>Survol</h2></div>
+    <p class="tag">Ta vie vue d’avion</p>
     <div class="dir-body">
       <div>
-        <div class="phone" data-src="survol.html"><img src="img/survol-light-1-vie.jpg" alt="Survol : la vie entière, une route colorée par décennie"><button class="play">▶ Jouer</button></div>
-        <div class="phone-actions"><a class="full" href="survol.html" data-src="survol.html">Plein écran</a></div>
+        <div class="phone" data-src="survol.html"><img src="img/survol-light-1-vie.jpg" alt="Survol : toute la vie sur une route colorée par décennie"><button class="play">Essayer</button></div>
+        <div class="phone-actions"><a class="full" href="survol.html" data-src="survol.html">Ouvrir en grand</a></div>
       </div>
       <div>
-        <dl class="facts">
-          <div class="fact"><dt>Le geste</dt><dd>Pincer, ou glisser le pouce le long du bord droit : vie entière, décennies, années, mois, avec un cran sous le doigt à chaque palier. Toucher une décennie y plonge.</dd></div>
-          <div class="fact"><dt>La récompense</dt><dd>Le moment posé s’envole : la carte prend de la hauteur, survole ta vie, plonge à sa place, et il atterrit avec un rebond et une onde.</dd></div>
-          <div class="fact"><dt>L’Histoire et les années vides</dt><dd>Les repères sont des noms de lieux en filigrane. De près, une année sans souvenir propose « Et en 1994 ? ».</dd></div>
-          <div class="fact risk"><dt>Ce qu’elle coûte</dt><dd>La lecture en liste disparaît : on relit en survolant. C’est la plus lourde à rendre fluide sur iPhone, la carte est dessinée par l’app.</dd></div>
-        </dl>
-        <p class="label">Les écrans</p>
+        <p class="pitch">La frise devient une carte. On voit toute sa vie d’un coup d’œil, chaque décennie a sa couleur, et on zoome jusqu’à une année puis jusqu’à un souvenir.</p>
+        <p class="try"><b>À essayer :</b> pincez la carte, ou faites glisser le pouce le long du bord droit. Touchez « Un moment » et écrivez une phrase avec une date, puis regardez où elle se pose.</p>
         <div class="shots">
           <figure><img src="img/survol-light-3-annees.jpg" alt=""><figcaption>Zoom sur les années</figcaption></figure>
-          <figure><img src="img/survol-light-4-poser.jpg" alt=""><figcaption>Poser un moment</figcaption></figure>
-          <figure><img src="img/survol-light-6-fiche.jpg" alt=""><figcaption>La fiche</figcaption></figure>
-          <figure><img src="img/survol-dark-1-vie.jpg" alt=""><figcaption>En sombre</figcaption></figure>
-          <figure><img src="img/survol-light-1-vie.jpg" alt=""><figcaption>Vie entière</figcaption></figure>
+          <figure><img src="img/survol-light-4-poser.jpg" alt=""><figcaption>Écrire un souvenir</figcaption></figure>
+          <figure><img src="img/survol-light-6-fiche.jpg" alt=""><figcaption>Un souvenir ouvert</figcaption></figure>
+          <figure><img src="img/survol-dark-1-vie.jpg" alt=""><figcaption>Le soir</figcaption></figure>
         </div>
-        <p class="label">Poser, image par image</p>
-        <div class="strip"><img src="img/survol-light-5-vol-0.jpg" alt=""><img src="img/survol-light-5-vol-2.jpg" alt=""><img src="img/survol-light-5-vol-4.jpg" alt=""><img src="img/survol-light-5-vol-5.jpg" alt=""></div>
-        <p class="strip-cap">« Saut en parachute à Gap mai 2012 » : 🪂 deviné, vert des années 2010, la carte s’élève puis plonge sur mai 2012.</p>
       </div>
     </div>
   </section>
 
   <section class="dir" id="album" style="--acc:#FFC21A;--acc-ink:#141414">
-    <div class="dir-head"><h2>Album</h2><span class="tag">ta vie en autocollants</span></div>
-    <p class="pitch">Chaque moment est un autocollant découpé, collé sur la page de son année. Les temps forts sont des brillants, les années vides des cases qui attendent.</p>
+    <div class="dir-head"><span class="num">2</span><h2>Album</h2></div>
+    <p class="tag">Ta vie en autocollants</p>
     <div class="dir-body">
       <div>
-        <div class="phone" data-src="album.html"><img src="img/album-light-1-haut.jpg" alt="Album : bandeaux d'années, autocollants colorés"><button class="play">▶ Jouer</button></div>
-        <div class="phone-actions"><a class="full" href="album.html" data-src="album.html">Plein écran</a></div>
+        <div class="phone" data-src="album.html"><img src="img/album-light-1-haut.jpg" alt="Album : des autocollants colorés sous chaque année"><button class="play">Essayer</button></div>
+        <div class="phone-actions"><a class="full" href="album.html" data-src="album.html">Ouvrir en grand</a></div>
       </div>
       <div>
-        <dl class="facts">
-          <div class="fact"><dt>Le geste</dt><dd>Garder le doigt sur un autocollant le soulève : il suit le doigt, penche avec l’élan, puis revient se coller. Dans la planche, on le fait glisser de côté pour changer la date.</dd></div>
-          <div class="fact"><dt>La récompense</dt><dd>Coller : il se décolle de la planche, l’album file à la bonne page, ça claque, la page tressaille et le compteur prend +1.</dd></div>
-          <div class="fact"><dt>La fiche</dt><dd>L’autocollant vient à toi et se retourne : au dos, l’âge en grand, la note, ce qui l’entoure. On feuillette en glissant, le mode deck revient de lui-même.</dd></div>
-          <div class="fact risk"><dt>Ce qu’elle coûte</dt><dd>Le fil continu : la vie se lit par pages d’années. L’esprit collection peut sembler léger pour certains souvenirs ; un deuil reste un autocollant sobre, sans émoji ni éclat.</dd></div>
-        </dl>
-        <p class="label">Les écrans</p>
+        <p class="pitch">Chaque souvenir est un autocollant collé sur la page de son année. Les plus importants brillent, et les années encore vides attendent qu’on les remplisse.</p>
+        <p class="try"><b>À essayer :</b> gardez le doigt sur un autocollant pour le décoller, touchez-le pour le retourner. Puis « Coller un souvenir ».</p>
         <div class="shots">
-          <figure><img src="img/album-light-3-bas.jpg" alt=""><figcaption>Années vides en cases</figcaption></figure>
-          <figure><img src="img/album-light-4-poser.jpg" alt=""><figcaption>Poser un moment</figcaption></figure>
-          <figure><img src="img/album-light-6-fiche-b.jpg" alt=""><figcaption>Le dos, la fiche</figcaption></figure>
-          <figure><img src="img/album-dark-1-haut.jpg" alt=""><figcaption>En sombre</figcaption></figure>
-          <figure><img src="img/album-light-1-haut.jpg" alt=""><figcaption>Les pages</figcaption></figure>
+          <figure><img src="img/album-light-3-bas.jpg" alt=""><figcaption>Les années vides</figcaption></figure>
+          <figure><img src="img/album-light-4-poser.jpg" alt=""><figcaption>Écrire un souvenir</figcaption></figure>
+          <figure><img src="img/album-light-6-fiche-b.jpg" alt=""><figcaption>Le dos de l’autocollant</figcaption></figure>
+          <figure><img src="img/album-dark-1-haut.jpg" alt=""><figcaption>Le soir</figcaption></figure>
         </div>
-        <p class="label">Coller, image par image</p>
-        <div class="strip"><img src="img/album-light-5-coller-0.jpg" alt=""><img src="img/album-light-5-coller-2.jpg" alt=""><img src="img/album-light-5-coller-3.jpg" alt=""><img src="img/album-light-5-coller-4.jpg" alt=""></div>
-        <p class="strip-cap">L’autocollant quitte la planche, rejoint 2012 et claque à côté de l’emménagement à Paris.</p>
       </div>
     </div>
   </section>
 
   <section class="dir" id="fil" style="--acc:#16C47F;--acc-ink:#141414">
-    <div class="dir-head"><h2>Fil vivant</h2><span class="tag">la couleur du temps</span></div>
-    <p class="pitch">L’écran entier prend la couleur de la décennie que tu traverses. Le fil ploie quand tu défiles vite et revient en oscillant ; chaque moment s’ouvre en plein écran, comme une story.</p>
+    <div class="dir-head"><span class="num">3</span><h2>Fil vivant</h2></div>
+    <p class="tag">La couleur du temps</p>
     <div class="dir-body">
       <div>
-        <div class="phone" data-src="fil.html"><img src="img/fil-light-0-echo.jpg" alt="Fil vivant : l'écho du jour en plein écran au lancement"><button class="play">▶ Jouer</button></div>
-        <div class="phone-actions"><a class="full" href="fil.html" data-src="fil.html">Plein écran</a></div>
+        <div class="phone" data-src="fil.html"><img src="img/fil-light-0-echo.jpg" alt="Fil vivant : un souvenir d'il y a dix ans ouvert en grand"><button class="play">Essayer</button></div>
+        <div class="phone-actions"><a class="full" href="fil.html" data-src="fil.html">Ouvrir en grand</a></div>
       </div>
       <div>
-        <dl class="facts">
-          <div class="fact"><dt>Le geste</dt><dd>Défiler : la couleur glisse d’une décennie à l’autre, le fil se tend puis vibre. Raconter teint tout l’écran de la couleur du moment ; on glisse la date de côté pour la corriger.</dd></div>
-          <div class="fact"><dt>La récompense</dt><dd>La breloque tombe du haut de l’écran et le fil encaisse le choc. Au lancement, l’écho du jour s’ouvre seul, comme une story.</dd></div>
-          <div class="fact"><dt>La fiche</dt><dd>Une story de l’année : l’âge en très grand, toucher à droite pour le moment suivant, glisser vers le bas pour refermer.</dd></div>
-          <div class="fact risk"><dt>Ce qu’elle coûte</dt><dd>La vue d’ensemble : pas de vie entière d’un coup d’œil. Les grands aplats de couleur fatiguent plus vite en lecture longue.</dd></div>
-        </dl>
-        <p class="label">Les écrans</p>
+        <p class="pitch">Tout l’écran prend la couleur de la décennie qu’on traverse. Les souvenirs sont accrochés à un fil qui ondule quand on fait défiler, et chacun s’ouvre en grand, comme une story.</p>
+        <p class="try"><b>À essayer :</b> faites défiler vite, touchez un souvenir, puis le bouton + pour en accrocher un.</p>
         <div class="shots">
-          <figure><img src="img/fil-light-2b-ploie.jpg" alt=""><figcaption>Le fil qui ploie</figcaption></figure>
-          <figure><img src="img/fil-light-4-poser.jpg" alt=""><figcaption>Poser un moment</figcaption></figure>
-          <figure><img src="img/fil-light-6-fiche.jpg" alt=""><figcaption>La fiche en story</figcaption></figure>
-          <figure><img src="img/fil-dark-1-haut.jpg" alt=""><figcaption>En sombre</figcaption></figure>
-          <figure><img src="img/fil-light-0-echo.jpg" alt=""><figcaption>L’écho au lancement</figcaption></figure>
+          <figure><img src="img/fil-light-2b-ploie.jpg" alt=""><figcaption>Le fil qui ondule</figcaption></figure>
+          <figure><img src="img/fil-light-4-poser.jpg" alt=""><figcaption>Écrire un souvenir</figcaption></figure>
+          <figure><img src="img/fil-light-6-fiche.jpg" alt=""><figcaption>Un souvenir ouvert</figcaption></figure>
+          <figure><img src="img/fil-dark-1-haut.jpg" alt=""><figcaption>Le soir</figcaption></figure>
         </div>
-        <p class="label">Accrocher, image par image</p>
-        <div class="strip"><img src="img/fil-light-5-accrocher-0.jpg" alt=""><img src="img/fil-light-5-accrocher-1.jpg" alt=""><img src="img/fil-light-5-accrocher-3.jpg" alt=""><img src="img/fil-light-5-accrocher-4.jpg" alt=""></div>
-        <p class="strip-cap">La breloque 🪂 tombe sur mai 2012, le fil se creuse sous le choc puis reprend sa ligne.</p>
       </div>
     </div>
   </section>
 
-  <p class="common">Dans les trois : l’émoji est proposé d’après la phrase et se change d’un toucher, sans catégorie imposée ; un deuil n’a ni émoji, ni gerbe, ni rebond ; la couleur suit la décennie ; mode sombre, « Réduire les animations » respecté. Ce sont des maquettes : rien n’est enregistré, et l’accueil, la recherche et les réglages ne sont pas encore dessinés.</p>
-
   <div class="ask">
-    <h2>Laquelle tu préfères, et pourquoi ?</h2>
-    <p>Réponds-moi par message, même en un mot. Ce qui t’a agacé ou ce que tu n’as pas compris m’intéresse autant que ce qui t’a plu.</p>
+    <h2>Alors, laquelle vous préférez ?</h2>
+    <p>Répondez-moi par message, un chiffre suffit. Si un détail d’une autre piste vous a plu, ou si quelque chose vous a gêné, dites-le aussi.</p>
+    <div class="keys"><span style="--k:#3366FF;--kink:#fff"><i>1</i>Survol</span><span style="--k:#FFC21A;--kink:#141414"><i>2</i>Album</span><span style="--k:#16C47F;--kink:#141414"><i>3</i>Fil vivant</span></div>
   </div>
+  <p class="fine">Ce sont des maquettes : rien de ce que vous écrivez n’est gardé, et la vie affichée est inventée.</p>
 </div>
 
 <script>
-// Les maquettes ne se chargent qu'au toucher : la page reste légère et le premier écran complet.
+// Les maquettes ne se chargent qu'au toucher : la page reste légère.
 function mount(phone) {
   if (phone.querySelector('iframe')) return;
   const f = document.createElement('iframe');
   f.src = phone.dataset.src;
-  f.title = 'Maquette jouable';
-  f.setAttribute('allow', 'vibrate');
+  f.title = 'Maquette à essayer';
   phone.append(f);
   const fit = () => { f.style.transform = `scale(${phone.clientWidth / 390})`; };
   fit();
@@ -217,6 +177,7 @@ document.addEventListener('click', (e) => {
   const play = e.target.closest('.play');
   if (play) return mount(play.closest('.phone'));
   const full = e.target.closest('.full');
+  // Sur téléphone, « Ouvrir en grand » ouvre la maquette comme une page ; sur ordinateur, en surimpression.
   if (full && innerWidth > 700) {
     e.preventDefault();
     const ov = document.createElement('div');
