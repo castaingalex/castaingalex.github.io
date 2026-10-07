@@ -17,7 +17,7 @@ GitHub Pages sert le résultat.
 | `portrait-eco/` | démo du portrait économique, publiée mais **non liée** |
 | `portrait-finances/` | démo de la rétrospective financière, **liée depuis la fiche 02** |
 | `milestone/` | Milestone, frise de vie personnelle en app web, publiée mais **non liée** |
-| `portee-bus/` | À portée de bus, temps de trajet en bus par territoire, publiée mais **non liée** |
+| `portee-bus/` | À portée de bus, temps de trajet en bus (Bourges Plus, COBAN Atlantique), publiée mais **non liée** |
 
 Les démos non liées sont atteignables par URL directe. Elles sont publiées volontairement,
 sans être exposées depuis l'accueil.

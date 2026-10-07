@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COBAN Atlantique à portée de bus · Temps de trajet en bus Alégo</title>
+    <meta name="description" content="Carte des temps de trajet en bus à COBAN Atlantique : choisissez un départ, tout le territoire se colore selon le temps qu&#x27;il faut pour y aller (réseau Alégo)." />
+    <script>
+      // Anciens liens github.io : on renvoie vers le domaine du site en gardant départ et arrivée.
+      if (location.hostname.endsWith("github.io")) location.replace("https://castaing.dev/portee-bus/coban/" + location.search);
+    </script>
+    <link rel="canonical" href="https://castaing.dev/portee-bus/coban/" />
+    <meta name="theme-color" content="#3aa70b" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="À portée de bus" />
+    <meta property="og:title" content="COBAN Atlantique à portée de bus" />
+    <meta property="og:description" content="Carte des temps de trajet en bus à COBAN Atlantique : choisissez un départ, tout le territoire se colore selon le temps qu&#x27;il faut pour y aller (réseau Alégo)." />
+    <meta property="og:url" content="https://castaing.dev/portee-bus/coban/" />
+    <meta property="og:image" content="https://castaing.dev/portee-bus/og/coban.jpg?v=df37ab2b" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Carte de COBAN Atlantique colorée selon le temps de trajet en bus depuis Biganos Gare, avec les isochrones 15 et 30 minutes." />
+    <meta property="article:published_time" content="2026-10-07T08:00:00+02:00" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="COBAN Atlantique à portée de bus" />
+    <meta name="twitter:description" content="Carte des temps de trajet en bus à COBAN Atlantique : choisissez un départ, tout le territoire se colore selon le temps qu&#x27;il faut pour y aller (réseau Alégo)." />
+    <meta name="twitter:image" content="https://castaing.dev/portee-bus/og/coban.jpg?v=df37ab2b" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "COBAN Atlantique à portée de bus",
+          "url": "https://castaing.dev/portee-bus/coban/",
+          "description": "Carte des temps de trajet en bus à COBAN Atlantique : choisissez un départ, tout le territoire se colore selon le temps qu'il faut pour y aller (réseau Alégo).",
+          "inLanguage": "fr",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "Web",
+          "isAccessibleForFree": true,
+          "image": "https://castaing.dev/portee-bus/og/coban.jpg",
+          "spatialCoverage": {
+            "@type": "Place",
+            "name": "COBAN Atlantique"
+          },
+          "datePublished": "2026-10-07",
+          "dateModified": "2026-10-07"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "À portée de bus",
+              "item": "https://castaing.dev/portee-bus/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "COBAN Atlantique",
+              "item": "https://castaing.dev/portee-bus/coban/"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Combien de temps faut-il pour traverser le territoire en bus ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Depuis Biganos Gare, 8 % des arrêts de bus sont à moins de 15 minutes et 23 % à moins de 30 minutes, marche et attente comprises. Le plus éloigné, Av. Sud, est à environ 126 minutes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quelle est la fréquence des lignes du réseau Alégo ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Intervalle moyen entre deux passages en journée de semaine : ligne 1, 42,2 min ; ligne 2, 42,2 min ; ligne 3, 45,9 min ; ligne 4, 43,3 min ; ligne 5, 1 h ; ligne 8, 1 h 20 ; ligne 9, 1 h. La ligne la plus fréquente est la 1, avec un passage toutes les 42,2 min environ."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment l'attente à l'arrêt est-elle comptée ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Aucune ligne du réseau ne passe plus d'une fois toutes les 20 minutes : on regarde donc l'horaire et on arrive au bon moment. L'attente comptée est partout de 10 minutes, la marge d'un voyageur qui a prévu son trajet. La fréquence reste affichée dans l'itinéraire et dans le tableau des lignes, car un trajet court sur une ligne qui passe toutes les 1 h 20 (ligne 8) n'est possible qu'à certaines heures."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "D'où viennent les horaires utilisés ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Des horaires théoriques publiés par le réseau Alégo (format GTFS, ODbL), téléchargés le 7 octobre 2026 et valables jusqu'au 31 décembre 2026. Les temps correspondent au jeudi 8 octobre 2026, entre 7 h et 20 h. Les circuits scolaires et les lignes de nuit ne sont pas pris en compte."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment les temps de trajet sont-ils calculés ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pour chaque trajet : marche jusqu'à l'arrêt à 4,5 km/h, attente (voir plus haut), durée prévue entre les arrêts, correspondances avec 1,5 minute de marche. Pas de temps réel ni de perturbations : c'est le réseau « sur le papier »."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" />
+    <link rel="stylesheet" href="../styles.css?v=9e078b8e" />
+  </head>
+  <body>
+    <script id="city-config" type="application/json">{"slug": "coban", "name": "COBAN Atlantique", "dataVersion": "bd7b66c0", "defaultFrom": {"lat": 44.637791, "lon": -0.965796, "label": "Biganos Gare"}, "railNoun": "bus", "railStations": "arrêts de bus", "busNoun": "bus", "geocoder": "ban", "searchBbox": [44.42, -1.29, 44.86, -0.65], "area": "de l'agglomération", "defaultMax": 90}</script>
+    <header class="topbar">
+      <nav class="topbar-inner" aria-label="Navigation principale">
+        <a class="brand" href="../"><img src="../favicon.svg" width="22" height="22" alt="" /> À portée de bus</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="../">À portée de bus</a> <span aria-hidden="true">›</span> <span aria-current="page">COBAN Atlantique</span>
+      </nav>
+
+      <section class="hero">
+        <h1><button id="cityTrigger" type="button" class="city-trigger" aria-haspopup="dialog" aria-expanded="false" title="Changer de territoire">COBAN Atlantique<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5"/></svg></button> à portée de&nbsp;bus</h1>
+        <div id="cityPanel" class="city-panel" role="dialog" aria-label="Choisir un territoire" hidden>
+          <div class="city-panel-head">
+            <input id="citySearch" type="search" placeholder="Rechercher un territoire…" aria-label="Rechercher un territoire" autocomplete="off" />
+            <button id="cityClose" type="button" class="icon-button" aria-label="Fermer">×</button>
+          </div>
+          <nav class="city-panel-list" aria-label="Territoires">
+            <a class="city-item" href="../bourges-plus/" data-name="bourges plus"><img src="../og/thumb-bourges-plus.jpg" width="120" height="63" alt="" loading="lazy" /><span><strong>Bourges Plus</strong><small>Bus · AggloBUS</small></span></a>
+            <a class="city-item current" href="../coban/" aria-current="page" data-name="coban atlantique"><img src="../og/thumb-coban.jpg" width="120" height="63" alt="" loading="lazy" /><span><strong>COBAN Atlantique</strong><small>Bus · Alégo</small></span></a>
+          </nav>
+        </div>
+        <p class="lede">
+          Le territoire redessiné par le temps qu'il faut pour y aller en bus. Choisissez un départ&nbsp;: la carte se
+          colore selon le temps de trajet vers chaque point de l&#x27;agglomération.
+        </p>
+        <form id="searchForm" class="search" role="search" autocomplete="off">
+          <label class="visually-hidden" for="searchInput">Adresse de départ</label>
+          <input id="searchInput" type="search" placeholder="Partir d'une adresse… (ex. Gare de Biganos)" />
+          <button type="submit" class="button primary">Partir d'ici</button>
+          <ul id="searchResults" class="search-results" hidden></ul>
+        </form>
+        <ol class="steps" aria-label="Mode d'emploi">
+          <li><strong>1. Départ</strong> Cherchez une adresse ou glissez le point vert.</li>
+          <li><strong>2. Arrivée</strong> Cliquez n'importe où : durée et itinéraire détaillé.</li>
+          <li><strong>3. Lecture</strong> Vert = proche, rouge = loin. Lignes noires : 15 et 30 min.</li>
+        </ol>
+      </section>
+
+      <section class="map-card" aria-label="Carte des temps de trajet">
+        <noscript>
+          <p class="noscript">
+            Cette carte interactive a besoin de JavaScript pour calculer les temps de trajet. Activez-le pour l'utiliser.
+          </p>
+        </noscript>
+        <div id="mapStage" class="map-stage">
+          <canvas id="mapCanvas"></canvas>
+
+          <aside id="tripPanel" class="trip-panel" aria-live="polite">
+            <p class="trip-eyebrow">Départ</p>
+            <p id="tripFrom" class="trip-from">Chargement du réseau…</p>
+            <div id="tripResult" class="trip-result" hidden>
+              <div class="trip-row">
+                <p class="trip-eyebrow">Arrivée</p>
+                <button id="removeTo" type="button" class="link-button">Retirer</button>
+              </div>
+              <p id="tripTo" class="trip-to"></p>
+              <p id="tripDuration" class="trip-duration"></p>
+              <ol id="tripSteps" class="trip-steps"></ol>
+              <div id="heatFrom" class="segmented" role="group" aria-label="Point d'où part la carte">
+                <span>Carte depuis</span>
+                <button type="button" data-source="from" aria-pressed="true">le départ</button>
+                <button type="button" data-source="to" aria-pressed="false">l'arrivée</button>
+              </div>
+            </div>
+            <p id="tripHint" class="trip-hint">Cliquez sur la carte pour poser une arrivée.</p>
+          </aside>
+
+          <div class="map-buttons">
+            <button id="zoomIn" type="button" class="icon-button" aria-label="Zoomer">+</button>
+            <button id="zoomOut" type="button" class="icon-button" aria-label="Dézoomer">−</button>
+            <button id="recenter" type="button" class="icon-button" aria-label="Recentrer la carte">⌖</button>
+            <button id="fullscreen" type="button" class="icon-button" aria-label="Plein écran">⤢</button>
+          </div>
+
+          <div class="legend" aria-hidden="true">
+            <div id="legendBar" class="legend-bar"></div>
+            <div class="legend-labels"><span>0</span><span id="legendMid"></span><span id="legendMax"></span></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="control-group">
+            <span class="control-label">Réseau</span>
+            <label class="pill-toggle"><input type="checkbox" checked disabled /> Bus</label>
+            <label class="pill-toggle" style="display: none"><input id="busToggle" type="checkbox" /> Bus</label>
+          </div>
+          <div id="isoToggles" class="control-group">
+            <span class="control-label">Isochrones</span>
+            <label class="pill-toggle"><input type="checkbox" value="15" checked /> 15 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="30" checked /> 30 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="45" /> 45 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="60" /> 60 min</label>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="maxRange">Échelle</label>
+            <input id="maxRange" type="range" min="20" max="90" step="5" value="90" />
+            <output id="maxValue" for="maxRange">90 min</output>
+          </div>
+          <div class="control-group actions">
+            <button id="locate" type="button" class="button">Ma position</button>
+            <button id="swap" type="button" class="button">Inverser</button>
+            <button id="share" type="button" class="button primary">Partager</button>
+          </div>
+        </div>
+        <p id="reach" class="reach"></p>
+      </section>
+
+      <section class="section" aria-labelledby="stats-title">
+        <h2 id="stats-title">COBAN Atlantique en chiffres</h2>
+        <div class="stat-grid">
+          <div class="stat"><strong>23 %</strong><span>des arrêts de bus à moins de 30 min de Biganos Gare</span></div>
+          <div class="stat"><strong>164</strong><span>arrêts de bus</span></div>
+          <div class="stat"><strong>42,2 min</strong><span>entre deux passages sur la ligne 1, la plus fréquente</span></div>
+          <div class="stat"><strong>126 min</strong><span>depuis Biganos Gare pour rejoindre Av. Sud, l&#x27;arrêt le plus éloigné</span></div>
+        </div>
+        <table class="lines-table">
+          <caption>Lignes de bus du réseau Alégo, en journée de semaine</caption>
+          <thead><tr><th scope="col">Ligne</th><th scope="col">Arrêts</th><th scope="col">Un passage toutes les</th></tr></thead>
+          <tbody>
+            <tr><td><span class="line-badge" style="background:#006cb6;color:#fff">1</span> </td><td>52</td><td>~42,2 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#e75d9d;color:#fff">2</span> </td><td>11</td><td>~42,2 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#8f6eae;color:#fff">3</span> </td><td>34</td><td>~45,9 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#e4df00;color:#111">4</span> </td><td>29</td><td>~43,3 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#f38f2d;color:#111">5</span> </td><td>19</td><td>~1 h</td></tr>
+            <tr><td><span class="line-badge" style="background:#4d6eb4;color:#fff">8</span> </td><td>18</td><td>~1 h 20</td></tr>
+            <tr><td><span class="line-badge" style="background:#a2c632;color:#111">9</span> </td><td>26</td><td>~1 h</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions fréquentes</h2>
+        <details class="faq"><summary>Combien de temps faut-il pour traverser le territoire en bus ?</summary><p>Depuis Biganos Gare, 8 % des arrêts de bus sont à moins de 15 minutes et 23 % à moins de 30 minutes, marche et attente comprises. Le plus éloigné, Av. Sud, est à environ 126 minutes.</p></details>
+        <details class="faq"><summary>Quelle est la fréquence des lignes du réseau Alégo ?</summary><p>Intervalle moyen entre deux passages en journée de semaine : ligne 1, 42,2 min ; ligne 2, 42,2 min ; ligne 3, 45,9 min ; ligne 4, 43,3 min ; ligne 5, 1 h ; ligne 8, 1 h 20 ; ligne 9, 1 h. La ligne la plus fréquente est la 1, avec un passage toutes les 42,2 min environ.</p></details>
+        <details class="faq"><summary>Comment l&#x27;attente à l&#x27;arrêt est-elle comptée ?</summary><p>Aucune ligne du réseau ne passe plus d&#x27;une fois toutes les 20 minutes : on regarde donc l&#x27;horaire et on arrive au bon moment. L&#x27;attente comptée est partout de 10 minutes, la marge d&#x27;un voyageur qui a prévu son trajet. La fréquence reste affichée dans l&#x27;itinéraire et dans le tableau des lignes, car un trajet court sur une ligne qui passe toutes les 1 h 20 (ligne 8) n&#x27;est possible qu&#x27;à certaines heures.</p></details>
+        <details class="faq"><summary>D&#x27;où viennent les horaires utilisés ?</summary><p>Des horaires théoriques publiés par le réseau Alégo (format GTFS, ODbL), téléchargés le 7 octobre 2026 et valables jusqu&#x27;au 31 décembre 2026. Les temps correspondent au jeudi 8 octobre 2026, entre 7 h et 20 h. Les circuits scolaires et les lignes de nuit ne sont pas pris en compte.</p></details>
+        <details class="faq"><summary>Comment les temps de trajet sont-ils calculés ?</summary><p>Pour chaque trajet : marche jusqu&#x27;à l&#x27;arrêt à 4,5 km/h, attente (voir plus haut), durée prévue entre les arrêts, correspondances avec 1,5 minute de marche. Pas de temps réel ni de perturbations : c&#x27;est le réseau « sur le papier ».</p></details>
+      </section>
+
+      <section class="section" aria-labelledby="cities-title">
+        <h2 id="cities-title">Les autres territoires</h2>
+        <div class="city-grid">
+          <a class="city-card" href="../bourges-plus/">
+            <img src="../og/thumb-bourges-plus.jpg" width="600" height="315" alt="" loading="lazy" />
+            <span class="city-card-body">
+              <h3>Bourges Plus à portée de bus</h3>
+              <span>62&nbsp;% des arrêts de bus à moins de 30&nbsp;min de Nation · réseau AggloBUS</span>
+            </span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-links">Territoires&nbsp;: <a href="../bourges-plus/">Bourges Plus</a> · <a href="../coban/">COBAN Atlantique</a></p>
+        <p class="footer-links">
+          <a href="../mentions-legales/">Mentions légales et licences</a>
+        </p>
+        <p class="footer-credits">
+          Horaires&nbsp;: <a href="https://www.data.gouv.fr/datasets/offre-de-transport-coban">GTFS Alégo</a> (COBAN Atlantique). Fond de plan&nbsp;: <a href="https://geoservices.ign.fr/">Plan IGN</a> (IGN, Géoplateforme).
+          Eau et parcs © <a href="https://www.openstreetmap.org/copyright">contributeurs OpenStreetMap</a>,
+          <a href="https://geo.api.gouv.fr/">contours communaux</a>, recherche d'adresse via la
+          <a href="https://adresse.data.gouv.fr/">Base Adresse Nationale</a>.
+          Données calculées publiées sous licence <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>.
+        </p>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script type="module" src="../app.js?v=22bb0308"></script>
+  </body>
+</html>

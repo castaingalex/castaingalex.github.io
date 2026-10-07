@@ -42,7 +42,18 @@ const PALETTE = [
 ];
 // Au-delà du max, la couleur s'efface progressivement jusqu'à laisser voir le fond.
 const BEYOND_FADE = 0.15;
-const HEAT_ALPHA = 0.78;
+// Heatmap assez transparente pour laisser lire les rues du fond de plan (0,78 dans l'amont, sans fond).
+const HEAT_ALPHA = 0.6;
+// Fond de plan : tuiles Plan IGN de la Géoplateforme (Web Mercator), en gris sous la heatmap.
+const BASEMAP_URL = (z, x, y) =>
+  "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" +
+  `&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}`;
+const BASEMAP_ZOOM = [6, 18];
+const BASEMAP_RETRIES = 5;
+const BASEMAP_PARALLEL = 6;
+const BASEMAP_FILTER = "grayscale(1) contrast(0.85) brightness(1.06)";
+const OUTSIDE_VEIL = "rgba(241, 239, 233, 0.6)";
+const EARTH = 40075016.686;
 const HEAT_UPSAMPLE = 3;
 const LUT_SIZE = 512;
 const NEIGHBOURS = [[1, 0], [-1, 0], [0, 1], [0, -1]];
@@ -50,7 +61,6 @@ const RIVER_BRIDGE_CELLS = 4; // cases de 200 m : de quoi traverser le Rhône ou
 
 const COLORS = {
   background: "#f1efe9",
-  land: "#e4e2dc",
   water: "#bcd7e8",
   park: "rgba(120, 180, 90, 0.18)",
   communeLine: "rgba(255, 255, 255, 0.9)",
@@ -839,14 +849,17 @@ function render() {
   const sea = app.data.meta.sea;
   ctx.fillStyle = sea ? COLORS.water : COLORS.background;
   ctx.fillRect(0, 0, width, height);
+  drawBasemap();
 
   useWorldTransform();
-  if (sea) {
-    ctx.fillStyle = COLORS.background;
-    ctx.fill(app.paths.context);
-  }
-  ctx.fillStyle = COLORS.land;
-  ctx.fill(app.paths.land, "evenodd");
+  // Hors du territoire, un voile clair sur le fond de plan.
+  const [vx0, vy1] = unproject(0, 0).map((v, i) => v - app.offset[i]);
+  const [vx1, vy0] = unproject(width, height).map((v, i) => v - app.offset[i]);
+  const outside = new Path2D();
+  outside.rect(vx0, vy0, vx1 - vx0, vy1 - vy0);
+  outside.addPath(app.paths.land);
+  ctx.fillStyle = OUTSIDE_VEIL;
+  ctx.fill(outside, "evenodd");
 
   if (app.grid) {
     const [minX, minY, maxX, maxY] = app.data.meta.bounds;
@@ -886,6 +899,103 @@ function render() {
     drawMarker(app.to.point, COLORS.to, app.heatFrom === "to" ? `Arrivée · ${minutes}` : minutes);
   }
   if (app.from) drawMarker(app.from.point, COLORS.from, "Départ");
+}
+
+// --- Fond de plan ----------------------------------------------------------------
+
+const tiles = new Map();
+// Six tuiles en vol au plus : une rafale fait répondre 400 à la Géoplateforme.
+const tileQueue = [];
+let tilesInFlight = 0;
+
+function pumpTiles() {
+  while (tilesInFlight < BASEMAP_PARALLEL && tileQueue.length) {
+    tilesInFlight += 1;
+    tileQueue.shift()();
+  }
+}
+
+function tileLon(x, z) {
+  return (x / 2 ** z) * 360 - 180;
+}
+
+function tileLat(y, z) {
+  return (Math.atan(Math.sinh(Math.PI * (1 - (2 * y) / 2 ** z))) * 180) / Math.PI;
+}
+
+function tileXY(lat, lon, z) {
+  const n = 2 ** z;
+  const rad = (lat * Math.PI) / 180;
+  return [Math.floor(((lon + 180) / 360) * n), Math.floor(((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * n)];
+}
+
+function tile(z, x, y) {
+  const key = `${z}/${x}/${y}`;
+  let entry = tiles.get(key);
+  if (!entry) {
+    entry = { z, x, y, image: null, ready: false };
+    const load = (attempt) => {
+      const image = new Image();
+      const done = () => {
+        tilesInFlight -= 1;
+        pumpTiles();
+      };
+      image.onload = () => {
+        done();
+        // Mise en gris une seule fois, à l'arrivée de la tuile : un filtre à chaque rendu fige la page.
+        const gray = document.createElement("canvas");
+        gray.width = image.naturalWidth;
+        gray.height = image.naturalHeight;
+        const grayCtx = gray.getContext("2d");
+        grayCtx.filter = BASEMAP_FILTER;
+        grayCtx.drawImage(image, 0, 0);
+        entry.image = gray;
+        entry.ready = true;
+        requestRender();
+      };
+      // Une tuile refusée est redemandée plus tard, à une adresse modifiée : le navigateur garde l'erreur en cache.
+      image.onerror = () => {
+        done();
+        if (attempt < BASEMAP_RETRIES) setTimeout(() => load(attempt + 1), 600 * 2 ** attempt);
+      };
+      tileQueue.push(() => {
+        image.src = BASEMAP_URL(z, x, y) + (attempt ? `&essai=${attempt}` : "");
+      });
+      pumpTiles();
+    };
+    load(0);
+    tiles.set(key, entry);
+    // Cache borné : les tuiles les plus anciennes partent d'abord.
+    if (tiles.size > 600) tiles.delete(tiles.keys().next().value);
+  }
+  return entry;
+}
+
+/** Tuiles visibles au zoom adapté à l'échelle ; en attendant leur chargement, celles des zooms inférieurs. */
+function drawBasemap() {
+  const { width, height, dpr } = app.size;
+  const lat0 = (app.data.meta.lat0 * Math.PI) / 180;
+  const ideal = Math.log2((app.view.scale * dpr * EARTH * Math.cos(lat0)) / 256);
+  const z = clamp(Math.round(ideal), BASEMAP_ZOOM[0], BASEMAP_ZOOM[1]);
+  const nw = toLatLon(unproject(0, 0));
+  const se = toLatLon(unproject(width, height));
+  const [x0, y0] = tileXY(nw.lat, nw.lon, z);
+  const [x1, y1] = tileXY(se.lat, se.lon, z);
+  const wanted = [];
+  for (let x = x0; x <= x1; x += 1) for (let y = y0; y <= y1; y += 1) wanted.push(tile(z, x, y));
+  const shown = [...tiles.values()].filter(
+    (entry) => entry.ready && entry.z < z && entry.z >= z - 3 &&
+      wanted.some((w) => w.x >> (z - entry.z) === entry.x && w.y >> (z - entry.z) === entry.y),
+  );
+  ctx.save();
+  ctx.imageSmoothingEnabled = true;
+  for (const entry of [...shown.sort((a, b) => a.z - b.z), ...wanted.filter((w) => w.ready)]) {
+    const [ax, ay] = project(toWorld(tileLat(entry.y, entry.z), tileLon(entry.x, entry.z)));
+    const [bx, by] = project(toWorld(tileLat(entry.y + 1, entry.z), tileLon(entry.x + 1, entry.z)));
+    // Un demi-pixel de recouvrement évite les jointures visibles entre tuiles.
+    ctx.drawImage(entry.image, ax - 0.25, ay - 0.25, bx - ax + 0.5, by - ay + 0.5);
+  }
+  ctx.restore();
 }
 
 function requestRender() {
