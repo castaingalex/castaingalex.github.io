@@ -29,8 +29,8 @@ const MARKER_HIT_RADIUS = { mouse: 18, touch: 30 };
 const CLICK_SLOP = { mouse: 5, touch: 12 };
 const MIN_ZOOM_FACTOR = 0.5;
 const MAX_ZOOM_FACTOR = 14;
-// Zoom maximal absolu, quelle que soit l'étendue du territoire : 2,5 px par mètre, le niveau de la rue.
-const MAX_SCALE = 2.5;
+// Zoom maximal absolu, quelle que soit l'étendue du territoire : le niveau de la rue.
+const MAX_SCALE = 4; // 1 000 px couvrent 250 m
 const STOP_LABEL_SCALE = 0.13; // pixels par mètre au-delà desquels on nomme les arrêts
 const RAIL_NAME_RADIUS = 400; // mètres
 
@@ -44,16 +44,19 @@ const PALETTE = [
 ];
 // Au-delà du max, la couleur s'efface progressivement jusqu'à laisser voir le fond.
 const BEYOND_FADE = 0.15;
-// Heatmap assez transparente pour laisser lire les rues du fond de plan (0,78 dans l'amont, sans fond).
-const HEAT_ALPHA = 0.6;
+// Heatmap assez transparente pour laisser lire le fond de plan (0,78 dans l'amont, sans fond), et de plus en plus
+// en zoomant : 0,6 à l'échelle d'une ville (0,25 px/m), 0,32 au niveau de la rue (2 px/m et au-delà).
+const HEAT_ALPHA = [0.6, 0.32];
+const HEAT_FADE_SCALES = [0.25, 2];
 // Fond de plan : tuiles Plan IGN de la Géoplateforme (Web Mercator), en gris sous la heatmap.
 const BASEMAP_URL = (z, x, y) =>
   "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" +
   `&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}`;
 const BASEMAP_ZOOM = [6, 19];
 const BASEMAP_RETRIES = 5;
-const BASEMAP_PARALLEL = 6;
-const BASEMAP_FILTER = "grayscale(1) contrast(0.85) brightness(1.06)";
+const BASEMAP_PARALLEL = 8;
+// Gris dominant pour ne pas concurrencer la heatmap, mais assez de couleur (eau, parcs) et de contraste pour se repérer.
+const BASEMAP_FILTER = "grayscale(0.7) contrast(0.95) brightness(1.02)";
 const OUTSIDE_VEIL = "rgba(241, 239, 233, 0.6)";
 const EARTH = 40075016.686;
 const HEAT_UPSAMPLE = 3;
@@ -868,7 +871,9 @@ function render() {
     const [ox, oy] = app.offset;
     ctx.save();
     ctx.clip(app.paths.land, "evenodd");
-    ctx.globalAlpha = HEAT_ALPHA;
+    const [far, near] = HEAT_FADE_SCALES;
+    const fade = clamp(Math.log2(app.view.scale / far) / Math.log2(near / far), 0, 1);
+    ctx.globalAlpha = HEAT_ALPHA[0] + (HEAT_ALPHA[1] - HEAT_ALPHA[0]) * fade;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     // L'image a sa ligne 0 au sud : avec l'axe y inversé, elle se dessine dans le bon sens.
@@ -988,7 +993,13 @@ function drawBasemap() {
   const [x1, y1] = tileXY(se.lat, se.lon, z);
   const wanted = [];
   for (let x = x0; x <= x1; x += 1) for (let y = y0; y <= y1; y += 1) wanted.push(tile(z, x, y));
-  tileQueue = wanted.filter((entry) => entry.state === "idle");
+  // D'abord quelques tuiles grossières (trois zooms plus bas) qui couvrent l'écran en une seconde, puis les détaillées.
+  const zc = Math.max(BASEMAP_ZOOM[0], z - 3);
+  const coarse = [];
+  for (let x = x0 >> (z - zc); x <= x1 >> (z - zc); x += 1) {
+    for (let y = y0 >> (z - zc); y <= y1 >> (z - zc); y += 1) coarse.push(tile(zc, x, y));
+  }
+  tileQueue = [...new Set([...coarse, ...wanted])].filter((entry) => entry.state === "idle");
   pumpTiles();
   const shown = [...tiles.values()].filter(
     (entry) => entry.ready && entry.z < z && entry.z >= z - 3 &&
