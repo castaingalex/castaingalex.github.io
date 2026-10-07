@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>À portée de bus · Temps de trajet en bus par territoire</title>
+    <meta name="description" content="Cartes des temps de trajet en bus à Bourges : le territoire se colore selon le temps pour y aller." />
+    <script>
+      // Anciens liens github.io : on renvoie vers le domaine du site en gardant départ et arrivée.
+      if (location.hostname.endsWith("github.io")) location.replace("https://castaing.dev/portee-bus/" + location.search);
+    </script>
+    <link rel="canonical" href="https://castaing.dev/portee-bus/" />
+    <meta name="theme-color" content="#3aa70b" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="author" content="Alexandre Castaing" />
+    <link rel="author" href="https://castaing.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="À portée de bus" />
+    <meta property="og:title" content="À portée de bus" />
+    <meta property="og:description" content="Cartes des temps de trajet en bus à Bourges : le territoire se colore selon le temps pour y aller." />
+    <meta property="og:url" content="https://castaing.dev/portee-bus/" />
+    <meta property="og:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=bf802fe4" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Cartes des temps de trajet en bus à Bourges." />
+    <meta property="article:author" content="https://castaing.dev/" />
+    <meta property="article:published_time" content="2026-10-07T08:00:00+02:00" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="À portée de bus" />
+    <meta name="twitter:description" content="Cartes des temps de trajet en bus à Bourges : le territoire se colore selon le temps pour y aller." />
+    <meta name="twitter:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=bf802fe4" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://castaing.dev/portee-bus/#site",
+          "name": "À portée de bus",
+          "url": "https://castaing.dev/portee-bus/",
+          "description": "Cartes des temps de trajet en bus à Bourges : le territoire se colore selon le temps pour y aller.",
+          "inLanguage": "fr",
+          "author": {
+            "@id": "https://castaing.dev/#me"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "name": "Cartes des temps de trajet par territoire",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Bourges à portée de bus",
+              "url": "https://castaing.dev/portee-bus/bourges/"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "D'où viennent les temps de trajet ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Des horaires théoriques officiels de chaque réseau (Agglobus à Bourges), publiés en open data au format GTFS. Ils correspondent à un jour de semaine ordinaire, entre 7 h et 20 h."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Les temps affichés sont-ils fiables ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ce sont des temps « sur le papier » : marche jusqu'à l'arrêt, attente, durée prévue entre les arrêts et correspondances. Sur une ligne fréquente, l'attente comptée est la moitié de l'intervalle entre deux passages ; sur une ligne rare, on suppose qu'on a regardé l'horaire, et l'attente est plafonnée. Pas de temps réel ni de perturbations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Pourquoi le bus ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Parce que la plupart des agglomérations n'ont ni tram ni métro : leur réseau, c'est le bus. Les cartes d'origine sont construites autour du tram et du métro ; celles-ci partent du réseau de bus."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Mon territoire n'y est pas, pourquoi ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Il faut des horaires de bus publiés en open data au format GTFS. D'autres territoires seront ajoutés au fur et à mesure."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Qui a réalisé ce site ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Alexandre Castaing, à partir du code d'« À portée de tram », les cartes des trams et métros de France réalisées par Camille Roux et publiées sous licence MIT. Ce site les adapte aux réseaux de bus. L'idée vient du NYC Transit Time Cartogram d'Anthony Castrio, adapté ensuite à Paris par Jules Grandin (« C'est encore loin ? »)."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://castaing.dev/#me",
+          "name": "Alexandre Castaing",
+          "url": "https://castaing.dev/",
+          "sameAs": [
+            "https://www.linkedin.com/in/alxcst"
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" />
+    <link rel="stylesheet" href="./styles.css?v=9e078b8e" />
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="topbar-inner" aria-label="Navigation principale">
+        <a class="brand" href="./"><img src="./favicon.svg" width="22" height="22" alt="" /> À portée de bus</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <span class="chip">🚌 1 territoire</span>
+        <h1>À portée de&nbsp;bus</h1>
+        <p class="lede">
+          Combien de temps faut-il vraiment pour traverser son agglomération en bus&nbsp;? Choisissez un territoire, posez un
+          départ&nbsp;: toute l'agglomération se colore selon le temps de trajet, calculé à partir des horaires officiels.
+        </p>
+        <nav class="city-switch" aria-label="Aller directement à un territoire">
+          <a class="chip" href="./bourges/">Bourges</a>
+        </nav>
+      </section>
+
+      <section aria-labelledby="cities-title">
+        <h2 id="cities-title" class="visually-hidden">Choisir un territoire</h2>
+        <div class="city-grid large">
+          <a class="city-card" href="./bourges/">
+            <img src="./og/thumb-bourges.jpg" width="600" height="315" alt="" loading="lazy" />
+            <span class="city-card-body">
+              <h2>Bourges à portée de bus</h2>
+              <span>62&nbsp;% des arrêts de bus à moins de 30&nbsp;min du centre (Nation) · réseau Agglobus</span>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="how-title">
+        <h2 id="how-title">Comment ça marche</h2>
+        <ol class="steps large">
+          <li><strong>1. Choisissez un départ</strong> Une adresse, un arrêt ou votre position : la carte se colore autour.</li>
+          <li><strong>2. Cliquez une arrivée</strong> Vous obtenez la durée et l'itinéraire : ligne à prendre, correspondances, marche.</li>
+          <li><strong>3. Comparez</strong> Les courbes 15 et 30 minutes montrent ce qui est vraiment proche en bus.</li>
+        </ol>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions fréquentes</h2>
+        <details class="faq"><summary>D&#x27;où viennent les temps de trajet ?</summary><p>Des horaires théoriques officiels de chaque réseau (Agglobus à Bourges), publiés en open data au format GTFS. Ils correspondent à un jour de semaine ordinaire, entre 7 h et 20 h.</p></details>
+        <details class="faq"><summary>Les temps affichés sont-ils fiables ?</summary><p>Ce sont des temps « sur le papier » : marche jusqu&#x27;à l&#x27;arrêt, attente, durée prévue entre les arrêts et correspondances. Sur une ligne fréquente, l&#x27;attente comptée est la moitié de l&#x27;intervalle entre deux passages ; sur une ligne rare, on suppose qu&#x27;on a regardé l&#x27;horaire, et l&#x27;attente est plafonnée. Pas de temps réel ni de perturbations.</p></details>
+        <details class="faq"><summary>Pourquoi le bus ?</summary><p>Parce que la plupart des agglomérations n&#x27;ont ni tram ni métro : leur réseau, c&#x27;est le bus. Les cartes d&#x27;origine sont construites autour du tram et du métro ; celles-ci partent du réseau de bus.</p></details>
+        <details class="faq"><summary>Mon territoire n&#x27;y est pas, pourquoi ?</summary><p>Il faut des horaires de bus publiés en open data au format GTFS. D&#x27;autres territoires seront ajoutés au fur et à mesure.</p></details>
+        <details class="faq"><summary>Qui a réalisé ce site ?</summary><p><a href="https://castaing.dev/" rel="author">Alexandre Castaing</a>, à partir du code d'<a href="https://tram.camilleroux.com/">À portée de tram</a>, les cartes des trams et métros de France réalisées par <a href="https://www.camilleroux.com/">Camille Roux</a> et publiées sous licence MIT sur <a href="https://github.com/camilleroux/montpellier-temps-transport">GitHub</a>. Ce site les adapte aux réseaux de bus. L'idée vient du <a href="https://castrio.me/nyc/">NYC Transit Time Cartogram</a> d'Anthony Castrio, adapté ensuite à Paris par Jules Grandin (<a href="https://julesgrandin.github.io/paris-temps-transport/">C'est encore loin&nbsp;?</a>).</p></details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-author">
+          Un projet d'<a href="https://castaing.dev/" rel="author">Alexandre Castaing</a>, adapté au bus à partir
+          d'<a href="https://tram.camilleroux.com/">À portée de tram</a> de <a href="https://www.camilleroux.com/">Camille Roux</a>.
+        </p>
+        <p class="footer-links">Territoires&nbsp;: <a href="./bourges/">Bourges</a></p>
+        <p class="footer-links">
+          <a href="https://github.com/camilleroux/montpellier-temps-transport" rel="noopener">Code d'origine sur GitHub</a> ·
+          <a href="./mentions-legales/">Mentions légales et licences</a>
+        </p>
+        <p class="footer-credits">
+          Idée originale&nbsp;: le <a href="https://castrio.me/nyc/">NYC Transit Time Cartogram</a> d'Anthony Castrio,
+          adapté ensuite à Paris par Jules Grandin
+          (<a href="https://julesgrandin.github.io/paris-temps-transport/">C'est encore loin&nbsp;?</a>), puis aux trams et
+          métros de France par Camille Roux.
+          Horaires&nbsp;: GTFS des réseaux de chaque territoire (détail dans les mentions légales). Fond de carte © <a href="https://www.openstreetmap.org/copyright">contributeurs OpenStreetMap</a>,
+          <a href="https://geo.api.gouv.fr/">contours communaux</a>, recherche d'adresse via la
+          <a href="https://adresse.data.gouv.fr/">Base Adresse Nationale</a>.
+          Données calculées publiées sous licence <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>, code d'origine sous licence MIT.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

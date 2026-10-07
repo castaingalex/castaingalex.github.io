@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bourges à portée de bus · Temps de trajet en bus Agglobus</title>
+    <meta name="description" content="Carte des temps de trajet en bus à Bourges : choisissez un départ, toute la ville se colore selon le temps qu&#x27;il faut pour y aller (réseau Agglobus)." />
+    <script>
+      // Anciens liens github.io : on renvoie vers le domaine du site en gardant départ et arrivée.
+      if (location.hostname.endsWith("github.io")) location.replace("https://castaing.dev/portee-bus/bourges/" + location.search);
+    </script>
+    <link rel="canonical" href="https://castaing.dev/portee-bus/bourges/" />
+    <meta name="theme-color" content="#3aa70b" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <meta name="author" content="Alexandre Castaing" />
+    <link rel="author" href="https://castaing.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="À portée de bus" />
+    <meta property="og:title" content="Bourges à portée de bus" />
+    <meta property="og:description" content="Carte des temps de trajet en bus à Bourges : choisissez un départ, toute la ville se colore selon le temps qu&#x27;il faut pour y aller (réseau Agglobus)." />
+    <meta property="og:url" content="https://castaing.dev/portee-bus/bourges/" />
+    <meta property="og:image" content="https://castaing.dev/portee-bus/og/bourges.jpg?v=bf802fe4" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Carte de Bourges colorée selon le temps de trajet en bus depuis Nation, avec les isochrones 15 et 30 minutes." />
+    <meta property="article:author" content="https://castaing.dev/" />
+    <meta property="article:published_time" content="2026-10-07T08:00:00+02:00" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bourges à portée de bus" />
+    <meta name="twitter:description" content="Carte des temps de trajet en bus à Bourges : choisissez un départ, toute la ville se colore selon le temps qu&#x27;il faut pour y aller (réseau Agglobus)." />
+    <meta name="twitter:image" content="https://castaing.dev/portee-bus/og/bourges.jpg?v=bf802fe4" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Bourges à portée de bus",
+          "url": "https://castaing.dev/portee-bus/bourges/",
+          "description": "Carte des temps de trajet en bus à Bourges : choisissez un départ, toute la ville se colore selon le temps qu'il faut pour y aller (réseau Agglobus).",
+          "inLanguage": "fr",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "Web",
+          "isAccessibleForFree": true,
+          "image": "https://castaing.dev/portee-bus/og/bourges.jpg",
+          "author": {
+            "@id": "https://castaing.dev/#me"
+          },
+          "spatialCoverage": {
+            "@type": "Place",
+            "name": "Bourges Plus"
+          },
+          "isBasedOn": [
+            "https://tram.camilleroux.com/",
+            "https://castrio.me/nyc/",
+            "https://julesgrandin.github.io/paris-temps-transport/"
+          ],
+          "datePublished": "2026-10-07",
+          "dateModified": "2026-10-07"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "À portée de bus",
+              "item": "https://castaing.dev/portee-bus/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Bourges",
+              "item": "https://castaing.dev/portee-bus/bourges/"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Combien de temps faut-il pour traverser Bourges en bus ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Depuis le centre (Nation), 13 % des arrêts de bus sont à moins de 15 minutes et 62 % à moins de 30 minutes, marche et attente comprises. Le plus éloigné, Massœuvre, est à environ 54 minutes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quelle est la fréquence des lignes de bus à Bourges ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Intervalle moyen entre deux passages en journée de semaine : ligne 1, 12 min ; ligne 2, 17,7 min ; ligne 3, 24,8 min ; ligne 4, 20 min ; ligne 10, 25,6 min ; ligne 11, 1 h ; ligne 12, 35,5 min ; ligne 13, 55,7 min ; ligne 14, 1 h ; ligne 20, 29,7 min ; ligne 21, 1 h 50 ; ligne 22, 1 h ; ligne 23, 52 min ; ligne 24, 2 h ; ligne 25, 1 h 45 ; ligne Navette, 11,6 min. La ligne la plus fréquente est la Navette, avec un passage toutes les 11,6 min environ."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment l'attente à l'arrêt est-elle comptée ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sur une ligne fréquente, on va à l'arrêt sans regarder l'horaire : l'attente comptée est la moitié de l'intervalle entre deux passages (5,8 min sur la ligne Navette). Sur une ligne peu fréquente, on regarde l'horaire et on arrive au bon moment : l'attente est alors plafonnée à 10 minutes. La fréquence reste affichée dans l'itinéraire et dans le tableau des lignes, car un trajet court sur une ligne qui passe toutes les 2 h (ligne 24) n'est possible qu'à certaines heures."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "D'où viennent les horaires utilisés ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Des horaires théoriques publiés par le réseau Agglobus (format GTFS, ODbL), téléchargés le 7 octobre 2026 et valables jusqu'au 5 octobre 2027. Les temps correspondent au mardi 3 novembre 2026, entre 7 h et 20 h. Les circuits scolaires et les lignes de nuit ne sont pas pris en compte."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment les temps de trajet sont-ils calculés ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pour chaque trajet : marche jusqu'à l'arrêt à 4,5 km/h, attente (voir plus haut), durée prévue entre les arrêts, correspondances avec 1,5 minute de marche. Pas de temps réel ni de perturbations : c'est le réseau « sur le papier »."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Qui a réalisé cette carte de Bourges ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Alexandre Castaing, à partir du code d'« À portée de tram », les cartes des trams et métros de France réalisées par Camille Roux et publiées sous licence MIT. Ce site les adapte aux réseaux de bus. L'idée vient du NYC Transit Time Cartogram d'Anthony Castrio, adapté ensuite à Paris par Jules Grandin (« C'est encore loin ? »)."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://castaing.dev/#me",
+          "name": "Alexandre Castaing",
+          "url": "https://castaing.dev/",
+          "sameAs": [
+            "https://www.linkedin.com/in/alxcst"
+          ]
+        }
+      ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" />
+    <link rel="stylesheet" href="../styles.css?v=9e078b8e" />
+  </head>
+  <body>
+    <script id="city-config" type="application/json">{"slug": "bourges", "name": "Bourges", "dataVersion": "6a0d848a", "defaultFrom": {"lat": 47.08463, "lon": 2.39095, "label": "Nation"}, "railNoun": "bus", "railStations": "arrêts de bus", "busNoun": "bus", "geocoder": "ban", "searchBbox": [46.86, 2.07, 47.3, 2.71], "area": "de l'agglomération", "defaultMax": 60}</script>
+    <header class="topbar">
+      <nav class="topbar-inner" aria-label="Navigation principale">
+        <a class="brand" href="../"><img src="../favicon.svg" width="22" height="22" alt="" /> À portée de bus</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="../">À portée de bus</a> <span aria-hidden="true">›</span> <span aria-current="page">Bourges</span>
+      </nav>
+
+      <section class="hero">
+        <h1><button id="cityTrigger" type="button" class="city-trigger" aria-haspopup="dialog" aria-expanded="false" title="Changer de territoire">Bourges<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5"/></svg></button> à portée de&nbsp;bus</h1>
+        <div id="cityPanel" class="city-panel" role="dialog" aria-label="Choisir un territoire" hidden>
+          <div class="city-panel-head">
+            <input id="citySearch" type="search" placeholder="Rechercher un territoire…" aria-label="Rechercher un territoire" autocomplete="off" />
+            <button id="cityClose" type="button" class="icon-button" aria-label="Fermer">×</button>
+          </div>
+          <nav class="city-panel-list" aria-label="Territoires">
+            <a class="city-item current" href="../bourges/" aria-current="page" data-name="bourges"><img src="../og/thumb-bourges.jpg" width="120" height="63" alt="" loading="lazy" /><span><strong>Bourges</strong><small>Bus · Agglobus</small></span></a>
+          </nav>
+        </div>
+        <p class="lede">
+          La ville redessinée par le temps qu'il faut pour y aller en bus. Choisissez un départ&nbsp;: la carte se
+          colore selon le temps de trajet vers chaque point de l&#x27;agglomération.
+        </p>
+        <form id="searchForm" class="search" role="search" autocomplete="off">
+          <label class="visually-hidden" for="searchInput">Adresse de départ</label>
+          <input id="searchInput" type="search" placeholder="Partir d'une adresse… (ex. Gare de Bourges)" />
+          <button type="submit" class="button primary">Partir d'ici</button>
+          <ul id="searchResults" class="search-results" hidden></ul>
+        </form>
+        <ol class="steps" aria-label="Mode d'emploi">
+          <li><strong>1. Départ</strong> Cherchez une adresse ou glissez le point vert.</li>
+          <li><strong>2. Arrivée</strong> Cliquez n'importe où : durée et itinéraire détaillé.</li>
+          <li><strong>3. Lecture</strong> Vert = proche, rouge = loin. Lignes noires : 15 et 30 min.</li>
+        </ol>
+      </section>
+
+      <section class="map-card" aria-label="Carte des temps de trajet">
+        <noscript>
+          <p class="noscript">
+            Cette carte interactive a besoin de JavaScript pour calculer les temps de trajet. Activez-le pour l'utiliser.
+          </p>
+        </noscript>
+        <div id="mapStage" class="map-stage">
+          <canvas id="mapCanvas"></canvas>
+
+          <aside id="tripPanel" class="trip-panel" aria-live="polite">
+            <p class="trip-eyebrow">Départ</p>
+            <p id="tripFrom" class="trip-from">Chargement du réseau…</p>
+            <div id="tripResult" class="trip-result" hidden>
+              <div class="trip-row">
+                <p class="trip-eyebrow">Arrivée</p>
+                <button id="removeTo" type="button" class="link-button">Retirer</button>
+              </div>
+              <p id="tripTo" class="trip-to"></p>
+              <p id="tripDuration" class="trip-duration"></p>
+              <ol id="tripSteps" class="trip-steps"></ol>
+              <div id="heatFrom" class="segmented" role="group" aria-label="Point d'où part la carte">
+                <span>Carte depuis</span>
+                <button type="button" data-source="from" aria-pressed="true">le départ</button>
+                <button type="button" data-source="to" aria-pressed="false">l'arrivée</button>
+              </div>
+            </div>
+            <p id="tripHint" class="trip-hint">Cliquez sur la carte pour poser une arrivée.</p>
+          </aside>
+
+          <div class="map-buttons">
+            <button id="zoomIn" type="button" class="icon-button" aria-label="Zoomer">+</button>
+            <button id="zoomOut" type="button" class="icon-button" aria-label="Dézoomer">−</button>
+            <button id="recenter" type="button" class="icon-button" aria-label="Recentrer la carte">⌖</button>
+            <button id="fullscreen" type="button" class="icon-button" aria-label="Plein écran">⤢</button>
+          </div>
+
+          <div class="legend" aria-hidden="true">
+            <div id="legendBar" class="legend-bar"></div>
+            <div class="legend-labels"><span>0</span><span id="legendMid"></span><span id="legendMax"></span></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="control-group">
+            <span class="control-label">Réseau</span>
+            <label class="pill-toggle"><input type="checkbox" checked disabled /> Bus</label>
+            <label class="pill-toggle" style="display: none"><input id="busToggle" type="checkbox" /> Bus</label>
+          </div>
+          <div id="isoToggles" class="control-group">
+            <span class="control-label">Isochrones</span>
+            <label class="pill-toggle"><input type="checkbox" value="15" checked /> 15 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="30" checked /> 30 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="45" /> 45 min</label>
+            <label class="pill-toggle"><input type="checkbox" value="60" /> 60 min</label>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="maxRange">Échelle</label>
+            <input id="maxRange" type="range" min="20" max="90" step="5" value="60" />
+            <output id="maxValue" for="maxRange">60 min</output>
+          </div>
+          <div class="control-group actions">
+            <button id="locate" type="button" class="button">Ma position</button>
+            <button id="swap" type="button" class="button">Inverser</button>
+            <button id="share" type="button" class="button primary">Partager</button>
+          </div>
+        </div>
+        <p id="reach" class="reach"></p>
+      </section>
+
+      <section class="section" aria-labelledby="stats-title">
+        <h2 id="stats-title">Bourges en chiffres</h2>
+        <div class="stat-grid">
+          <div class="stat"><strong>62 %</strong><span>des arrêts de bus à moins de 30 min du centre (Nation)</span></div>
+          <div class="stat"><strong>326</strong><span>arrêts de bus</span></div>
+          <div class="stat"><strong>11,6 min</strong><span>entre deux passages sur la ligne Navette, la plus fréquente</span></div>
+          <div class="stat"><strong>54 min</strong><span>depuis le centre pour rejoindre Massœuvre, l&#x27;arrêt le plus éloigné</span></div>
+        </div>
+        <table class="lines-table">
+          <caption>Lignes de bus du réseau Agglobus, en journée de semaine</caption>
+          <thead><tr><th scope="col">Ligne</th><th scope="col">Arrêts</th><th scope="col">Un passage toutes les</th></tr></thead>
+          <tbody>
+            <tr><td><span class="line-badge" style="background:#e30613;color:#fff">1</span> </td><td>34</td><td>~12 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#004f9f;color:#fff">2</span> </td><td>37</td><td>~17,7 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#009640;color:#fff">3</span> </td><td>33</td><td>~24,8 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#f29fc5;color:#111">4</span> </td><td>23</td><td>~20 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#8b8f00;color:#fff">10</span> </td><td>52</td><td>~25,6 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#a2c617;color:#111">11</span> </td><td>45</td><td>~1 h</td></tr>
+            <tr><td><span class="line-badge" style="background:#f0836c;color:#111">12</span> </td><td>41</td><td>~35,5 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#a091c6;color:#111">13</span> </td><td>37</td><td>~55,7 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#69acdf;color:#111">14</span> </td><td>50</td><td>~1 h</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">20</span> </td><td>42</td><td>~29,7 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">21</span> </td><td>29</td><td>~1 h 50</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">22</span> </td><td>20</td><td>~1 h</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">23</span> </td><td>38</td><td>~52 min</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">24</span> </td><td>22</td><td>~2 h</td></tr>
+            <tr><td><span class="line-badge" style="background:#4a4a49;color:#fff">25</span> </td><td>30</td><td>~1 h 45</td></tr>
+            <tr><td><span class="line-badge" style="background:#e6007e;color:#fff">Navette</span> </td><td>12</td><td>~11,6 min</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions fréquentes</h2>
+        <details class="faq"><summary>Combien de temps faut-il pour traverser Bourges en bus ?</summary><p>Depuis le centre (Nation), 13 % des arrêts de bus sont à moins de 15 minutes et 62 % à moins de 30 minutes, marche et attente comprises. Le plus éloigné, Massœuvre, est à environ 54 minutes.</p></details>
+        <details class="faq"><summary>Quelle est la fréquence des lignes de bus à Bourges ?</summary><p>Intervalle moyen entre deux passages en journée de semaine : ligne 1, 12 min ; ligne 2, 17,7 min ; ligne 3, 24,8 min ; ligne 4, 20 min ; ligne 10, 25,6 min ; ligne 11, 1 h ; ligne 12, 35,5 min ; ligne 13, 55,7 min ; ligne 14, 1 h ; ligne 20, 29,7 min ; ligne 21, 1 h 50 ; ligne 22, 1 h ; ligne 23, 52 min ; ligne 24, 2 h ; ligne 25, 1 h 45 ; ligne Navette, 11,6 min. La ligne la plus fréquente est la Navette, avec un passage toutes les 11,6 min environ.</p></details>
+        <details class="faq"><summary>Comment l&#x27;attente à l&#x27;arrêt est-elle comptée ?</summary><p>Sur une ligne fréquente, on va à l&#x27;arrêt sans regarder l&#x27;horaire : l&#x27;attente comptée est la moitié de l&#x27;intervalle entre deux passages (5,8 min sur la ligne Navette). Sur une ligne peu fréquente, on regarde l&#x27;horaire et on arrive au bon moment : l&#x27;attente est alors plafonnée à 10 minutes. La fréquence reste affichée dans l&#x27;itinéraire et dans le tableau des lignes, car un trajet court sur une ligne qui passe toutes les 2 h (ligne 24) n&#x27;est possible qu&#x27;à certaines heures.</p></details>
+        <details class="faq"><summary>D&#x27;où viennent les horaires utilisés ?</summary><p>Des horaires théoriques publiés par le réseau Agglobus (format GTFS, ODbL), téléchargés le 7 octobre 2026 et valables jusqu&#x27;au 5 octobre 2027. Les temps correspondent au mardi 3 novembre 2026, entre 7 h et 20 h. Les circuits scolaires et les lignes de nuit ne sont pas pris en compte.</p></details>
+        <details class="faq"><summary>Comment les temps de trajet sont-ils calculés ?</summary><p>Pour chaque trajet : marche jusqu&#x27;à l&#x27;arrêt à 4,5 km/h, attente (voir plus haut), durée prévue entre les arrêts, correspondances avec 1,5 minute de marche. Pas de temps réel ni de perturbations : c&#x27;est le réseau « sur le papier ».</p></details>
+        <details class="faq"><summary>Qui a réalisé cette carte de Bourges ?</summary><p><a href="https://castaing.dev/" rel="author">Alexandre Castaing</a>, à partir du code d'<a href="https://tram.camilleroux.com/">À portée de tram</a>, les cartes des trams et métros de France réalisées par <a href="https://www.camilleroux.com/">Camille Roux</a> et publiées sous licence MIT sur <a href="https://github.com/camilleroux/montpellier-temps-transport">GitHub</a>. Ce site les adapte aux réseaux de bus. L'idée vient du <a href="https://castrio.me/nyc/">NYC Transit Time Cartogram</a> d'Anthony Castrio, adapté ensuite à Paris par Jules Grandin (<a href="https://julesgrandin.github.io/paris-temps-transport/">C'est encore loin&nbsp;?</a>).</p></details>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p class="footer-author">
+          Un projet d'<a href="https://castaing.dev/" rel="author">Alexandre Castaing</a>, adapté au bus à partir
+          d'<a href="https://tram.camilleroux.com/">À portée de tram</a> de <a href="https://www.camilleroux.com/">Camille Roux</a>.
+        </p>
+        <p class="footer-links">Territoires&nbsp;: <a href="../bourges/">Bourges</a></p>
+        <p class="footer-links">
+          <a href="https://github.com/camilleroux/montpellier-temps-transport" rel="noopener">Code d'origine sur GitHub</a> ·
+          <a href="../mentions-legales/">Mentions légales et licences</a>
+        </p>
+        <p class="footer-credits">
+          Idée originale&nbsp;: le <a href="https://castrio.me/nyc/">NYC Transit Time Cartogram</a> d'Anthony Castrio,
+          adapté ensuite à Paris par Jules Grandin
+          (<a href="https://julesgrandin.github.io/paris-temps-transport/">C'est encore loin&nbsp;?</a>), puis aux trams et
+          métros de France par Camille Roux.
+          Horaires&nbsp;: <a href="https://transport.data.gouv.fr/datasets/agglobus-offre-theorique-mobilite-reseau-urbain-de-bourges">GTFS Agglobus</a> (Bourges Plus). Fond de carte © <a href="https://www.openstreetmap.org/copyright">contributeurs OpenStreetMap</a>,
+          <a href="https://geo.api.gouv.fr/">contours communaux</a>, recherche d'adresse via la
+          <a href="https://adresse.data.gouv.fr/">Base Adresse Nationale</a>.
+          Données calculées publiées sous licence <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>, code d'origine sous licence MIT.
+        </p>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script type="module" src="../app.js?v=fb35b457"></script>
+  </body>
+</html>

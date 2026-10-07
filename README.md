@@ -17,6 +17,7 @@ GitHub Pages sert le résultat.
 | `portrait-eco/` | démo du portrait économique, publiée mais **non liée** |
 | `portrait-finances/` | démo de la rétrospective financière, **liée depuis la fiche 02** |
 | `milestone/` | Milestone, frise de vie personnelle en app web, publiée mais **non liée** |
+| `portee-bus/` | À portée de bus, temps de trajet en bus par territoire, publiée mais **non liée** |
 
 Les démos non liées sont atteignables par URL directe. Elles sont publiées volontairement,
 sans être exposées depuis l'accueil.
@@ -24,7 +25,7 @@ sans être exposées depuis l'accueil.
 ## D'où viennent les démos
 
 Elles sont **construites ailleurs** et déposées ici pour publication. Leur source vit dans
-`coban_products` (`app_portrait_eco`, `app_retro_financiere`), `coban_processing`
+`coban_products` (`app_portrait_eco`, `app_retro_financiere`, `map_portee_bus`), `coban_processing`
 (`tool_carte_pdf`) et `experiments` (`milestone`). Ne jamais corriger une démo ici : la correction se fait dans son sous-projet
 d'origine, puis on redépose.
 
