@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>À portée de bus · Temps de trajet en bus par territoire</title>
-    <meta name="description" content="Cartes des temps de trajet en bus à Bourges Plus et COBAN Atlantique : le territoire se colore selon le temps pour y aller." />
+    <meta name="description" content="Cartes des temps de trajet en bus sur les réseaux AggloBUS (Bourges Plus) et Alégo (COBAN Atlantique) : le territoire se colore selon le temps pour y aller." />
     <script>
       // Anciens liens github.io : on renvoie vers le domaine du site en gardant départ et arrivée.
       if (location.hostname.endsWith("github.io")) location.replace("https://castaing.dev/portee-bus/" + location.search);
@@ -18,17 +18,17 @@
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="À portée de bus" />
     <meta property="og:title" content="À portée de bus" />
-    <meta property="og:description" content="Cartes des temps de trajet en bus à Bourges Plus et COBAN Atlantique : le territoire se colore selon le temps pour y aller." />
+    <meta property="og:description" content="Cartes des temps de trajet en bus sur les réseaux AggloBUS (Bourges Plus) et Alégo (COBAN Atlantique) : le territoire se colore selon le temps pour y aller." />
     <meta property="og:url" content="https://castaing.dev/portee-bus/" />
-    <meta property="og:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=4fc4f215" />
+    <meta property="og:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=2c1f13c2" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Cartes des temps de trajet en bus à Bourges Plus et COBAN Atlantique." />
+    <meta property="og:image:alt" content="Cartes des temps de trajet en bus sur les réseaux AggloBUS (Bourges Plus) et Alégo (COBAN Atlantique)." />
     <meta property="article:published_time" content="2026-10-07T08:00:00+02:00" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="À portée de bus" />
-    <meta name="twitter:description" content="Cartes des temps de trajet en bus à Bourges Plus et COBAN Atlantique : le territoire se colore selon le temps pour y aller." />
-    <meta name="twitter:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=4fc4f215" />
+    <meta name="twitter:description" content="Cartes des temps de trajet en bus sur les réseaux AggloBUS (Bourges Plus) et Alégo (COBAN Atlantique) : le territoire se colore selon le temps pour y aller." />
+    <meta name="twitter:image" content="https://castaing.dev/portee-bus/og/home.jpg?v=2c1f13c2" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -38,7 +38,7 @@
           "@id": "https://castaing.dev/portee-bus/#site",
           "name": "À portée de bus",
           "url": "https://castaing.dev/portee-bus/",
-          "description": "Cartes des temps de trajet en bus à Bourges Plus et COBAN Atlantique : le territoire se colore selon le temps pour y aller.",
+          "description": "Cartes des temps de trajet en bus sur les réseaux AggloBUS (Bourges Plus) et Alégo (COBAN Atlantique) : le territoire se colore selon le temps pour y aller.",
           "inLanguage": "fr"
         },
         {
@@ -48,13 +48,13 @@
             {
               "@type": "ListItem",
               "position": 1,
-              "name": "Bourges Plus à portée de bus",
+              "name": "Bourges Plus à portée d'AggloBUS",
               "url": "https://castaing.dev/portee-bus/bourges-plus/"
             },
             {
               "@type": "ListItem",
               "position": 2,
-              "name": "COBAN Atlantique à portée de bus",
+              "name": "COBAN Atlantique à portée d'Alégo",
               "url": "https://castaing.dev/portee-bus/coban/"
             }
           ]
@@ -119,8 +119,8 @@
           départ&nbsp;: toute l'agglomération se colore selon le temps de trajet, calculé à partir des horaires officiels.
         </p>
         <nav class="city-switch" aria-label="Aller directement à un territoire">
-          <a class="chip" href="./bourges-plus/">Bourges Plus</a>
-          <a class="chip" href="./coban/">COBAN Atlantique</a>
+          <a class="chip" href="./bourges-plus/">AggloBUS · Bourges Plus</a>
+          <a class="chip" href="./coban/">Alégo · COBAN Atlantique</a>
         </nav>
       </section>
 
@@ -130,14 +130,14 @@
           <a class="city-card" href="./bourges-plus/">
             <img src="./og/thumb-bourges-plus.jpg" width="600" height="315" alt="" loading="lazy" />
             <span class="city-card-body">
-              <h2>Bourges Plus à portée de bus</h2>
+              <h2>Bourges Plus à portée d&#x27;AggloBUS</h2>
               <span>62&nbsp;% des arrêts de bus à moins de 30&nbsp;min de Nation · réseau AggloBUS</span>
             </span>
           </a>
           <a class="city-card" href="./coban/">
             <img src="./og/thumb-coban.jpg" width="600" height="315" alt="" loading="lazy" />
             <span class="city-card-body">
-              <h2>COBAN Atlantique à portée de bus</h2>
+              <h2>COBAN Atlantique à portée d&#x27;Alégo</h2>
               <span>23&nbsp;% des arrêts de bus à moins de 30&nbsp;min de Biganos Gare · réseau Alégo</span>
             </span>
           </a>
@@ -164,7 +164,7 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <p class="footer-links">Territoires&nbsp;: <a href="./bourges-plus/">Bourges Plus</a> · <a href="./coban/">COBAN Atlantique</a></p>
+        <p class="footer-links">Territoires&nbsp;: <a href="./bourges-plus/">AggloBUS · Bourges Plus</a> ; <a href="./coban/">Alégo · COBAN Atlantique</a></p>
         <p class="footer-links">
           <a href="./mentions-legales/">Mentions légales et licences</a>
         </p>

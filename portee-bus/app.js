@@ -29,6 +29,8 @@ const MARKER_HIT_RADIUS = { mouse: 18, touch: 30 };
 const CLICK_SLOP = { mouse: 5, touch: 12 };
 const MIN_ZOOM_FACTOR = 0.5;
 const MAX_ZOOM_FACTOR = 14;
+// Zoom maximal absolu, quelle que soit l'étendue du territoire : 2,5 px par mètre, le niveau de la rue.
+const MAX_SCALE = 2.5;
 const STOP_LABEL_SCALE = 0.13; // pixels par mètre au-delà desquels on nomme les arrêts
 const RAIL_NAME_RADIUS = 400; // mètres
 
@@ -48,7 +50,7 @@ const HEAT_ALPHA = 0.6;
 const BASEMAP_URL = (z, x, y) =>
   "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2" +
   `&STYLE=normal&TILEMATRIXSET=PM&FORMAT=image/png&TILEMATRIX=${z}&TILEROW=${y}&TILECOL=${x}`;
-const BASEMAP_ZOOM = [6, 18];
+const BASEMAP_ZOOM = [6, 19];
 const BASEMAP_RETRIES = 5;
 const BASEMAP_PARALLEL = 6;
 const BASEMAP_FILTER = "grayscale(1) contrast(0.85) brightness(1.06)";
@@ -676,7 +678,7 @@ function fitView() {
 function zoomAt(factor, screenX, screenY) {
   const before = unproject(screenX, screenY);
   const { fitScale } = app.view;
-  app.view.scale = clamp(app.view.scale * factor, fitScale * MIN_ZOOM_FACTOR, fitScale * MAX_ZOOM_FACTOR);
+  app.view.scale = clamp(app.view.scale * factor, fitScale * MIN_ZOOM_FACTOR, Math.max(fitScale * MAX_ZOOM_FACTOR, MAX_SCALE));
   const after = unproject(screenX, screenY);
   app.view.cx += before[0] - after[0];
   app.view.cy += before[1] - after[1];
@@ -904,15 +906,48 @@ function render() {
 // --- Fond de plan ----------------------------------------------------------------
 
 const tiles = new Map();
-// Six tuiles en vol au plus : une rafale fait répondre 400 à la Géoplateforme.
-const tileQueue = [];
+// File des tuiles à charger, refaite à chaque rendu avec les seules tuiles visibles qui manquent :
+// en zoomant vite, les tuiles des zooms traversés ne bloquent pas celles qu'on regarde.
+let tileQueue = [];
 let tilesInFlight = 0;
 
 function pumpTiles() {
-  while (tilesInFlight < BASEMAP_PARALLEL && tileQueue.length) {
-    tilesInFlight += 1;
-    tileQueue.shift()();
-  }
+  while (tilesInFlight < BASEMAP_PARALLEL && tileQueue.length) loadTile(tileQueue.shift());
+}
+
+function loadTile(entry) {
+  entry.state = "loading";
+  tilesInFlight += 1;
+  const image = new Image();
+  image.onload = () => {
+    tilesInFlight -= 1;
+    // Mise en gris une seule fois, à l'arrivée de la tuile : un filtre à chaque rendu fige la page.
+    const gray = document.createElement("canvas");
+    gray.width = image.naturalWidth;
+    gray.height = image.naturalHeight;
+    const grayCtx = gray.getContext("2d");
+    grayCtx.filter = BASEMAP_FILTER;
+    grayCtx.drawImage(image, 0, 0);
+    entry.image = gray;
+    entry.ready = true;
+    entry.state = "ready";
+    pumpTiles();
+    requestRender();
+  };
+  // Une tuile refusée est redemandée plus tard, à une adresse modifiée : le navigateur garde l'erreur en cache.
+  image.onerror = () => {
+    tilesInFlight -= 1;
+    entry.state = "waiting";
+    if (entry.attempt < BASEMAP_RETRIES) {
+      setTimeout(() => {
+        entry.attempt += 1;
+        entry.state = "idle";
+        requestRender();
+      }, 600 * 2 ** entry.attempt);
+    }
+    pumpTiles();
+  };
+  image.src = BASEMAP_URL(entry.z, entry.x, entry.y) + (entry.attempt ? `&essai=${entry.attempt}` : "");
 }
 
 function tileLon(x, z) {
@@ -933,37 +968,7 @@ function tile(z, x, y) {
   const key = `${z}/${x}/${y}`;
   let entry = tiles.get(key);
   if (!entry) {
-    entry = { z, x, y, image: null, ready: false };
-    const load = (attempt) => {
-      const image = new Image();
-      const done = () => {
-        tilesInFlight -= 1;
-        pumpTiles();
-      };
-      image.onload = () => {
-        done();
-        // Mise en gris une seule fois, à l'arrivée de la tuile : un filtre à chaque rendu fige la page.
-        const gray = document.createElement("canvas");
-        gray.width = image.naturalWidth;
-        gray.height = image.naturalHeight;
-        const grayCtx = gray.getContext("2d");
-        grayCtx.filter = BASEMAP_FILTER;
-        grayCtx.drawImage(image, 0, 0);
-        entry.image = gray;
-        entry.ready = true;
-        requestRender();
-      };
-      // Une tuile refusée est redemandée plus tard, à une adresse modifiée : le navigateur garde l'erreur en cache.
-      image.onerror = () => {
-        done();
-        if (attempt < BASEMAP_RETRIES) setTimeout(() => load(attempt + 1), 600 * 2 ** attempt);
-      };
-      tileQueue.push(() => {
-        image.src = BASEMAP_URL(z, x, y) + (attempt ? `&essai=${attempt}` : "");
-      });
-      pumpTiles();
-    };
-    load(0);
+    entry = { z, x, y, image: null, ready: false, state: "idle", attempt: 0 };
     tiles.set(key, entry);
     // Cache borné : les tuiles les plus anciennes partent d'abord.
     if (tiles.size > 600) tiles.delete(tiles.keys().next().value);
@@ -983,6 +988,8 @@ function drawBasemap() {
   const [x1, y1] = tileXY(se.lat, se.lon, z);
   const wanted = [];
   for (let x = x0; x <= x1; x += 1) for (let y = y0; y <= y1; y += 1) wanted.push(tile(z, x, y));
+  tileQueue = wanted.filter((entry) => entry.state === "idle");
+  pumpTiles();
   const shown = [...tiles.values()].filter(
     (entry) => entry.ready && entry.z < z && entry.z >= z - 3 &&
       wanted.some((w) => w.x >> (z - entry.z) === entry.x && w.y >> (z - entry.z) === entry.y),
